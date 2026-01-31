@@ -1,0 +1,859 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_array\(\) with non\-empty\-string\|null will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: app/Domain/Achievement/Achievements/WordMastery/TripleThreatAchievement.php
+
+		-
+			message: "#^Offset 'letter' on \\*NEVER\\* in isset\\(\\) always exists and is not nullable\\.$#"
+			identifier: isset.offset
+			count: 1
+			path: app/Domain/Achievement/Achievements/WordMastery/TripleThreatAchievement.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Domain/Achievement/Achievements/WordMastery/TripleThreatAchievement.php
+
+		-
+			message: '#^Parameter \#2 \$inviter of method App\\Domain\\Game\\Actions\\InvitePlayerAction\:\:createInvitation\(\) expects App\\Domain\\User\\Models\\User, \(Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\)\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/InvitePlayerAction.php
+
+		-
+			message: '#^Parameter \#2 \$inviter of method App\\Domain\\Game\\Actions\\InvitePlayerAction\:\:validateInvitation\(\) expects App\\Domain\\User\\Models\\User\|null, \(Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\)\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/InvitePlayerAction.php
+
+		-
+			message: '#^Parameter \#1 \$tiles of static method App\\Domain\\Game\\Support\\TileBag\:\:fromArray\(\) expects array\<int, array\{letter\: string, points\: int, is_blank\?\: bool\}\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/JoinGameAction.php
+
+		-
+			message: '#^Parameter \#1 \$board of method App\\Domain\\Game\\Support\\Board\:\:placeTiles\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/PlayMoveAction.php
+
+		-
+			message: '#^Parameter \#1 \$tiles of static method App\\Domain\\Game\\Support\\TileBag\:\:fromArray\(\) expects array\<int, array\{letter\: string, points\: int, is_blank\?\: bool\}\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/PlayMoveAction.php
+
+		-
+			message: '#^Parameter \#3 \$board of method App\\Domain\\Game\\Support\\Rules\\RuleEngine\:\:validateMove\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/PlayMoveAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:hasPlayer\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Game/Actions/RedeemGameInviteLinkAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isPending\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Game/Actions/RedeemGameInviteLinkAction.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Game/Actions/RedeemGameInviteLinkAction.php
+
+		-
+			message: '#^Parameter \#1 \$game of method App\\Domain\\Game\\Actions\\JoinGameAction\:\:execute\(\) expects App\\Domain\\Game\\Models\\Game, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/RedeemGameInviteLinkAction.php
+
+		-
+			message: '#^Parameter \#2 \$inviter of class App\\Domain\\User\\Events\\GameInvitationAcceptedEvent constructor expects App\\Domain\\User\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/RedeemGameInviteLinkAction.php
+
+		-
+			message: '#^Parameter \#1 \$tiles of static method App\\Domain\\Game\\Support\\TileBag\:\:fromArray\(\) expects array\<int, array\{letter\: string, points\: int, is_blank\?\: bool\}\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Actions/SwapTilesAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Game/Events/MovePlayed.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Domain/Game/Events/MovePlayed.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: mixed$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Method App\\Domain\\Game\\Models\\Game\:\:getOpponent\(\) should return App\\Domain\\User\\Models\\User\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:first\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: bool\)\|null, Closure\(App\\Domain\\User\\Models\\User\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Parameter \#1 \$move of method App\\Domain\\Game\\Models\\Game\:\:formatPlayDescription\(\) expects App\\Domain\\Game\\Models\\Move, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''finished''\|''pending'' and App\\Domain\\Game\\Enums\\GameStatus\:\:Active will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''finished''\|''pending'' and App\\Domain\\Game\\Enums\\GameStatus\:\:Finished will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''finished''\|''pending'' and App\\Domain\\Game\\Enums\\GameStatus\:\:Pending will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>score" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>username" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Domain/Game/Models/Game.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Pass will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Move.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Play will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Move.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Resign will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Move.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Swap will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Models/Move.php
+
+		-
+			message: '#^Match arm comparison between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Pass is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Notifications/YourTurnNotification.php
+
+		-
+			message: '#^Match arm comparison between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Play is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Notifications/YourTurnNotification.php
+
+		-
+			message: '#^Match arm comparison between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Swap is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Notifications/YourTurnNotification.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''pass''\|''play''\|''resign''\|''swap'' and App\\Domain\\Game\\Enums\\MoveType\:\:Pass will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Domain/Game/Support/Rules/EndGame/ConsecutivePassRule.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''active''\|''finished''\|''pending'' and App\\Domain\\Game\\Enums\\GameStatus\:\:Active will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Domain/Game/Support/Rules/Game/GameActiveRule.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Domain/Game/Support/Rules/Game/GameActiveRule.php
+
+		-
+			message: '#^Parameter \#3 \$boardTemplate of method App\\Domain\\Game\\Support\\Board\:\:getSquareType\(\) expects array\|null, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Support/Scoring/Rules/LetterScoreRule.php
+
+		-
+			message: '#^Parameter \#1 \$board of method App\\Domain\\Game\\Support\\Board\:\:placeTiles\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Support/ValidationService.php
+
+		-
+			message: '#^Parameter \#3 \$board of method App\\Domain\\Game\\Support\\ValidationService\:\:validatePlacementRules\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Support/ValidationService.php
+
+		-
+			message: '#^Parameter \$tiles of class App\\Domain\\Game\\Data\\ValidatedWord constructor expects Illuminate\\Support\\Collection\<int, array\{x\: int, y\: int\}\>, Illuminate\\Support\\Collection\<\(int\|string\), array\{x\: mixed, y\: mixed\}\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Game/Support/ValidationService.php
+
+		-
+			message: '#^Instanceof between array and NotificationChannels\\Expo\\ExpoError will always evaluate to false\.$#'
+			identifier: instanceof.alwaysFalse
+			count: 1
+			path: app/Domain/Support/Listeners/HandleFailedExpoNotification.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Domain/Support/Listeners/HandleFailedExpoNotification.php
+
+		-
+			message: '#^Method App\\Domain\\User\\Models\\User\:\:getOrCreateStatistics\(\) should return App\\Domain\\User\\Models\\UserStatistics but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Domain/User/Models/User.php
+
+		-
+			message: '#^Parameter \#1 \$board of method App\\Http\\Controllers\\Api\\Game\\WordInfoController\:\:findWordsAtPosition\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Api/Game/WordInfoController.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\EloHistoryResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/EloHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\EloHistoryResource\:\:\$elo_after\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/EloHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\EloHistoryResource\:\:\$elo_before\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/EloHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\EloHistoryResource\:\:\$elo_change\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/EloHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\EloHistoryResource\:\:\$game\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/EloHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\FriendResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/FriendResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\FriendResource\:\:\$friend\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Http/Resources/FriendResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\FriendResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/FriendResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInvitationResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInvitationResource\:\:\$game\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/GameInvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInvitationResource\:\:\$invitee\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInvitationResource\:\:\$inviter\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInvitationResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInvitationResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInvitationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInviteLinkResource\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInviteLinkResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInviteLinkResource\:\:\$game\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInviteLinkResource\:\:\$inviter\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameInviteLinkResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\GameInviteLinkResource\:\:getUrl\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\GameInviteLinkResource\:\:isUsed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/GameInviteLinkResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$current_turn_user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$gamePlayers\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$pendingInvitation\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$players\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$winner\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$is_public\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>score" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Http/Resources/GameListResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$board_state\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$currentTurnUser\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$current_turn_user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$gamePlayers\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$is_public\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$latestMove\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$pendingInvitation\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$winner\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>rack_tiles" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$average_score_difference\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$best_word\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$best_word_score\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$draws\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$losses\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$opponent\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$total_games\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$win_rate\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\HeadToHeadResource\:\:\$wins\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/HeadToHeadResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$avatar_color\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$elo_rating\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$games_played\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$games_won\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LeaderboardResource\:\:\$wins_in_period\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LeaderboardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveResource\:\:\$score\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/MoveResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveResource\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/MoveResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveResource\:\:\$words\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/MoveResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PendingGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PendingGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$players\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PendingGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PendingGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$board_template\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PublicGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PublicGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PublicGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$players\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PublicGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PublicGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$avatar_color\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$elo_rating\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$games_played\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$games_won\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserPublicResource\:\:\$win_rate\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserPublicResource.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserSearchResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserSearchResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserSearchResource\:\:\$elo_rating\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserSearchResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserSearchResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserSearchResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserSearchResource\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserSearchResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserStatsResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserStatsResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserStatsResource\:\:\$elo_rating\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserStatsResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserStatsResource\:\:\$statistics\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserStatsResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserStatsResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserStatsResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserStatsResource\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserStatsResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WordInfoResource\:\:\$last_played_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WordInfoResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WordInfoResource\:\:\$times_played\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WordInfoResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WordInfoResource\:\:\$word\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WordInfoResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\WordInfoResource\:\:getDefinitionData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/WordInfoResource.php

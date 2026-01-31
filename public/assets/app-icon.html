@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WordStockt App Icon</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .board {
+      width: 1024px;
+      height: 1024px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      background: #1B2838;
+      padding: 140px;
+    }
+
+    .cell {
+      background: #2C3E50;
+      border-radius: 48px;
+      aspect-ratio: 1;
+    }
+
+    .cell.tw { background: #E74C3C; }
+    .cell.dl { background: #3498DB; }
+    .cell.star { background: #F39C12; }
+  </style>
+</head>
+<body>
+  <div class="board">
+    <div class="cell tw"></div>
+    <div class="cell dl"></div>
+    <div class="cell tw"></div>
+    <div class="cell dl"></div>
+    <div class="cell star"></div>
+    <div class="cell dl"></div>
+    <div class="cell tw"></div>
+    <div class="cell dl"></div>
+    <div class="cell tw"></div>
+  </div>
+</body>
+</html>

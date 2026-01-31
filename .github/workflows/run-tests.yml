@@ -1,0 +1,38 @@
+name: Run tests
+
+on:
+    push:
+        paths:
+            - '**.php'
+            - '.github/workflows/run-tests.yml'
+            - 'phpunit.xml'
+            - 'composer.json'
+            - 'composer.lock'
+
+jobs:
+    run-tests:
+        name: Run tests
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl
+                  coverage: none
+
+            - name: Run composer install
+              run: composer install -n --prefer-dist
+
+            - name: Prepare Laravel Application
+              run: |
+                  cp .env.example .env
+                  php artisan key:generate
+                  touch database/database.sqlite
+
+            - name: Run tests
+              run: ./vendor/bin/pest

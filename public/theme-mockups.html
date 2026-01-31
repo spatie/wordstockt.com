@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordStockt Theme Mockups</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 20px; text-align: center; }
+        h2 { margin: 30px 0 15px; font-size: 18px; color: #888; }
+        .themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .theme-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .phone-frame {
+            width: 100%;
+            aspect-ratio: 9/16;
+            position: relative;
+            overflow: hidden;
+        }
+        .status-bar {
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .header {
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .game-board {
+            padding: 15px;
+        }
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tile-rack {
+            display: flex;
+            gap: 6px;
+            padding: 15px;
+            margin: 10px 15px;
+            border-radius: 12px;
+            justify-content: center;
+        }
+        .rack-tile {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+        }
+        .rack-tile .points {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            font-size: 9px;
+            opacity: 0.8;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .theme-name {
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .color-swatches {
+            display: flex;
+            gap: 8px;
+            padding: 10px 20px 15px;
+            justify-content: center;
+        }
+        .swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>WordStockt Theme Mockups</h1>
+
+    <h2>Base Themes</h2>
+    <div class="themes">
+        <!-- Dark (Current) -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #0D1B2A;">
+                <div class="status-bar" style="color: #fff;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #fff;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #1B2838;">
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">★</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #2C3E50;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #1B2838;">
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #4A90D9; color: #fff;">Play</div>
+                    <div class="btn" style="background: #2C3E50; color: #8B9DC3;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #0D1B2A; color: #fff;">Dark Navy (Current)</div>
+            <div class="color-swatches" style="background: #0D1B2A;">
+                <div class="swatch" style="background: #0D1B2A;"></div>
+                <div class="swatch" style="background: #1B2838;"></div>
+                <div class="swatch" style="background: #4A90D9;"></div>
+                <div class="swatch" style="background: #2C3E50;"></div>
+            </div>
+        </div>
+
+        <!-- Light -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #F5F7FA;">
+                <div class="status-bar" style="color: #1A1A1A;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #1A1A1A;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #E8ECF0;">
+                        <div class="cell" style="background: #E74C3C; color: #fff;">3W</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">3L</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">2W</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #E74C3C; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #5DADE2; color: #fff;">2L</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #5DADE2; color: #fff;">2L</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+
+                        <div class="cell" style="background: #3498DB; color: #fff;">3L</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #F1C40F; color: #fff;">★</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+
+                        <div class="cell" style="background: #F39C12; color: #fff;">2W</div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #D5DBE1;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #E8ECF0;">
+                    <div class="rack-tile" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #FDF6E3; color: #1A1A1A; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #3498DB; color: #fff;">Play</div>
+                    <div class="btn" style="background: #E8ECF0; color: #666; border: 1px solid #D5DBE1;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #F5F7FA; color: #1A1A1A;">Light</div>
+            <div class="color-swatches" style="background: #F5F7FA;">
+                <div class="swatch" style="background: #F5F7FA;"></div>
+                <div class="swatch" style="background: #E8ECF0;"></div>
+                <div class="swatch" style="background: #3498DB;"></div>
+                <div class="swatch" style="background: #D5DBE1;"></div>
+            </div>
+        </div>
+
+        <!-- OLED -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #000000;">
+                <div class="status-bar" style="color: #fff;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #fff;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #0A0A0A;">
+                        <div class="cell" style="background: #B91C1C; color: #fff;">3W</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #1E40AF; color: #fff;">3L</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #D97706; color: #fff;">2W</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #B91C1C; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #2563EB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #2563EB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+
+                        <div class="cell" style="background: #1E40AF; color: #fff;">3L</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #1E40AF; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #EAB308; color: #000;">★</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+
+                        <div class="cell" style="background: #D97706; color: #fff;">2W</div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #1A1A1A;"></div>
+                        <div class="cell" style="background: #D97706; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #0A0A0A;">
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #2563EB; color: #fff;">Play</div>
+                    <div class="btn" style="background: #1A1A1A; color: #888;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #000; color: #fff;">OLED Black</div>
+            <div class="color-swatches" style="background: #000;">
+                <div class="swatch" style="background: #000000;"></div>
+                <div class="swatch" style="background: #0A0A0A;"></div>
+                <div class="swatch" style="background: #2563EB;"></div>
+                <div class="swatch" style="background: #1A1A1A;"></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Accent Color Themes</h2>
+    <div class="themes">
+        <!-- Forest Green -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #0F1F1A;">
+                <div class="status-bar" style="color: #fff;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #fff;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #1A2F28;">
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">★</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #2D4A40;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #1A2F28;">
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #27AE60; color: #fff;">Play</div>
+                    <div class="btn" style="background: #2D4A40; color: #8BAA9D;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #0F1F1A; color: #fff;">Forest</div>
+            <div class="color-swatches" style="background: #0F1F1A;">
+                <div class="swatch" style="background: #0F1F1A;"></div>
+                <div class="swatch" style="background: #1A2F28;"></div>
+                <div class="swatch" style="background: #27AE60;"></div>
+                <div class="swatch" style="background: #2D4A40;"></div>
+            </div>
+        </div>
+
+        <!-- Sunset/Warm -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #1F1410;">
+                <div class="status-bar" style="color: #fff;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #fff;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #2D1F1A;">
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">★</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #3D2E28;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #2D1F1A;">
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #E74C3C; color: #fff;">Play</div>
+                    <div class="btn" style="background: #3D2E28; color: #C4A07A;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #1F1410; color: #fff;">Sunset</div>
+            <div class="color-swatches" style="background: #1F1410;">
+                <div class="swatch" style="background: #1F1410;"></div>
+                <div class="swatch" style="background: #2D1F1A;"></div>
+                <div class="swatch" style="background: #E74C3C;"></div>
+                <div class="swatch" style="background: #3D2E28;"></div>
+            </div>
+        </div>
+
+        <!-- Royal Purple -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #14101F;">
+                <div class="status-bar" style="color: #fff;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #fff;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #1E1A2D;">
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">★</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #2D2840;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #1E1A2D;">
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #9B59B6; color: #fff;">Play</div>
+                    <div class="btn" style="background: #2D2840; color: #A89EC4;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #14101F; color: #fff;">Royal</div>
+            <div class="color-swatches" style="background: #14101F;">
+                <div class="swatch" style="background: #14101F;"></div>
+                <div class="swatch" style="background: #1E1A2D;"></div>
+                <div class="swatch" style="background: #9B59B6;"></div>
+                <div class="swatch" style="background: #2D2840;"></div>
+            </div>
+        </div>
+
+        <!-- Ocean Teal -->
+        <div class="theme-card">
+            <div class="phone-frame" style="background: #0D1A1A;">
+                <div class="status-bar" style="color: #fff;">
+                    <span>9:41</span>
+                    <span>●●●●○</span>
+                </div>
+                <div class="header" style="color: #fff;">Your Games</div>
+                <div class="game-board">
+                    <div class="board-grid" style="background: #152828;">
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #C0392B; color: #fff;">3W</div>
+
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">H<span style="font-size:8px">4</span></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #3498DB; color: #fff;">2L</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">U<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #1A5276; color: #fff;">3L</div>
+
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">I<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #F39C12; color: #fff;">★</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E8E4DC; color: #1A1A1A;">S<span style="font-size:8px">2</span></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #1F3D3D;"></div>
+                        <div class="cell" style="background: #E67E22; color: #fff;">2W</div>
+                    </div>
+                </div>
+                <div class="tile-rack" style="background: #152828;">
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">A<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">E<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">N<span class="points">1</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">T<span class="points">2</span></div>
+                    <div class="rack-tile" style="background: #E8E4DC; color: #1A1A1A;">R<span class="points">2</span></div>
+                </div>
+                <div class="button-row">
+                    <div class="btn" style="background: #1ABC9C; color: #fff;">Play</div>
+                    <div class="btn" style="background: #1F3D3D; color: #7FBAAA;">Pass</div>
+                </div>
+            </div>
+            <div class="theme-name" style="background: #0D1A1A; color: #fff;">Ocean</div>
+            <div class="color-swatches" style="background: #0D1A1A;">
+                <div class="swatch" style="background: #0D1A1A;"></div>
+                <div class="swatch" style="background: #152828;"></div>
+                <div class="swatch" style="background: #1ABC9C;"></div>
+                <div class="swatch" style="background: #1F3D3D;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

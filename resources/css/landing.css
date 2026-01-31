@@ -1,0 +1,512 @@
+/**
+ * WordStockt Landing Page Styles
+ *
+ * Table of Contents:
+ * 1. CSS Variables
+ * 2. Base Styles
+ * 3. Animations
+ * 4. Utility Classes
+ * 5. Global Background Effects
+ * 6. Buttons
+ * 7. Device Mockups
+ * 8. Cards & Glass Effects
+ * 9. Scroll Animations
+ * 10. Badges & UI Elements
+ * 11. Accessibility
+ */
+
+/* ==========================================================================
+   1. CSS Variables
+   ========================================================================== */
+
+:root {
+    --color-background: #0D1B2A;
+    --color-background-light: #1B2838;
+    --color-background-lighter: #243447;
+    --color-primary: #4A90D9;
+    --color-primary-dark: #3A7BC8;
+    --color-secondary: #64B5F6;
+    --color-accent: #FFD54F;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #8B9DC3;
+    --color-tile: #E8E4DC;
+    --color-tile-text: #1A1A1A;
+    --color-border: #2C3E50;
+    --color-error: #E91E63;
+    --color-warning: #FFC107;
+    --color-success: #4CAF50;
+    --color-triple-word: #E91E63;
+    --color-double-word: #FF7043;
+    --color-triple-letter: #29B6F6;
+    --color-double-letter: #66BB6A;
+}
+
+/* ==========================================================================
+   2. Base Styles
+   ========================================================================== */
+
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-background-light);
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--color-background-light);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+::selection {
+    background: rgba(74, 144, 217, 0.3);
+    color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   3. Animations
+   ========================================================================== */
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes float-delayed {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(74, 144, 217, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(74, 144, 217, 0.6); }
+}
+
+@keyframes slide-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes tile-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes global-gradient-shift {
+    0%, 100% {
+        background-position: 0% 0%, 100% 50%, 0% 100%, 100% 100%;
+        opacity: 1;
+    }
+    25% {
+        background-position: 50% 25%, 50% 0%, 100% 50%, 0% 50%;
+        opacity: 0.9;
+    }
+    50% {
+        background-position: 100% 50%, 0% 50%, 50% 0%, 50% 100%;
+        opacity: 1;
+    }
+    75% {
+        background-position: 50% 75%, 50% 100%, 0% 50%, 100% 50%;
+        opacity: 0.9;
+    }
+}
+
+@keyframes orb-drift-1 {
+    0%, 100% { transform: translateZ(0) translate(0, 0); }
+    25% { transform: translateZ(0) translate(-30px, 40px); }
+    50% { transform: translateZ(0) translate(20px, 60px); }
+    75% { transform: translateZ(0) translate(-20px, 25px); }
+}
+
+@keyframes orb-drift-2 {
+    0%, 100% { transform: translateZ(0) translate(0, 0); }
+    25% { transform: translateZ(0) translate(40px, -25px); }
+    50% { transform: translateZ(0) translate(60px, 20px); }
+    75% { transform: translateZ(0) translate(25px, -15px); }
+}
+
+@keyframes orb-drift-3 {
+    0%, 100% { transform: translateZ(0) translate(0, 0); }
+    33% { transform: translateZ(0) translate(-35px, -40px); }
+    66% { transform: translateZ(0) translate(25px, -25px); }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* ==========================================================================
+   4. Utility Classes
+   ========================================================================== */
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-float-delayed { animation: float-delayed 3s ease-in-out infinite 0.5s; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+.animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
+.animate-tile-bounce { animation: tile-bounce 2s ease-in-out infinite; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==========================================================================
+   5. Global Background Effects
+   ========================================================================== */
+
+.global-gradient {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 50% at 20% 30%, rgba(74, 144, 217, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 40% at 30% 70%, rgba(74, 144, 217, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 70% 90%, rgba(100, 181, 246, 0.08) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
+    animation: global-gradient-shift 25s ease-in-out infinite;
+}
+
+.global-orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(100px);
+    -webkit-filter: blur(100px);
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    transition: background 1.5s ease;
+}
+
+.global-orb-1 {
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    right: -100px;
+    background: rgba(74, 144, 217, 0.4);
+    animation: orb-drift-1 40s ease-in-out infinite;
+}
+
+.global-orb-2 {
+    width: 400px;
+    height: 400px;
+    top: 35%;
+    left: -120px;
+    background: rgba(34, 197, 94, 0.25);
+    animation: orb-drift-2 45s ease-in-out infinite;
+}
+
+.global-orb-3 {
+    width: 450px;
+    height: 450px;
+    bottom: -100px;
+    right: 10%;
+    background: rgba(100, 181, 246, 0.35);
+    animation: orb-drift-3 35s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   6. Buttons
+   ========================================================================== */
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 10px 30px rgba(74, 144, 217, 0.4),
+        0 0 20px rgba(74, 144, 217, 0.3);
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-secondary {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.98);
+}
+
+/* ==========================================================================
+   7. Device Mockups
+   ========================================================================== */
+
+/* Phone mockup */
+.phone-mockup {
+    position: relative;
+    padding: 10px;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-radius: 28px;
+    box-shadow:
+        0 0 0 2px #3a3a3a,
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 80px rgba(74, 144, 217, 0.15);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+.phone-mockup:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 0 2px #3a3a3a,
+        0 35px 60px -12px rgba(0, 0, 0, 0.6),
+        0 0 100px rgba(74, 144, 217, 0.25);
+}
+
+.phone-mockup .phone-screen {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Phone overlap positioning for hero section */
+@media (min-width: 1024px) {
+    .phone-overlap {
+        position: absolute;
+        bottom: -60px;
+        left: -80px;
+        z-index: 2;
+    }
+}
+
+/* Tablet mockup (landscape) */
+.tablet-mockup-landscape {
+    position: relative;
+    padding: 10px;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-radius: 20px;
+    box-shadow:
+        0 0 0 2px #3a3a3a,
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 80px rgba(74, 144, 217, 0.15);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+.tablet-mockup-landscape:hover {
+    transform: scale(1.03);
+    box-shadow:
+        0 0 0 2px #3a3a3a,
+        0 35px 60px -12px rgba(0, 0, 0, 0.6),
+        0 0 100px rgba(74, 144, 217, 0.25);
+}
+
+.tablet-mockup-landscape .tablet-screen-landscape {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* Device glow effect */
+.device-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(ellipse at center, rgba(74, 144, 217, 0.3) 0%, transparent 70%);
+    filter: blur(40px);
+    z-index: -1;
+    animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* Screenshot carousel */
+.screenshot-carousel {
+    position: relative;
+}
+
+.screenshot-carousel img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.screenshot-carousel img.active {
+    opacity: 1;
+    position: relative;
+}
+
+/* ==========================================================================
+   8. Cards & Glass Effects
+   ========================================================================== */
+
+.glass {
+    background: rgba(27, 40, 56, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(74, 144, 217, 0.2);
+}
+
+.premium-card {
+    background: linear-gradient(135deg, rgba(27, 40, 56, 0.8) 0%, rgba(27, 40, 56, 0.6) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 10px 20px -5px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.premium-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(74, 144, 217, 0.3);
+    box-shadow:
+        0 20px 40px -15px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(74, 144, 217, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Tiles */
+.tile {
+    transition: all 0.2s ease;
+}
+
+.tile:hover {
+    transform: translateY(-2px) rotate(-2deg);
+}
+
+/* ==========================================================================
+   9. Scroll Animations
+   ========================================================================== */
+
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-animate-delay-1 { transition-delay: 0.1s; }
+.scroll-animate-delay-2 { transition-delay: 0.2s; }
+.scroll-animate-delay-3 { transition-delay: 0.3s; }
+.scroll-animate-delay-4 { transition-delay: 0.4s; }
+.scroll-animate-delay-5 { transition-delay: 0.5s; }
+.scroll-animate-delay-6 { transition-delay: 0.6s; }
+
+.parallax-bg {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+/* ==========================================================================
+   10. Badges & UI Elements
+   ========================================================================== */
+
+.free-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #81C784;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Fair play rule cards */
+.rule-card {
+    background: linear-gradient(180deg, rgba(74, 144, 217, 0.08) 0%, rgba(74, 144, 217, 0.02) 100%);
+    border: 1px solid rgba(74, 144, 217, 0.15);
+}
+
+.rule-icon {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    box-shadow: 0 8px 24px rgba(74, 144, 217, 0.3);
+}
+
+/* ==========================================================================
+   11. Accessibility
+   ========================================================================== */
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
