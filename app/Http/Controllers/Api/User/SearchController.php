@@ -10,9 +10,28 @@ class SearchController
 {
     public function __invoke(SearchUsersRequest $request)
     {
-        $users = User::searchByUsername($request->validated('query'))
+        $query = $request->validated('query');
+        $exact = $request->boolean('exact', false);
+
+        $usersQuery = User::query()
             ->where('id', '!=', $request->user()->id)
-            ->select(['id', 'ulid', 'username', 'avatar', 'elo_rating'])
+            ->where('is_guest', false)
+            ->select(['id', 'ulid', 'username', 'avatar', 'avatar_color', 'elo_rating']);
+
+        if ($exact) {
+            $user = $usersQuery
+                ->whereRaw('LOWER(username) = ?', [strtolower($query)])
+                ->first();
+
+            if (! $user) {
+                return UserSearchResource::collection(collect());
+            }
+
+            return UserSearchResource::collection(collect([$user]));
+        }
+
+        $users = $usersQuery
+            ->searchByUsername($query)
             ->limit(10)
             ->get();
 

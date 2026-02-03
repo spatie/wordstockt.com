@@ -14,6 +14,7 @@ class UserSearchResource extends JsonResource
             'ulid' => $this->ulid,
             'username' => $this->username,
             'avatar' => $this->avatar,
+            'avatar_color' => $this->avatar_color,
             'eloRating' => $this->elo_rating,
         ];
     }

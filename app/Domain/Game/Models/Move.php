@@ -28,6 +28,7 @@ class Move extends Model
             'tiles' => 'array',
             'words' => 'array',
             'score' => 'integer',
+            'score_breakdown' => 'array',
             'type' => MoveType::class,
         ];
     }

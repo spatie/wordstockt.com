@@ -16,6 +16,7 @@ use App\Domain\Game\Notifications\YourTurnNotification;
 use App\Domain\Game\Support\Board;
 use App\Domain\Game\Support\Rules\RuleEngine;
 use App\Domain\Game\Support\Scoring\ScoringEngine;
+use App\Domain\Game\Support\Scoring\ScoringResult;
 use App\Domain\Game\Support\TileBag;
 use App\Domain\Support\Models\Dictionary;
 use App\Domain\User\Models\User;
@@ -49,12 +50,13 @@ class PlayMoveAction
         // Grant empty rack bonus immediately when player clears rack with empty bag
         if ($bagWasEmpty && empty($gamePlayer->rack_tiles)) {
             $score += self::EMPTY_RACK_BONUS;
+            $scoringResult->addBonus('empty_rack_bonus', self::EMPTY_RACK_BONUS, 'Cleared rack with empty bag');
             $gamePlayer->update(['received_empty_rack_bonus' => true]);
         }
 
         $this->updatePlayerScore($gamePlayer, $score);
 
-        $move = $this->createMoveRecord($game, $user, $tiles, $words, $score);
+        $move = $this->createMoveRecord($game, $user, $tiles, $words, $score, $scoringResult);
 
         $this->recordWordsPlayed($words, $game->language);
 
@@ -150,7 +152,7 @@ class PlayMoveAction
         return Lottery::odds(1, 10)->choose();
     }
 
-    private function createMoveRecord(Game $game, User $user, array $tiles, array $words, int $score): Move
+    private function createMoveRecord(Game $game, User $user, array $tiles, array $words, int $score, ScoringResult $scoringResult): Move
     {
         return Move::create([
             'game_id' => $game->id,
@@ -158,6 +160,7 @@ class PlayMoveAction
             'tiles' => $tiles,
             'words' => collect($words)->pluck('word')->all(),
             'score' => $score,
+            'score_breakdown' => $scoringResult->toArray(),
             'type' => MoveType::Play,
         ]);
     }

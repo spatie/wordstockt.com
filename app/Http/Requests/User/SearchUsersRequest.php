@@ -15,6 +15,7 @@ class SearchUsersRequest extends FormRequest
     {
         return [
             'query' => ['required', 'string', 'min:2', 'max:50'],
+            'exact' => ['sometimes', 'in:true,false,1,0'],
         ];
     }
 }
