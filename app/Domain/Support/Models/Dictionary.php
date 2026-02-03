@@ -16,6 +16,8 @@ class Dictionary extends Model
             'times_played' => 'integer',
             'first_played_at' => 'datetime',
             'last_played_at' => 'datetime',
+            'is_valid' => 'boolean',
+            'requested_to_mark_as_invalid_at' => 'datetime',
         ];
     }
 
@@ -30,7 +32,11 @@ class Dictionary extends Model
         return Cache::remember(
             "dictionary:{$language}:{$word}",
             now()->addDay(),
-            fn () => static::where('language', $language)->where('word', $word)->exists()
+            fn () => static::query()
+                ->where('language', $language)
+                ->where('word', $word)
+                ->where('is_valid', true)
+                ->exists()
         );
     }
 
@@ -72,5 +78,30 @@ class Dictionary extends Model
     public function getDefinitionData(): WordDefinitionData
     {
         return WordDefinitionData::fromJson($this->definition);
+    }
+
+    public function invalidate(): void
+    {
+        $this->is_valid = false;
+        $this->requested_to_mark_as_invalid_at = null;
+        $this->save();
+
+        Cache::forget("dictionary:{$this->language}:{$this->word}");
+    }
+
+    public function requestInvalidation(): void
+    {
+        if ($this->requested_to_mark_as_invalid_at) {
+            return;
+        }
+
+        $this->requested_to_mark_as_invalid_at = now();
+        $this->save();
+    }
+
+    public function dismissReport(): void
+    {
+        $this->requested_to_mark_as_invalid_at = null;
+        $this->save();
     }
 }

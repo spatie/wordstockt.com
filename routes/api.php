@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth;
+use App\Http\Controllers\Api\Dictionary;
 use App\Http\Controllers\Api\Friend;
 use App\Http\Controllers\Api\Game;
 use App\Http\Controllers\Api\Invitation;
@@ -46,6 +47,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
         Route::post('{game}/swap', Game\SwapController::class)->middleware('throttle:game-action');
         Route::post('{game}/resign', Game\ResignController::class)->middleware('throttle:game-action');
         Route::get('{game}/word-info', Game\WordInfoController::class);
+        Route::get('{game}/moves', Game\MoveHistoryController::class);
     });
 
     Route::prefix('users')->group(function (): void {
@@ -76,4 +78,6 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
     Route::post('invite-links/{code}/redeem', InviteLink\RedeemController::class);
 
     Route::get('achievements', \App\Http\Controllers\Api\AchievementController::class)->middleware('guest.block');
+
+    Route::post('dictionary/report', Dictionary\ReportController::class);
 });

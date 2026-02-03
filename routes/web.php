@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Dictionary\DismissReportController;
+use App\Http\Controllers\Api\Dictionary\InvalidateController;
 use App\Http\Controllers\AppleAppSiteAssociationController;
 use App\Http\Controllers\AssetLinksController;
 use App\Http\Controllers\Web\InviteLinkRedirectController;
@@ -22,3 +24,8 @@ Route::post('/reset-password/{token}', [ResetPasswordController::class, 'update'
 Route::get('/verify-email/{ulid}', VerifyEmailController::class)->name('verification.verify.web');
 
 Route::get('/invite/{code}', InviteLinkRedirectController::class)->name('invite.redirect');
+
+Route::middleware('signed')->group(function () {
+    Route::get('/dictionary/{dictionary}/invalidate', InvalidateController::class)->name('dictionary.invalidate');
+    Route::get('/dictionary/{dictionary}/dismiss', DismissReportController::class)->name('dictionary.dismiss');
+});
