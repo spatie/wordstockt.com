@@ -23,6 +23,7 @@ class MoveHistoryResource extends JsonResource
             'score' => $this->score,
             'score_breakdown' => $this->score_breakdown,
             'tiles_count' => $this->tiles ? count($this->tiles) : 0,
+            'tiles' => $this->tiles,
             'created_at' => $this->created_at->toISOString(),
         ];
     }
