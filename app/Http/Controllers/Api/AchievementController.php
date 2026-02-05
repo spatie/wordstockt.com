@@ -57,7 +57,7 @@ class AchievementController
             'category' => $definition->category,
             'is_unlocked' => $userAchievement !== null,
             'unlocked_at' => $userAchievement?->unlocked_at?->toIso8601String(),
-            'context' => $userAchievement?->context,
+            'context' => $userAchievement?->context ?: null,
         ];
     }
 

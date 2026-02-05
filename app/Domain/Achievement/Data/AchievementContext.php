@@ -15,6 +15,6 @@ class AchievementContext
 
     public function toJson(): string
     {
-        return json_encode($this->data);
+        return json_encode($this->data ?: new \stdClass);
     }
 }

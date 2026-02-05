@@ -63,7 +63,7 @@ class CheckGameEndAchievementsAction
             'user_id' => $user->id,
             'achievement_id' => $unlocked->achievement->id(),
             'game_id' => $game->id,
-            'context' => json_encode($unlocked->context->toArray()),
+            'context' => $unlocked->context->toJson(),
             'unlocked_at' => now(),
         ])->all();
 
