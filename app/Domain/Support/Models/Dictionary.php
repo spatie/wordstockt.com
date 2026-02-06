@@ -3,6 +3,7 @@
 namespace App\Domain\Support\Models;
 
 use App\Domain\Support\Data\WordDefinitionData;
+use App\Domain\Support\Enums\DictionaryLanguage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -78,6 +79,30 @@ class Dictionary extends Model
     public function getDefinitionData(): WordDefinitionData
     {
         return WordDefinitionData::fromJson($this->definition);
+    }
+
+    public function getLanguage(): DictionaryLanguage
+    {
+        return DictionaryLanguage::from($this->language);
+    }
+
+    public function isProperNoun(): bool
+    {
+        $definition = $this->getDefinitionData();
+
+        if ($definition->senses === null || count($definition->senses) === 0) {
+            return false;
+        }
+
+        $properNounPos = $this->getLanguage()->properNounPos();
+
+        foreach ($definition->senses as $sense) {
+            if (! isset($sense['pos']) || $sense['pos'] !== $properNounPos) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function invalidate(): void

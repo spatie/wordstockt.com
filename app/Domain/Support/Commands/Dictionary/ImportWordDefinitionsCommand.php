@@ -3,25 +3,40 @@
 namespace App\Domain\Support\Commands\Dictionary;
 
 use App\Domain\Support\Data\WordDefinitionData;
+use App\Domain\Support\Enums\DictionaryLanguage;
 use App\Domain\Support\Models\Dictionary;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use SplFileObject;
 
-class ImportNlWordDefinitionsCommand extends Command
+class ImportWordDefinitionsCommand extends Command
 {
-    protected $signature = 'dictionary:import-nl-definitions';
+    protected $signature = 'dictionary:import-definitions {language : The language to import (nl or en)}';
 
-    protected $description = 'Download and import Dutch word definitions from Dutch Wiktionary';
+    protected $description = 'Download and import word definitions from Wiktionary';
 
-    private string $gzPath;
+    private string $downloadPath;
 
     private string $jsonlPath;
 
+    private DictionaryLanguage $language;
+
     public function handle(): int
     {
-        $this->info('Starting Dutch definitions import...');
+        $languageCode = $this->argument('language');
+
+        $language = DictionaryLanguage::tryFrom($languageCode);
+
+        if (! $language) {
+            $this->error("Unsupported language: {$languageCode}. Supported: nl, en");
+
+            return self::FAILURE;
+        }
+
+        $this->language = $language;
+
+        $this->info("Starting {$this->language->label()} definitions import...");
 
         $this->setupPaths();
 
@@ -29,7 +44,7 @@ class ImportNlWordDefinitionsCommand extends Command
             return self::FAILURE;
         }
 
-        if (! $this->extractFile()) {
+        if ($this->language->isCompressed() && ! $this->extractFile()) {
             return self::FAILURE;
         }
 
@@ -48,15 +63,21 @@ class ImportNlWordDefinitionsCommand extends Command
     {
         Storage::disk('local')->makeDirectory('definitions');
 
-        $this->gzPath = Storage::disk('local')->path('definitions/nl-wiktionary.jsonl.gz');
-        $this->jsonlPath = Storage::disk('local')->path('definitions/nl-wiktionary.jsonl');
+        $basePath = Storage::disk('local')->path('definitions');
+        $this->jsonlPath = "{$basePath}/{$this->language->value}-wiktionary.jsonl";
+        $this->downloadPath = $this->language->isCompressed()
+            ? "{$this->jsonlPath}.gz"
+            : $this->jsonlPath;
     }
 
     private function downloadFile(): bool
     {
-        $url = 'https://kaikki.org/nlwiktionary/raw-wiktextract-data.jsonl.gz';
+        $url = $this->language->definitionsUrl();
+        $timeout = $this->language->downloadTimeout();
 
-        $result = Process::timeout(600)->run("curl -sL -o {$this->gzPath} {$url}");
+        $this->info("Downloading {$this->language->label()} Wiktionary data...");
+
+        $result = Process::timeout($timeout)->run("curl -sL -o {$this->downloadPath} {$url}");
 
         if (! $result->successful()) {
             $this->error('Failed to download.');
@@ -64,7 +85,7 @@ class ImportNlWordDefinitionsCommand extends Command
             return false;
         }
 
-        if (! file_exists($this->gzPath)) {
+        if (! file_exists($this->downloadPath)) {
             $this->error('Failed to download.');
 
             return false;
@@ -75,7 +96,7 @@ class ImportNlWordDefinitionsCommand extends Command
 
     private function extractFile(): bool
     {
-        Process::run("gunzip -f {$this->gzPath}");
+        Process::run("gunzip -f {$this->downloadPath}");
 
         if (! file_exists($this->jsonlPath)) {
             $this->error('Failed to extract.');
@@ -90,7 +111,7 @@ class ImportNlWordDefinitionsCommand extends Command
     {
         $this->info('Loading dictionary words...');
 
-        $dictionaryWords = Dictionary::where('language', 'nl')
+        $dictionaryWords = Dictionary::where('language', $this->language->value)
             ->pluck('word')
             ->flip()
             ->all();
@@ -120,7 +141,7 @@ class ImportNlWordDefinitionsCommand extends Command
                 continue;
             }
 
-            if (! $this->isDutchEntry($entry)) {
+            if (! $this->isCorrectLanguage($entry)) {
                 continue;
             }
 
@@ -142,7 +163,7 @@ class ImportNlWordDefinitionsCommand extends Command
                 ];
             }
 
-            $pos = $entry['pos_title'] ?? null;
+            $pos = $this->extractPos($entry);
 
             foreach ($entry['senses'] ?? [] as $sense) {
                 $definition = $sense['glosses'][0] ?? null;
@@ -169,8 +190,8 @@ class ImportNlWordDefinitionsCommand extends Command
                 ];
             }
 
-            if (! $wordData[$word]['etymology'] && ! empty($entry['etymology_texts'][0])) {
-                $wordData[$word]['etymology'] = $entry['etymology_texts'][0];
+            if (! $wordData[$word]['etymology']) {
+                $wordData[$word]['etymology'] = $this->extractEtymology($entry);
             }
 
             if (count($wordData[$word]['proverbs']) < 5) {
@@ -208,7 +229,7 @@ class ImportNlWordDefinitionsCommand extends Command
 
         $words = array_keys($wordData);
 
-        $records = Dictionary::where('language', 'nl')
+        $records = Dictionary::where('language', $this->language->value)
             ->whereIn('word', $words)
             ->get();
 
@@ -246,9 +267,9 @@ class ImportNlWordDefinitionsCommand extends Command
         return json_decode($line, true);
     }
 
-    private function isDutchEntry(array $entry): bool
+    private function isCorrectLanguage(array $entry): bool
     {
-        return ($entry['lang'] ?? '') === 'Nederlands';
+        return ($entry['lang'] ?? '') === $this->language->wiktionaryLanguageIdentifier();
     }
 
     private function extractWord(array $entry): ?string
@@ -262,10 +283,32 @@ class ImportNlWordDefinitionsCommand extends Command
         return mb_strtoupper($word);
     }
 
+    private function extractPos(array $entry): ?string
+    {
+        $field = $this->language->posField();
+
+        return $entry[$field] ?? null;
+    }
+
+    private function extractEtymology(array $entry): ?string
+    {
+        $field = $this->language->etymologyField();
+
+        if ($field === 'etymology_texts') {
+            return $entry[$field][0] ?? null;
+        }
+
+        return $entry[$field] ?? null;
+    }
+
     private function cleanup(): void
     {
         if (file_exists($this->jsonlPath)) {
             unlink($this->jsonlPath);
+        }
+
+        if (file_exists($this->downloadPath) && $this->downloadPath !== $this->jsonlPath) {
+            unlink($this->downloadPath);
         }
     }
 }
