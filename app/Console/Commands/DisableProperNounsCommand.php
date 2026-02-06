@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Domain\Support\Enums\DictionaryLanguage;
 use App\Domain\Support\Models\Dictionary;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class DisableProperNounsCommand extends Command
 {
@@ -27,40 +28,56 @@ class DisableProperNounsCommand extends Command
             return self::FAILURE;
         }
 
-        $properNouns = Dictionary::query()
+        $this->info(($isDry ? '[DRY RUN] ' : '').'Scanning for proper nouns...');
+
+        $totalDisabled = 0;
+
+        Dictionary::query()
             ->where('language', $language->value)
             ->where('is_valid', true)
             ->whereNotNull('definition')
-            ->get()
-            ->filter(fn (Dictionary $entry) => $entry->isProperNoun());
+            ->chunkById(1000, function ($entries) use ($isDry, $language, &$totalDisabled) {
+                $properNouns = $entries->filter(fn (Dictionary $entry) => $entry->isProperNoun());
 
-        if ($properNouns->isEmpty()) {
+                if ($properNouns->isEmpty()) {
+                    return;
+                }
+
+                foreach ($properNouns as $entry) {
+                    $this->line("  - {$entry->word}");
+                }
+
+                $totalDisabled += $properNouns->count();
+
+                if ($isDry) {
+                    return;
+                }
+
+                Dictionary::query()
+                    ->whereIn('id', $properNouns->pluck('id'))
+                    ->update(['is_valid' => false, 'requested_to_mark_as_invalid_at' => null]);
+
+                foreach ($properNouns as $entry) {
+                    Cache::forget("dictionary:{$language->value}:{$entry->word}");
+                }
+            });
+
+        if ($totalDisabled === 0) {
             $this->info('No proper nouns found to disable.');
 
             return self::SUCCESS;
         }
 
-        $this->info(($isDry ? '[DRY RUN] ' : '')."Found {$properNouns->count()} proper nouns to disable:");
         $this->newLine();
-
-        foreach ($properNouns as $entry) {
-            $this->line("  - {$entry->word}");
-        }
+        $this->info("Found {$totalDisabled} proper nouns to disable.");
 
         if ($isDry) {
-            $this->newLine();
             $this->info('Run without --dry to disable these words.');
 
             return self::SUCCESS;
         }
 
-        $this->newLine();
-
-        foreach ($properNouns as $entry) {
-            $entry->invalidate();
-        }
-
-        $this->info("Disabled {$properNouns->count()} proper nouns.");
+        $this->info("Disabled {$totalDisabled} proper nouns.");
 
         return self::SUCCESS;
     }
