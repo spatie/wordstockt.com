@@ -654,7 +654,7 @@ GRADLE;
         info($clean ? 'Prebuild (clean)...' : 'Prebuild...');
 
         $result = Process::path($this->getAppPath())
-            ->timeout(300)
+            ->timeout(600)
             ->run($command, function (string $type, string $output): void {
                 $this->output->write($output);
             });
