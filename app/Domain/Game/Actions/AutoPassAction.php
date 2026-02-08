@@ -67,12 +67,5 @@ class AutoPassAction
         }
 
         app(SwitchTurnAction::class)->execute($game);
-
-        // Check again after switching turns in case the end game condition is now met
-        $endGameRule = $ruleEngine->checkEndGame($game->fresh());
-
-        if ($endGameRule) {
-            app(EndGameAction::class)->execute($game);
-        }
     }
 }

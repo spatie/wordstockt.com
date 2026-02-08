@@ -192,12 +192,5 @@ class PlayMoveAction
         }
 
         app(SwitchTurnAction::class)->execute($game);
-
-        // Check again after switching turns in case the end game condition is now met
-        $endGameRule = $ruleEngine->checkEndGame($game->fresh());
-
-        if ($endGameRule instanceof \App\Domain\Game\Support\Rules\EndGame\EndGameRule) {
-            app(EndGameAction::class)->execute($game);
-        }
     }
 }
