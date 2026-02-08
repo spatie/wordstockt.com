@@ -80,4 +80,6 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
     Route::get('achievements', \App\Http\Controllers\Api\AchievementController::class)->middleware('guest.block');
 
     Route::post('dictionary/report', Dictionary\ReportController::class);
+    Route::get('dictionary/lookup', Dictionary\LookupController::class);
+    Route::post('dictionary/request', Dictionary\RequestWordController::class)->middleware('throttle:6,1');
 });

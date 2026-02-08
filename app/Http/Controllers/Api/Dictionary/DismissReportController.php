@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Api\Dictionary;
 
 use App\Domain\Support\Models\Dictionary;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class DismissReportController
 {
-    public function __invoke(Dictionary $dictionary): RedirectResponse
+    public function __invoke(Dictionary $dictionary): View
     {
         $dictionary->dismissReport();
 
-        return redirect()->to(config('app.url').'/admin/dictionaries')
-            ->with('success', "Report for '{$dictionary->word}' has been dismissed.");
+        return view('dictionary.action-confirmed', [
+            'action' => 'dismissed',
+            'word' => $dictionary->word,
+            'language' => $dictionary->language,
+        ]);
     }
 }

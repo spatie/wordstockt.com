@@ -19,7 +19,10 @@ it('can invalidate a word via signed url', function (): void {
 
     $response = $this->get($url);
 
-    $response->assertRedirect();
+    $response->assertOk();
+    $response->assertViewIs('dictionary.action-confirmed');
+    $response->assertViewHas('action', 'invalidated');
+    $response->assertViewHas('word', 'TEST');
 
     expect($dictionary->fresh()->is_valid)->toBeFalse();
     expect($dictionary->fresh()->requested_to_mark_as_invalid_at)->toBeNull();
@@ -42,7 +45,10 @@ it('can dismiss a report via signed url', function (): void {
 
     $response = $this->get($url);
 
-    $response->assertRedirect();
+    $response->assertOk();
+    $response->assertViewIs('dictionary.action-confirmed');
+    $response->assertViewHas('action', 'dismissed');
+    $response->assertViewHas('word', 'TEST');
 
     expect($dictionary->fresh()->is_valid)->toBeTrue();
     expect($dictionary->fresh()->requested_to_mark_as_invalid_at)->toBeNull();

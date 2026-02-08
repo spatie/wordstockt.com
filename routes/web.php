@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Dictionary\AddWordController;
 use App\Http\Controllers\Api\Dictionary\DismissReportController;
 use App\Http\Controllers\Api\Dictionary\InvalidateController;
 use App\Http\Controllers\AppleAppSiteAssociationController;
@@ -28,4 +29,5 @@ Route::get('/invite/{code}', InviteLinkRedirectController::class)->name('invite.
 Route::middleware('signed')->group(function () {
     Route::get('/dictionary/{dictionary}/invalidate', InvalidateController::class)->name('dictionary.invalidate');
     Route::get('/dictionary/{dictionary}/dismiss', DismissReportController::class)->name('dictionary.dismiss');
+    Route::get('/dictionary/add-word', AddWordController::class)->name('dictionary.add-word');
 });
