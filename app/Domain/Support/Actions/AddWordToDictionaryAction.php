@@ -11,13 +11,22 @@ class AddWordToDictionaryAction
     {
         $word = mb_strtoupper(trim($word));
 
-        $exists = Dictionary::query()
+        $existing = Dictionary::query()
             ->where('language', $language)
             ->where('word', $word)
-            ->where('is_valid', true)
-            ->exists();
+            ->first();
 
-        if ($exists) {
+        if ($existing && $existing->is_valid) {
+            return;
+        }
+
+        if ($existing) {
+            $existing->is_valid = true;
+            $existing->requested_to_mark_as_invalid_at = null;
+            $existing->save();
+
+            FetchWordDefinitionJob::dispatch($word, $language);
+
             return;
         }
 
