@@ -4,6 +4,7 @@ namespace App\Domain\Support\Actions;
 
 use App\Domain\Support\Models\Dictionary;
 use App\Jobs\FetchWordDefinitionJob;
+use Illuminate\Support\Facades\Cache;
 
 class AddWordToDictionaryAction
 {
@@ -24,18 +25,16 @@ class AddWordToDictionaryAction
             $existing->is_valid = true;
             $existing->requested_to_mark_as_invalid_at = null;
             $existing->save();
-
-            FetchWordDefinitionJob::dispatch($word, $language);
-
-            return;
+        } else {
+            Dictionary::create([
+                'language' => $language,
+                'word' => $word,
+                'is_valid' => true,
+            ]);
         }
 
-        Dictionary::create([
-            'language' => $language,
-            'word' => $word,
-            'is_valid' => true,
-        ]);
-
         FetchWordDefinitionJob::dispatch($word, $language);
+
+        Cache::forget("dictionary:{$language}:{$word}");
     }
 }
