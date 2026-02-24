@@ -4,7 +4,9 @@ namespace App\Domain\Support\Models;
 
 use App\Domain\Support\Data\WordDefinitionData;
 use App\Domain\Support\Enums\DictionaryLanguage;
+use App\Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Cache;
 
 class Dictionary extends Model
@@ -20,6 +22,11 @@ class Dictionary extends Model
             'is_valid' => 'boolean',
             'requested_to_mark_as_invalid_at' => 'datetime',
         ];
+    }
+
+    public function requestedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'requested_by_user_id');
     }
 
     public static function isValidWord(string $word, string $language): bool

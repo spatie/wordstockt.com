@@ -1,7 +1,10 @@
 <?php
 
 use App\Domain\Support\Models\Dictionary;
+use App\Domain\User\Models\User;
 use App\Jobs\FetchWordDefinitionJob;
+use App\Mail\WordApprovedMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\URL;
 
@@ -76,6 +79,55 @@ it('re-enables an invalidated word', function (): void {
     Queue::assertPushed(FetchWordDefinitionJob::class, function (FetchWordDefinitionJob $job) {
         return $job->word === 'GA' && $job->language === 'nl';
     });
+});
+
+it('sends an email to the requester when word is approved', function (): void {
+    Queue::fake();
+    Mail::fake();
+
+    $requester = User::factory()->create();
+
+    Dictionary::create([
+        'language' => 'nl',
+        'word' => 'TESTWOORD',
+        'is_valid' => false,
+        'requested_by_user_id' => $requester->id,
+    ]);
+
+    $url = URL::signedRoute('dictionary.add-word', [
+        'word' => 'TESTWOORD',
+        'language' => 'nl',
+    ]);
+
+    $this->get($url)->assertOk();
+
+    Mail::assertSent(WordApprovedMail::class, function (WordApprovedMail $mail) use ($requester) {
+        return $mail->hasTo($requester->email)
+            && $mail->word === 'TESTWOORD'
+            && $mail->language === 'nl';
+    });
+
+    expect(Dictionary::where('word', 'TESTWOORD')->first()->requested_by_user_id)->toBeNull();
+});
+
+it('does not send email when no requester exists', function (): void {
+    Queue::fake();
+    Mail::fake();
+
+    Dictionary::create([
+        'language' => 'nl',
+        'word' => 'GEENREQUEST',
+        'is_valid' => false,
+    ]);
+
+    $url = URL::signedRoute('dictionary.add-word', [
+        'word' => 'GEENREQUEST',
+        'language' => 'nl',
+    ]);
+
+    $this->get($url)->assertOk();
+
+    Mail::assertNotSent(WordApprovedMail::class);
 });
 
 it('cannot add word without valid signature', function (): void {

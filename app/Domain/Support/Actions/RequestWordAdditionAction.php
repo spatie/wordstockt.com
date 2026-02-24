@@ -23,6 +23,12 @@ class RequestWordAdditionAction
             return;
         }
 
+        Dictionary::query()
+            ->where('language', $language)
+            ->where('word', $word)
+            ->whereNull('requested_by_user_id')
+            ->update(['requested_by_user_id' => $requester->id]);
+
         Mail::to('freek@spatie.be')->send(new WordRequestedMail($word, $language, $requester));
     }
 }

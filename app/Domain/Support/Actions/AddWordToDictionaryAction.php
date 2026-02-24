@@ -4,7 +4,9 @@ namespace App\Domain\Support\Actions;
 
 use App\Domain\Support\Models\Dictionary;
 use App\Jobs\FetchWordDefinitionJob;
+use App\Mail\WordApprovedMail;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class AddWordToDictionaryAction
 {
@@ -26,7 +28,7 @@ class AddWordToDictionaryAction
             $existing->requested_to_mark_as_invalid_at = null;
             $existing->save();
         } else {
-            Dictionary::create([
+            $existing = Dictionary::create([
                 'language' => $language,
                 'word' => $word,
                 'is_valid' => true,
@@ -36,5 +38,25 @@ class AddWordToDictionaryAction
         FetchWordDefinitionJob::dispatch($word, $language);
 
         Cache::forget("dictionary:{$language}:{$word}");
+
+        $this->notifyRequester($existing, $word, $language);
+    }
+
+    private function notifyRequester(Dictionary $dictionary, string $word, string $language): void
+    {
+        if (! $dictionary->requested_by_user_id) {
+            return;
+        }
+
+        $requester = $dictionary->requestedBy;
+
+        if (! $requester) {
+            return;
+        }
+
+        Mail::to($requester->email)->send(new WordApprovedMail($word, $language));
+
+        $dictionary->requested_by_user_id = null;
+        $dictionary->save();
     }
 }
