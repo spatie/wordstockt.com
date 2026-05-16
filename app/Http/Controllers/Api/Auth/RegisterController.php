@@ -8,10 +8,11 @@ use App\Domain\User\Models\User;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController
 {
-    public function __invoke(RegisterRequest $request): \Symfony\Component\HttpFoundation\Response
+    public function __invoke(RegisterRequest $request): Response
     {
         $user = User::create([
             'username' => $request->validated('username'),

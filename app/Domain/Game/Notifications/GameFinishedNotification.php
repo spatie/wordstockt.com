@@ -49,7 +49,7 @@ class GameFinishedNotification extends Notification implements ShouldQueue
 
         $opponent = $this->game->getOpponent($notifiable);
         $myScore = $this->game->getPlayerScore($notifiable);
-        $opponentScore = $opponent instanceof \App\Domain\User\Models\User ? $this->game->getPlayerScore($opponent) : 0;
+        $opponentScore = $opponent instanceof User ? $this->game->getPlayerScore($opponent) : 0;
 
         if ($this->game->isWinner($notifiable)) {
             return "You beat {$opponent?->username}! Final: {$myScore} - {$opponentScore}";

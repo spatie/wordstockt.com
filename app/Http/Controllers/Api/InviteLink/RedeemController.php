@@ -14,7 +14,7 @@ class RedeemController
         Request $request,
         string $code,
         RedeemGameInviteLinkAction $redeemInviteLinkAction,
-    ): \App\Http\Resources\GameResource {
+    ): GameResource {
         $link = GameInviteLink::where('code', $code)->first();
 
         if (! $link) {

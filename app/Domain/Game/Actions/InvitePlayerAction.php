@@ -53,7 +53,7 @@ class InvitePlayerAction
     {
         $existingInvitation = $this->findDeclinedInvitation($game, $invitedUser);
 
-        if ($existingInvitation instanceof \App\Domain\User\Models\GameInvitation) {
+        if ($existingInvitation instanceof GameInvitation) {
             $existingInvitation->update(['status' => InvitationStatus::Pending]);
 
             return $existingInvitation;

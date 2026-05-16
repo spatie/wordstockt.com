@@ -5,17 +5,19 @@ use App\Domain\Game\Exceptions\InvalidMoveException;
 use App\Domain\User\Exceptions\FriendException;
 use App\Http\Middleware\BlockGuestAccess;
 use App\Http\Middleware\GuestGameLimit;
+use App\Providers\RateLimiterServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\LaravelFlare\Facades\Flare;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([
-        App\Providers\RateLimiterServiceProvider::class,
+        RateLimiterServiceProvider::class,
     ])
     ->withCommands([
         __DIR__.'/../app/Domain/Game/Commands',
@@ -43,7 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        \Spatie\LaravelFlare\Facades\Flare::handles($exceptions);
+        Flare::handles($exceptions);
 
         $exceptions->render(function (ThrottleRequestsException $exception, Request $request) {
             if (! $request->expectsJson()) {

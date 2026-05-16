@@ -5,6 +5,7 @@ use App\Domain\Game\Models\Game;
 use App\Domain\Game\Support\Board;
 use App\Domain\Game\Support\Scoring\Rules\LetterScoreRule;
 use App\Domain\Game\Support\Scoring\Rules\WordLengthBonusRule;
+use App\Domain\Game\Support\Scoring\ScoringContext;
 use App\Domain\Game\Support\Scoring\ScoringEngine;
 use App\Domain\Game\Support\Scoring\ScoringResult;
 
@@ -348,7 +349,7 @@ function createCustomBoardTemplateWithStarCenter(): array
 /**
  * Create a scoring context with a specific number of tiles.
  */
-function createScoringContextWithTileCount(int $count): \App\Domain\Game\Support\Scoring\ScoringContext
+function createScoringContextWithTileCount(int $count): ScoringContext
 {
     $tiles = [];
     $word = '';

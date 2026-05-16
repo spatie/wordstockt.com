@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api\Friend;
 use App\Domain\User\Actions\Friend\CreateFriendAction;
 use App\Http\Requests\User\StoreFriendRequest;
 use App\Http\Resources\FriendResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreController
 {
-    public function __invoke(StoreFriendRequest $request): \Symfony\Component\HttpFoundation\Response
+    public function __invoke(StoreFriendRequest $request): Response
     {
         $friend = app(CreateFriendAction::class)->execute(
             $request->user(),

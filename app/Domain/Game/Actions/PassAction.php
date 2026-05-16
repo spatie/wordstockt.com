@@ -8,6 +8,7 @@ use App\Domain\Game\Events\MovePlayed;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\Move;
 use App\Domain\Game\Notifications\YourTurnNotification;
+use App\Domain\Game\Support\Rules\EndGame\EndGameRule;
 use App\Domain\Game\Support\Rules\RuleEngine;
 use App\Domain\User\Models\User;
 
@@ -58,7 +59,7 @@ class PassAction
     {
         $endGameRule = $ruleEngine->checkEndGame($game->fresh());
 
-        if ($endGameRule instanceof \App\Domain\Game\Support\Rules\EndGame\EndGameRule) {
+        if ($endGameRule instanceof EndGameRule) {
             app(EndGameAction::class)->execute($game);
 
             return;

@@ -60,7 +60,7 @@ readonly class RuleEngine
     {
         return $this->turnRules
             ->filter(fn (TurnRule $rule): bool => $rule->isEnabled())
-            ->map(fn (TurnRule $rule): \App\Domain\Game\Support\Rules\RuleResult => $rule->validate($game, $move, $board))
+            ->map(fn (TurnRule $rule): RuleResult => $rule->validate($game, $move, $board))
             ->filter(fn (RuleResult $result): bool => $result->failed())
             ->values();
     }
@@ -72,7 +72,7 @@ readonly class RuleEngine
     {
         return $this->gameRules
             ->filter(fn (GameRule $rule): bool => $rule->isEnabled())
-            ->map(fn (GameRule $rule): \App\Domain\Game\Support\Rules\RuleResult => $rule->isActionAllowed($game, $user, $action))
+            ->map(fn (GameRule $rule): RuleResult => $rule->isActionAllowed($game, $user, $action))
             ->filter(fn (RuleResult $result): bool => $result->failed())
             ->values();
     }

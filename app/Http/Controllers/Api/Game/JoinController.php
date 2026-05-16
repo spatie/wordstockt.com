@@ -9,7 +9,7 @@ use App\Http\Resources\GameResource;
 
 class JoinController
 {
-    public function __invoke(JoinRequest $request, Game $game): \App\Http\Resources\GameResource
+    public function __invoke(JoinRequest $request, Game $game): GameResource
     {
         $game = app(JoinGameAction::class)->execute($game, $request->user());
 

@@ -13,7 +13,7 @@ class AcceptController
         Request $request,
         GameInvitation $invitation,
         AcceptInvitationAction $acceptInvitationAction,
-    ): \App\Http\Resources\GameResource {
+    ): GameResource {
         $game = $acceptInvitationAction->execute($invitation, $request->user());
 
         return new GameResource($game);

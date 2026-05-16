@@ -7,7 +7,7 @@ use App\Http\Resources\UserStatsResource;
 
 class StatsController
 {
-    public function __invoke(User $user): \App\Http\Resources\UserStatsResource
+    public function __invoke(User $user): UserStatsResource
     {
         $user->load('statistics');
 

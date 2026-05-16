@@ -14,6 +14,7 @@ use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Models\Move;
 use App\Domain\Game\Notifications\YourTurnNotification;
 use App\Domain\Game\Support\Board;
+use App\Domain\Game\Support\Rules\EndGame\EndGameRule;
 use App\Domain\Game\Support\Rules\RuleEngine;
 use App\Domain\Game\Support\Scoring\ScoringEngine;
 use App\Domain\Game\Support\Scoring\ScoringResult;
@@ -188,7 +189,7 @@ class PlayMoveAction
     {
         $endGameRule = $ruleEngine->checkEndGame($game->fresh());
 
-        if ($endGameRule instanceof \App\Domain\Game\Support\Rules\EndGame\EndGameRule) {
+        if ($endGameRule instanceof EndGameRule) {
             app(EndGameAction::class)->execute($game);
 
             return;

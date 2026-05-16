@@ -1,5 +1,7 @@
 <?php
 
+use App\Domain\Game\Models\Game;
+use App\Domain\Game\Models\GamePlayer;
 use App\Domain\User\Models\User;
 use Laravel\Sanctum\Sanctum;
 
@@ -36,8 +38,8 @@ it('blocks guest from accessing user stats', function (): void {
 
 it('blocks guest from sending game invitations', function (): void {
     $guest = User::factory()->guest()->create();
-    $game = \App\Domain\Game\Models\Game::factory()->create();
-    \App\Domain\Game\Models\GamePlayer::factory()->create([
+    $game = Game::factory()->create();
+    GamePlayer::factory()->create([
         'game_id' => $game->id,
         'user_id' => $guest->id,
         'turn_order' => 1,

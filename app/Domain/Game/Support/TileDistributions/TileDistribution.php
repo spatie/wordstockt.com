@@ -16,7 +16,7 @@ abstract class TileDistribution
             ->reject(fn (array $info, string $letter): bool => $letter === '*')
             ->flatMap(fn (array $info, string $letter) => collect()
                 ->range(1, $info['count'])
-                ->map(fn (): \App\Domain\Game\Support\Tile => new Tile(
+                ->map(fn (): Tile => new Tile(
                     letter: $letter,
                     points: $info['points'],
                     isBlank: false,

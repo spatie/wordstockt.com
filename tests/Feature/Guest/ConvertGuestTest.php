@@ -4,6 +4,7 @@ use App\Domain\Game\Enums\GameStatus;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
 use App\Domain\User\Models\User;
+use App\Domain\User\Notifications\VerifyEmailNotification;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 
@@ -141,5 +142,5 @@ it('sends verification email after conversion', function (): void {
         'password_confirmation' => 'password123',
     ]);
 
-    Notification::assertSentTo($guest->refresh(), \App\Domain\User\Notifications\VerifyEmailNotification::class);
+    Notification::assertSentTo($guest->refresh(), VerifyEmailNotification::class);
 });

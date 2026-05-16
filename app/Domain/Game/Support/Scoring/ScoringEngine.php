@@ -58,7 +58,7 @@ readonly class ScoringEngine
         return $this->rules
             ->filter(fn (ScoringRule $rule): bool => $rule->isEnabled())
             ->reduce(
-                fn (ScoringResult $result, ScoringRule $rule): \App\Domain\Game\Support\Scoring\ScoringResult => $rule->apply($context, $result),
+                fn (ScoringResult $result, ScoringRule $rule): ScoringResult => $rule->apply($context, $result),
                 ScoringResult::empty()
             );
     }
