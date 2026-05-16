@@ -24,7 +24,7 @@ Rules are organized into categories based on when they apply:
 |----------|--------------|----------|
 | **Turn Rules** | During tile placement validation | Line placement, connection, gaps |
 | **Game Rules** | During game actions | Swap limits, pass rules, rack size |
-| **Scoring Rules** | After valid move | Multipliers, bingo bonus |
+| **Scoring Rules** | After valid move | Multipliers, tiles played bonus |
 | **End Game Rules** | Game termination check | Empty rack, consecutive passes |
 
 ---
@@ -229,16 +229,20 @@ English letter values:
 - Each cross-word scores independently
 - Cross-words also get multipliers from newly placed tiles
 
-### 6. Bingo Bonus Rule
-**Using all 7 tiles in one turn earns a bonus.**
+### 6. Tiles Played Bonus Rule
+**Playing more tiles in one turn earns a sliding bonus.**
 
-- Bonus: +50 points
-- Must place exactly 7 tiles from rack
-- Added after all word scores calculated
+- 2 tiles: +3, 3 tiles: +6, 4 tiles: +12, 5 tiles: +25, 6 tiles: +50, 7 tiles: +100
+- Using all 7 tiles is called a "bingo" and earns the top +100 bonus
+- There is no separate flat bingo scoring bonus. The reward for a bingo is the +100 tiles played bonus
+- A bingo still unlocks the "Bingo!" achievement and increments the player's bingo count, detected from the seven placed tiles
 
-**Configurable:**
-- `bingo_bonus`: Points for 7-tile play (default: 50)
-- `bingo_tile_count`: Tiles required for bonus (default: 7)
+### 7. Word Extension Bonus Rule
+**Extending an existing word by at least 2 letters earns a bonus based on the original word's length.**
+
+- Requires at least 2 existing tiles and at least 2 newly placed tiles in the same word
+- Bonus scales with the original word length (2 letters: +10, up to 13+ letters: +100)
+- Only the single best extension in the turn is awarded
 
 ---
 
@@ -702,7 +706,7 @@ class SwapLimitRule implements GameRule
 }
 ```
 
-### Example Scoring Rule: Bingo Bonus
+### Example Scoring Rule: Tiles Played Bonus
 
 ```php
 <?php
@@ -711,26 +715,30 @@ namespace App\Rules\Scoring;
 
 use App\Domain\Game\Data\Move;use App\Domain\Game\Data\Score;use App\Domain\Game\Models\Game;use App\Rules\Contracts\ScoringRuleInterface;
 
-class BingoBonusRule implements ScoringRuleInterface
+class TilesPlayedBonusRule implements ScoringRuleInterface
 {
-    public function __construct(
-        private int $bonusPoints = 50,
-        private int $requiredTiles = 7,
-    ) {}
+    private array $bonusByTileCount = [
+        2 => 3,
+        3 => 6,
+        4 => 12,
+        5 => 25,
+        6 => 50,
+        7 => 100,
+    ];
 
     public function getIdentifier(): string
     {
-        return 'bingo_bonus';
+        return 'tiles_played_bonus';
     }
 
     public function getName(): string
     {
-        return 'Bingo Bonus';
+        return 'Tiles Played Bonus';
     }
 
     public function getDescription(): string
     {
-        return 'Earn ' . $this->bonusPoints . ' bonus points for using all ' . $this->requiredTiles . ' tiles.';
+        return 'Earn a sliding bonus based on how many tiles you play in one turn.';
     }
 
     public function isEnabled(Game $game): bool
@@ -740,11 +748,13 @@ class BingoBonusRule implements ScoringRuleInterface
 
     public function calculateScore(Game $game, Move $move, Score $currentScore): Score
     {
-        if (count($move->tiles) === $this->requiredTiles) {
-            return $currentScore->addBonus($this->bonusPoints, 'bingo');
+        $bonus = $this->bonusByTileCount[count($move->tiles)] ?? 0;
+
+        if ($bonus === 0) {
+            return $currentScore;
         }
 
-        return $currentScore;
+        return $currentScore->addBonus($bonus, 'tiles_played');
     }
 }
 ```
@@ -943,7 +953,7 @@ class RuleServiceProvider extends ServiceProvider
             $engine->addScoringRule(new LetterMultiplierRule());
             $engine->addScoringRule(new WordMultiplierRule());
             $engine->addScoringRule(new CrossWordScoringRule());
-            $engine->addScoringRule(new BingoBonusRule(bonusPoints: 50));
+            $engine->addScoringRule(new TilesPlayedBonusRule());
 
             // End Game Rules
             $engine->addEndGameRule(new EmptyRackRule());
@@ -991,7 +1001,7 @@ app/
 │   │   ├── LetterMultiplierRule.php
 │   │   ├── WordMultiplierRule.php
 │   │   ├── CrossWordScoringRule.php
-│   │   └── BingoBonusRule.php
+│   │   └── TilesPlayedBonusRule.php
 │   ├── EndGame/
 │   │   ├── EmptyRackRule.php
 │   │   ├── ConsecutivePassRule.php
@@ -1013,7 +1023,6 @@ app/
 // More forgiving rules for casual play
 $engine->addGameRule(new SwapLimitRule(maxSwaps: null, minimumBagTiles: 1));
 $engine->addEndGameRule(new ConsecutivePassRule(passLimit: 6));
-$engine->addScoringRule(new BingoBonusRule(bonusPoints: 35));
 ```
 
 ### Speed Game Variant

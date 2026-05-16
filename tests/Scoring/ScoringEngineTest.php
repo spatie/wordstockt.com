@@ -3,7 +3,6 @@
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Support\Board;
-use App\Domain\Game\Support\Scoring\Rules\BingoBonusRule;
 use App\Domain\Game\Support\Scoring\Rules\EndGameBonusRule;
 use App\Domain\Game\Support\Scoring\Rules\LetterScoreRule;
 use App\Domain\Game\Support\Scoring\Rules\ScoringRule;
@@ -31,16 +30,14 @@ it('returns self for chaining when adding rules', function (): void {
 it('can add multiple rules', function (): void {
     $engine = (new ScoringEngine)
         ->addRule(new LetterScoreRule)
-        ->addRule(new BingoBonusRule)
         ->addRule(new WordLengthBonusRule);
 
-    expect($engine->getRules())->toHaveCount(3);
+    expect($engine->getRules())->toHaveCount(2);
 });
 
 it('applies all rules in order when calculating move score', function (): void {
     $engine = (new ScoringEngine)
         ->addRule(new LetterScoreRule)
-        ->addRule(new BingoBonusRule)
         ->addRule(new WordLengthBonusRule);
 
     $game = Mockery::mock(Game::class);
@@ -59,11 +56,10 @@ it('applies all rules in order when calculating move score', function (): void {
 
     // Letter score: 6 regular A's (6 pts) + 1 DL at (11,7) (2 pts) = 8
     // DW at (7,7) = 8 * 2 = 16
-    // Bingo bonus: +50
     // Tiles played bonus: 7 tiles = +100
     expect($result->getWordsTotal())->toBe(16)
-        ->and($result->getBonusTotal())->toBe(150)
-        ->and($result->getTotal())->toBe(166);
+        ->and($result->getBonusTotal())->toBe(100)
+        ->and($result->getTotal())->toBe(116);
 });
 
 it('skips disabled rules when calculating move score', function (): void {
@@ -161,7 +157,6 @@ it('handles missing points key in rack tiles', function (): void {
 it('correctly calculates a complex move score', function (): void {
     $engine = (new ScoringEngine)
         ->addRule(new LetterScoreRule)
-        ->addRule(new BingoBonusRule)
         ->addRule(new WordLengthBonusRule)
         ->addRule(new EndGameBonusRule);
 

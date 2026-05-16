@@ -37,7 +37,7 @@
 - [x] Letter point values (Dutch & English)
 - [x] Letter multipliers (DL, TL)
 - [x] Word multipliers (DW, TW)
-- [x] Bingo bonus (+50 for 7 tiles)
+- [x] Tiles played bonus (sliding, +100 for 7 tiles / bingo)
 - [x] End game penalties
 
 #### Dictionary

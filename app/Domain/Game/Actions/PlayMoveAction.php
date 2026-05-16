@@ -17,6 +17,7 @@ use App\Domain\Game\Support\Board;
 use App\Domain\Game\Support\Rules\RuleEngine;
 use App\Domain\Game\Support\Scoring\ScoringEngine;
 use App\Domain\Game\Support\Scoring\ScoringResult;
+use App\Domain\Game\Support\Tile;
 use App\Domain\Game\Support\TileBag;
 use App\Domain\Support\Models\Dictionary;
 use App\Domain\User\Models\User;
@@ -112,10 +113,12 @@ class PlayMoveAction
     {
         $tileBag = TileBag::fromArray($game->tile_bag);
 
-        $drawnTiles = $tileBag->draw(count($tiles));
+        $keptTiles = $gamePlayer->removeTilesFromRack($tiles);
+
+        $drawnTiles = $tileBag->drawForRack(array_map(Tile::fromArray(...), $keptTiles), count($tiles));
         $drawnTiles = $this->maybeGiveBlank($drawnTiles, $gamePlayer, $tileBag);
 
-        $newRack = collect($gamePlayer->removeTilesFromRack($tiles))
+        $newRack = collect($keptTiles)
             ->merge(TileBag::tilesToArray($drawnTiles))
             ->all();
 

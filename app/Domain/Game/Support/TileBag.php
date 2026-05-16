@@ -54,6 +54,53 @@ class TileBag
         return $drawn;
     }
 
+    private const array VOWELS = ['A', 'E', 'I', 'O', 'U'];
+
+    /**
+     * @param  array<int, Tile>  $keptTiles
+     * @return array<int, Tile>
+     */
+    public function drawForRack(array $keptTiles, int $count): array
+    {
+        $drawn = $this->draw($count);
+
+        if (! $this->rackIsLopsided([...$keptTiles, ...$drawn])) {
+            return $drawn;
+        }
+
+        $this->returnTiles($drawn);
+
+        return $this->draw($count);
+    }
+
+    /** @param array<int, Tile> $rack */
+    private function rackIsLopsided(array $rack): bool
+    {
+        if ($rack === []) {
+            return false;
+        }
+
+        if ($this->rackContainsBlank($rack)) {
+            return false;
+        }
+
+        $hasVowel = collect($rack)->contains(fn (Tile $tile): bool => $this->isVowel($tile));
+        $hasConsonant = collect($rack)->contains(fn (Tile $tile): bool => ! $this->isVowel($tile));
+
+        return ! ($hasVowel && $hasConsonant);
+    }
+
+    /** @param array<int, Tile> $rack */
+    private function rackContainsBlank(array $rack): bool
+    {
+        return collect($rack)->contains(fn (Tile $tile): bool => $tile->isBlank);
+    }
+
+    private function isVowel(Tile $tile): bool
+    {
+        return in_array($tile->letter, self::VOWELS, true);
+    }
+
     /** @return array<int, array{letter: string, points: int, is_blank: bool}> */
     public function drawAsArrays(int $count): array
     {

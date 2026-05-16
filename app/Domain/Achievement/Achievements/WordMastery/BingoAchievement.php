@@ -34,7 +34,7 @@ class BingoAchievement implements MoveTriggerableAchievement
         Game $game,
         ScoringResult $scoringResult,
     ): ?AchievementContext {
-        if (! $scoringResult->hasBonus('scoring.bingo_bonus')) {
+        if (! $this->isBingo($move)) {
             return null;
         }
 
@@ -42,5 +42,10 @@ class BingoAchievement implements MoveTriggerableAchievement
             'score' => $move->score,
             'words' => $move->words,
         ]);
+    }
+
+    private function isBingo(Move $move): bool
+    {
+        return count($move->tiles ?? []) >= 7;
     }
 }

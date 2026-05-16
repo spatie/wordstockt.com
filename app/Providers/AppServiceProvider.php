@@ -21,7 +21,6 @@ use App\Domain\Game\Support\Rules\Turn\LinePlacementRule;
 use App\Domain\Game\Support\Rules\Turn\NoGapsRule;
 use App\Domain\Game\Support\Rules\Turn\TilesInRackRule;
 use App\Domain\Game\Support\Rules\Turn\WordValidationRule;
-use App\Domain\Game\Support\Scoring\Rules\BingoBonusRule;
 use App\Domain\Game\Support\Scoring\Rules\EndGameBonusRule;
 use App\Domain\Game\Support\Scoring\Rules\LetterScoreRule;
 use App\Domain\Game\Support\Scoring\Rules\WordLengthBonusRule;
@@ -57,7 +56,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(ScoringEngine::class, fn () => (new ScoringEngine)
             ->addRule(new LetterScoreRule)
-            ->addRule(new BingoBonusRule)
             ->addRule(new WordLengthBonusRule)
             ->addRule(new EndGameBonusRule));
     }

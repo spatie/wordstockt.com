@@ -76,7 +76,7 @@ class UpdateMoveStatsAction
         $stats->total_words_played += $wordScores->count();
         $stats->total_points_scored += $moveScore;
 
-        if ($scoringResult->hasBonus('bingo_bonus')) {
+        if (count($tiles) >= 7) {
             $stats->bingos_count++;
         }
 

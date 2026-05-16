@@ -69,7 +69,7 @@ class CreateGameAction
             'has_received_blank' => false,
         ]);
 
-        $tiles = $tileBag->draw(7);
+        $tiles = $tileBag->drawForRack([], 7);
         $tiles = $this->maybeGiveBlank($tiles, $gamePlayer, $tileBag);
         $gamePlayer->setRackTiles(TileBag::tilesToArray($tiles));
     }

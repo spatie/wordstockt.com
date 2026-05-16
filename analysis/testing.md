@@ -45,7 +45,7 @@ tests/
 │       │   ├── NoGapsRuleTest.php
 │       │   └── ConnectionRuleTest.php
 │       └── Scoring/
-│           └── BingoBonusRuleTest.php
+│           └── WordLengthBonusRuleTest.php
 └── TestCase.php
 ```
 
@@ -299,7 +299,7 @@ class ScoringServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_adds_bingo_bonus_for_seven_tiles(): void
+    public function it_adds_tiles_played_bonus_for_seven_tiles(): void
     {
         $tiles = array_map(fn($i) => [
             'letter' => 'A',
@@ -312,8 +312,8 @@ class ScoringServiceTest extends TestCase
 
         $score = $this->scoringService->calculateScore($tiles, [], $boardTemplate);
 
-        $this->assertEquals(57, $score['total']); // 7 + 50 bonus
-        $this->assertEquals(50, $score['bonus']);
+        $this->assertEquals(107, $score['total']); // 7 + 100 tiles played bonus
+        $this->assertEquals(100, $score['bonus']);
     }
 
     private function getEmptyTemplate(): array

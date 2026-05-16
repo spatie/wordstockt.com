@@ -114,20 +114,42 @@ it('tracks highest scoring move', function (): void {
     expect($stats->highest_scoring_move)->toBe(75);
 });
 
-it('counts bingos', function (): void {
+it('counts a bingo when all 7 tiles are played', function (): void {
+    $tiles = [];
+    for ($i = 0; $i < 7; $i++) {
+        $tiles[] = ['letter' => 'A', 'points' => 1, 'x' => $i, 'y' => 7, 'is_blank' => false];
+    }
+
     $move = Move::factory()->create([
         'game_id' => $this->game->id,
         'user_id' => $this->user->id,
         'score' => 100,
-        'tiles' => [],
+        'tiles' => $tiles,
     ]);
 
-    $scoringResult = ScoringResult::empty()->addBonus('bingo_bonus', 50, 'Bingo!');
-
-    $this->action->execute($this->user, $move, $this->game, $scoringResult);
+    $this->action->execute($this->user, $move, $this->game, ScoringResult::empty());
 
     $stats = UserStatistics::where('user_id', $this->user->id)->first();
     expect($stats->bingos_count)->toBe(1);
+});
+
+it('does not count a bingo for fewer than 7 tiles', function (): void {
+    $tiles = [];
+    for ($i = 0; $i < 6; $i++) {
+        $tiles[] = ['letter' => 'A', 'points' => 1, 'x' => $i, 'y' => 7, 'is_blank' => false];
+    }
+
+    $move = Move::factory()->create([
+        'game_id' => $this->game->id,
+        'user_id' => $this->user->id,
+        'score' => 30,
+        'tiles' => $tiles,
+    ]);
+
+    $this->action->execute($this->user, $move, $this->game, ScoringResult::empty());
+
+    $stats = UserStatistics::where('user_id', $this->user->id)->first();
+    expect($stats->bingos_count)->toBe(0);
 });
 
 it('counts blank tiles played', function (): void {

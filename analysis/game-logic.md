@@ -120,8 +120,9 @@ Word Score = Σ(letter_points × letter_multiplier) × word_multiplier
 4. Apply word multipliers (DW, TW) to newly placed tiles
 5. **Multipliers stack**: If placing on multiple DW cells, multiply accordingly
 
-#### Bingo Bonus
-- **+50 points** for using all 7 tiles in one turn
+#### Tiles Played Bonus
+- Sliding bonus by tiles played in the turn: 2 = +3, 3 = +6, 4 = +12, 5 = +25, 6 = +50, 7 = +100
+- Using all 7 tiles (a "bingo") earns the top **+100** bonus. There is no separate flat bingo bonus
 
 #### Example Score Calculation
 ```
