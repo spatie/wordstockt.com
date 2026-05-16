@@ -5,6 +5,7 @@ use App\Domain\Support\Models\Dictionary;
 use App\Domain\User\Models\User;
 use App\Mail\WordRejectedMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 it('emails the requester and clears the pending request when rejected', function (): void {
     Mail::fake();
@@ -54,4 +55,56 @@ it('does nothing and does not error when no row exists', function (): void {
 
     Mail::assertNotSent(WordRejectedMail::class);
     expect(Dictionary::where('word', 'ONBEKEND')->exists())->toBeFalse();
+});
+
+it('can reject a word via signed url', function (): void {
+    Mail::fake();
+
+    $requester = User::factory()->create();
+
+    Dictionary::create([
+        'language' => 'nl',
+        'word' => 'TESTWOORD',
+        'is_valid' => false,
+        'requested_by_user_id' => $requester->id,
+    ]);
+
+    $url = URL::signedRoute('dictionary.reject-word', [
+        'word' => 'TESTWOORD',
+        'language' => 'nl',
+    ]);
+
+    $response = $this->get($url);
+
+    $response->assertOk();
+    $response->assertViewIs('dictionary.action-confirmed');
+    $response->assertViewHas('action', 'rejected');
+    $response->assertViewHas('word', 'TESTWOORD');
+    $response->assertViewHas('language', 'nl');
+
+    Mail::assertSent(WordRejectedMail::class, fn (WordRejectedMail $mail) => $mail->hasTo($requester->email));
+});
+
+it('cannot reject a word without a valid signature', function (): void {
+    $response = $this->get('/dictionary/reject-word?word=TESTWOORD&language=nl');
+
+    $response->assertForbidden();
+});
+
+it('rejects an invalid language with 422', function (): void {
+    $url = URL::signedRoute('dictionary.reject-word', [
+        'word' => 'TESTWOORD',
+        'language' => 'de',
+    ]);
+
+    $this->get($url)->assertStatus(422);
+});
+
+it('rejects a word shorter than two characters with 422', function (): void {
+    $url = URL::signedRoute('dictionary.reject-word', [
+        'word' => 'A',
+        'language' => 'nl',
+    ]);
+
+    $this->get($url)->assertStatus(422);
 });

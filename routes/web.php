@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Dictionary\AddWordController;
 use App\Http\Controllers\Api\Dictionary\DismissReportController;
 use App\Http\Controllers\Api\Dictionary\InvalidateController;
+use App\Http\Controllers\Api\Dictionary\RejectWordController;
 use App\Http\Controllers\AppleAppSiteAssociationController;
 use App\Http\Controllers\AssetLinksController;
 use App\Http\Controllers\Web\InviteLinkRedirectController;
@@ -30,4 +31,5 @@ Route::middleware('signed')->group(function () {
     Route::get('/dictionary/{dictionary}/invalidate', InvalidateController::class)->name('dictionary.invalidate');
     Route::get('/dictionary/{dictionary}/dismiss', DismissReportController::class)->name('dictionary.dismiss');
     Route::get('/dictionary/add-word', AddWordController::class)->name('dictionary.add-word');
+    Route::get('/dictionary/reject-word', RejectWordController::class)->name('dictionary.reject-word');
 });
