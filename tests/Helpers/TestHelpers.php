@@ -5,6 +5,7 @@ use App\Domain\Game\Enums\GameStatus;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Support\Board;
+use App\Domain\Game\Support\Scoring\ScoringContext;
 use App\Domain\User\Models\User;
 
 if (function_exists('createEmptyBoard')) {
@@ -170,24 +171,24 @@ function createScoringContext(
     array $words = [],
     array $placedTiles = [],
     ?Game $game = null,
-): \App\Domain\Game\Support\Scoring\ScoringContext {
-    if (! $game instanceof \App\Domain\Game\Models\Game) {
+): ScoringContext {
+    if (! $game instanceof Game) {
         $game = Mockery::mock(Game::class);
         $game->shouldReceive('getAttribute')->with('board_template')->andReturn(null);
     }
 
-    return \App\Domain\Game\Support\Scoring\ScoringContext::forMove(
+    return ScoringContext::forMove(
         game: $game,
         words: $words,
         placedTiles: $placedTiles,
-        board: new \App\Domain\Game\Support\Board,
+        board: new Board,
     );
 }
 
 /**
  * Create a ScoringContext with a single word for testing.
  */
-function createScoringContextWithWord(string $word, int $startX = 7, int $startY = 7): \App\Domain\Game\Support\Scoring\ScoringContext
+function createScoringContextWithWord(string $word, int $startX = 7, int $startY = 7): ScoringContext
 {
     $tiles = collect(str_split($word))
         ->map(fn (string $letter, int $index): array => [
@@ -240,7 +241,7 @@ function createExtendedWordContext(
     bool $extendAtEnd = true,
     int $startX = 7,
     int $startY = 7,
-): \App\Domain\Game\Support\Scoring\ScoringContext {
+): ScoringContext {
     $existingTiles = [];
     $newTiles = [];
     $allTiles = [];

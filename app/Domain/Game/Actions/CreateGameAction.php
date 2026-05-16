@@ -51,7 +51,7 @@ class CreateGameAction
         $game->update(['tile_bag' => $tileBag->toArray()]);
 
         // If opponent is specified, create an invitation for them
-        if ($opponent instanceof \App\Domain\User\Models\User) {
+        if ($opponent instanceof User) {
             app(InvitePlayerAction::class)->execute($game, $opponent);
         }
 

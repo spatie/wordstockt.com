@@ -8,7 +8,7 @@ use App\Http\Resources\GameInviteLinkResource;
 
 class ShowController
 {
-    public function __invoke(string $code): \App\Http\Resources\GameInviteLinkResource
+    public function __invoke(string $code): GameInviteLinkResource
     {
         $link = GameInviteLink::where('code', $code)->first();
 

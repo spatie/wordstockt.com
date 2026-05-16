@@ -2,13 +2,14 @@
 
 use App\Domain\Game\Enums\MoveType;
 use App\Domain\Game\Events\MovePlayed;
+use App\Domain\Game\Models\Move;
 use App\Domain\User\Models\User;
 use Illuminate\Support\Facades\Event;
 
 it('MovePlayed event has correct structure', function (): void {
     $user = User::factory()->create();
     $game = createGameWithPlayers(player1: $user);
-    $move = \App\Domain\Game\Models\Move::factory()->create([
+    $move = Move::factory()->create([
         'game_id' => $game->id,
         'user_id' => $user->id,
         'type' => MoveType::Play,
@@ -71,7 +72,7 @@ it('broadcasts to game channel and opponent user channel', function (): void {
     $opponent = User::factory()->create();
     $game = createGameWithPlayers(player1: $user, player2: $opponent);
 
-    $event = new MovePlayed($game, $game->moves()->first() ?? new \App\Domain\Game\Models\Move, $user);
+    $event = new MovePlayed($game, $game->moves()->first() ?? new Move, $user);
     $channels = $event->broadcastOn();
 
     expect($channels)->toHaveCount(2)
@@ -83,7 +84,7 @@ it('broadcasts with correct event name', function (): void {
     $user = User::factory()->create();
     $game = createGameWithPlayers(player1: $user);
 
-    $event = new MovePlayed($game, new \App\Domain\Game\Models\Move, $user);
+    $event = new MovePlayed($game, new Move, $user);
 
     expect($event->broadcastAs())->toBe('move.played');
 });
@@ -92,7 +93,7 @@ it('includes game and move data in broadcast payload', function (): void {
     $user = User::factory()->create();
     $game = createGameWithPlayers(player1: $user);
 
-    $move = \App\Domain\Game\Models\Move::factory()->create([
+    $move = Move::factory()->create([
         'game_id' => $game->id,
         'user_id' => $user->id,
         'type' => MoveType::Play,

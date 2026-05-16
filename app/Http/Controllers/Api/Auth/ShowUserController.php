@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ShowUserController
 {
-    public function __invoke(Request $request): \App\Http\Resources\UserResource
+    public function __invoke(Request $request): UserResource
     {
         return new UserResource($request->user());
     }

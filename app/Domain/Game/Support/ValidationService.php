@@ -10,6 +10,7 @@ use App\Domain\Game\Data\TileStatus;
 use App\Domain\Game\Data\ValidatedWord;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Support\Rules\RuleEngine;
+use App\Domain\Game\Support\Rules\RuleResult;
 use App\Domain\Game\Support\Scoring\ScoringEngine;
 use App\Domain\Support\Models\Dictionary;
 use Illuminate\Support\Collection;
@@ -70,7 +71,7 @@ readonly class ValidationService
         return $this->ruleEngine->getTurnRules()
             ->reject(fn ($rule): bool => in_array($rule->getIdentifier(), self::SKIP_RULES, true))
             ->filter(fn ($rule): bool => $rule->isEnabled())
-            ->map(fn ($rule): \App\Domain\Game\Support\Rules\RuleResult => $rule->validate($game, $move, $board))
+            ->map(fn ($rule): RuleResult => $rule->validate($game, $move, $board))
             ->filter(fn ($result): bool => $result->failed())
             ->map(fn ($result): string => $result->message)
             ->values();
@@ -82,7 +83,7 @@ readonly class ValidationService
     private function buildPlacementErrorResult(Move $move, Collection $errors): PlacementValidationResult
     {
         $tileStatus = collect($move->tiles)
-            ->map(fn (array $tile): \App\Domain\Game\Data\TileStatus => new TileStatus($tile['x'], $tile['y'], valid: false));
+            ->map(fn (array $tile): TileStatus => new TileStatus($tile['x'], $tile['y'], valid: false));
 
         return new PlacementValidationResult(
             placementValid: false,
@@ -98,7 +99,7 @@ readonly class ValidationService
     private function validateWords(array $formedWords, string $language): Collection
     {
         return collect($formedWords)
-            ->map(fn (array $wordData): \App\Domain\Game\Data\ValidatedWord => new ValidatedWord(
+            ->map(fn (array $wordData): ValidatedWord => new ValidatedWord(
                 word: $wordData['word'],
                 valid: Dictionary::isValidWord($wordData['word'], $language),
                 tiles: collect($wordData['tiles'])
@@ -113,7 +114,7 @@ readonly class ValidationService
     private function calculateTileStatus(Move $move, Collection $validatedWords): Collection
     {
         return collect($move->tiles)
-            ->map(fn (array $tile): \App\Domain\Game\Data\TileStatus => new TileStatus(
+            ->map(fn (array $tile): TileStatus => new TileStatus(
                 x: $tile['x'],
                 y: $tile['y'],
                 valid: $this->isTileValid($tile['x'], $tile['y'], $validatedWords),

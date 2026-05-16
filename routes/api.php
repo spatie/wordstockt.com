@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AchievementController;
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Dictionary;
 use App\Http\Controllers\Api\Friend;
@@ -77,7 +78,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
     Route::get('invite-links/{code}', InviteLink\ShowController::class);
     Route::post('invite-links/{code}/redeem', InviteLink\RedeemController::class);
 
-    Route::get('achievements', \App\Http\Controllers\Api\AchievementController::class)->middleware('guest.block');
+    Route::get('achievements', AchievementController::class)->middleware('guest.block');
 
     Route::post('dictionary/report', Dictionary\ReportController::class);
     Route::get('dictionary/lookup', Dictionary\LookupController::class);

@@ -8,7 +8,7 @@ use App\Http\Resources\GameResource;
 
 class ShowController
 {
-    public function __invoke(ShowRequest $request, Game $game): \App\Http\Resources\GameResource
+    public function __invoke(ShowRequest $request, Game $game): GameResource
     {
         return new GameResource(
             $game->load(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user', 'pendingInvitation.invitee'])

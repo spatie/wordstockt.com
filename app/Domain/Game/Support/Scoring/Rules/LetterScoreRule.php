@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Game\Support\Scoring\Rules;
 
+use App\Domain\Game\Enums\SquareType;
 use App\Domain\Game\Support\Scoring\ScoringContext;
 use App\Domain\Game\Support\Scoring\ScoringResult;
 
@@ -51,7 +52,7 @@ class LetterScoreRule extends ScoringRule
 
         $squareType = $context->board->getSquareType($tile['x'], $tile['y'], $context->game->board_template);
 
-        if (! $squareType instanceof \App\Domain\Game\Enums\SquareType) {
+        if (! $squareType instanceof SquareType) {
             return $this->tileResult($letterPoints);
         }
 

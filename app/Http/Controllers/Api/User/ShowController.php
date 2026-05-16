@@ -7,7 +7,7 @@ use App\Http\Resources\UserPublicResource;
 
 class ShowController
 {
-    public function __invoke(User $user): \App\Http\Resources\UserPublicResource
+    public function __invoke(User $user): UserPublicResource
     {
         return new UserPublicResource($user);
     }

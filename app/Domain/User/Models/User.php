@@ -196,7 +196,7 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
     {
         return $this->pushTokens
             ->pluck('token')
-            ->map(fn (string $token): \NotificationChannels\Expo\ExpoPushToken => ExpoPushToken::make($token))
+            ->map(fn (string $token): ExpoPushToken => ExpoPushToken::make($token))
             ->all();
     }
 

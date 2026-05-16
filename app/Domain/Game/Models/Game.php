@@ -325,7 +325,7 @@ class Game extends Model
     {
         $expiresAt = $this->getTurnExpiresAt();
 
-        if (! $expiresAt instanceof \Illuminate\Support\Carbon) {
+        if (! $expiresAt instanceof Carbon) {
             return null;
         }
 

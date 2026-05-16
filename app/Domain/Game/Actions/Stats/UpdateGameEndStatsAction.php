@@ -81,7 +81,7 @@ class UpdateGameEndStatsAction
 
     private function updateWinLossDraw(UserStatistics $stats, User $user, ?User $winner): void
     {
-        if (! $winner instanceof \App\Domain\User\Models\User) {
+        if (! $winner instanceof User) {
             $stats->games_draw++;
 
             return;
@@ -195,7 +195,7 @@ class UpdateGameEndStatsAction
      */
     private function updateEloRatings(Game $game, Collection $gamePlayers, ?User $winner): void
     {
-        if (! $winner instanceof \App\Domain\User\Models\User) {
+        if (! $winner instanceof User) {
             return;
         }
 
@@ -273,7 +273,7 @@ class UpdateGameEndStatsAction
         $h2h2->total_score_for += $player2->score;
         $h2h2->total_score_against += $player1->score;
 
-        if (! $winner instanceof \App\Domain\User\Models\User) {
+        if (! $winner instanceof User) {
             $h2h1->draws++;
             $h2h2->draws++;
         } elseif ($winner->id === $player1->user_id) {

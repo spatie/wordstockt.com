@@ -13,7 +13,7 @@ class StoreController
         Request $request,
         Game $game,
         CreateGameInviteLinkAction $createInviteLinkAction,
-    ): \App\Http\Resources\GameInviteLinkResource {
+    ): GameInviteLinkResource {
         $link = $createInviteLinkAction->execute($game, $request->user());
 
         return new GameInviteLinkResource($link->load(['game', 'inviter']));

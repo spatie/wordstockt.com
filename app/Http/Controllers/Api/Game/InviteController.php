@@ -10,7 +10,7 @@ use App\Http\Resources\GameInvitationResource;
 
 class InviteController
 {
-    public function __invoke(InviteRequest $request, Game $game): \App\Http\Resources\GameInvitationResource
+    public function __invoke(InviteRequest $request, Game $game): GameInvitationResource
     {
         $invitedUser = User::where('ulid', $request->validated('user_ulid'))->firstOrFail();
 
