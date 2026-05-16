@@ -31,6 +31,19 @@
                     <span class="font-semibold" style="color: var(--color-text-primary);">{{ $word }}</span>
                     ({{ $language }}) has been added to the dictionary.
                 </p>
+            @elseif($action === 'rejected')
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background: rgba(239, 68, 68, 0.15);">
+                    <svg class="w-8 h-8" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+
+                <h1 class="text-2xl font-bold mb-3">Word Rejected</h1>
+
+                <p style="color: var(--color-text-secondary); font-size: 1.125rem;">
+                    <span class="font-semibold" style="color: var(--color-text-primary);">{{ $word }}</span>
+                    ({{ $language }}) has not been added to the dictionary.
+                </p>
             @else
                 <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background: rgba(34, 197, 94, 0.15);">
                     <svg class="w-8 h-8" style="color: #22c55e;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
