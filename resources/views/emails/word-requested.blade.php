@@ -13,4 +13,8 @@ A user has requested a word to be added to the dictionary.
 Add Word
 </x-mail::button>
 
+<x-mail::button :url="URL::signedRoute('dictionary.reject-word', ['word' => $word, 'language' => $language])" color="error">
+Reject Word
+</x-mail::button>
+
 </x-mail::message>

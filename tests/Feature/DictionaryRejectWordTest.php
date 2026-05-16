@@ -4,6 +4,7 @@ use App\Domain\Support\Actions\RejectWordAdditionAction;
 use App\Domain\Support\Models\Dictionary;
 use App\Domain\User\Models\User;
 use App\Mail\WordRejectedMail;
+use App\Mail\WordRequestedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -107,4 +108,28 @@ it('rejects a word shorter than two characters with 422', function (): void {
     ]);
 
     $this->get($url)->assertStatus(422);
+});
+
+it('shows the rejected confirmation page', function (): void {
+    Mail::fake();
+
+    $url = URL::signedRoute('dictionary.reject-word', [
+        'word' => 'ONBEKEND',
+        'language' => 'nl',
+    ]);
+
+    $response = $this->get($url);
+
+    $response->assertOk();
+    $response->assertSee('Word Rejected');
+    $response->assertSee('ONBEKEND');
+});
+
+it('renders a reject button in the admin request mail', function (): void {
+    $requester = User::factory()->create();
+
+    $rendered = (new WordRequestedMail('TESTWOORD', 'nl', $requester))->render();
+
+    expect($rendered)->toContain('/dictionary/reject-word');
+    expect($rendered)->toContain('Reject Word');
 });
