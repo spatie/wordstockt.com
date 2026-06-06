@@ -251,7 +251,11 @@ class Game extends Model
 
     public function isMultiplayer(): bool
     {
-        return $this->gamePlayers()->count() > 2;
+        $playerCount = $this->relationLoaded('gamePlayers')
+            ? $this->gamePlayers->count()
+            : $this->gamePlayers()->count();
+
+        return $playerCount > 2;
     }
 
     /**

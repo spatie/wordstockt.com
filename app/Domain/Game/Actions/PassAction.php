@@ -6,6 +6,7 @@ use App\Domain\Game\Enums\GameAction;
 use App\Domain\Game\Enums\MoveType;
 use App\Domain\Game\Events\MovePlayed;
 use App\Domain\Game\Models\Game;
+use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Models\Move;
 use App\Domain\Game\Notifications\YourTurnNotification;
 use App\Domain\Game\Support\Rules\EndGame\EndGameRule;
@@ -34,7 +35,7 @@ class PassAction
         $gamePlayer = $game->getGamePlayer($user);
         $gamePlayer->increment('consecutive_passes');
 
-        $this->advanceAfterPass($game, $user, $ruleEngine);
+        $this->advanceAfterPass($game, $user, $gamePlayer, $ruleEngine);
 
         $freshGame = $game->fresh(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user']);
 
@@ -60,11 +61,9 @@ class PassAction
         $nextPlayer->notify(new YourTurnNotification($game, $move, $currentPlayer));
     }
 
-    private function advanceAfterPass(Game $game, User $user, RuleEngine $ruleEngine): void
+    private function advanceAfterPass(Game $game, User $user, GamePlayer $gamePlayer, RuleEngine $ruleEngine): void
     {
-        $gamePlayer = $game->getGamePlayer($user);
-
-        if ($game->isMultiplayer() && $gamePlayer->fresh()->consecutive_passes >= 2) {
+        if ($game->isMultiplayer() && $gamePlayer->consecutive_passes >= 2) {
             app(RemovePlayerAction::class)->execute($game->fresh(), $user, 'removed');
 
             return;

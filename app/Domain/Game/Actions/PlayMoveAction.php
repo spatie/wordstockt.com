@@ -26,7 +26,7 @@ use Illuminate\Support\Lottery;
 
 class PlayMoveAction
 {
-    private const EMPTY_RACK_BONUS = 25;
+    private int $emptyRackBonus = 25;
 
     public function execute(Game $game, User $user, array $tiles): Move
     {
@@ -49,10 +49,9 @@ class PlayMoveAction
 
         $tileBag = $this->refillPlayerRack($game, $gamePlayer, $tiles);
 
-        // Grant empty rack bonus immediately when player clears rack with empty bag
         if ($bagWasEmpty && empty($gamePlayer->rack_tiles)) {
-            $score += self::EMPTY_RACK_BONUS;
-            $scoringResult->addBonus('empty_rack_bonus', self::EMPTY_RACK_BONUS, 'Cleared rack with empty bag');
+            $score += $this->emptyRackBonus;
+            $scoringResult->addBonus('empty_rack_bonus', $this->emptyRackBonus, 'Cleared rack with empty bag');
             $gamePlayer->update(['received_empty_rack_bonus' => true]);
         }
 

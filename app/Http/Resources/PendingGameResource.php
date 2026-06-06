@@ -15,7 +15,7 @@ class PendingGameResource extends JsonResource
             'language' => $this->language,
             'creator' => $this->players->first()?->username,
             'max_players' => $this->max_players,
-            'players_joined' => $this->gamePlayers->count(),
+            'players_joined' => $this->players->count(),
             'created_at' => $this->created_at,
         ];
     }

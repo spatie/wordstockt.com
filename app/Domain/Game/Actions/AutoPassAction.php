@@ -5,9 +5,11 @@ namespace App\Domain\Game\Actions;
 use App\Domain\Game\Enums\MoveType;
 use App\Domain\Game\Events\MovePlayed;
 use App\Domain\Game\Models\Game;
+use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Models\Move;
 use App\Domain\Game\Notifications\TurnTimedOutNotification;
 use App\Domain\Game\Notifications\YourTurnNotification;
+use App\Domain\Game\Support\Rules\EndGame\EndGameRule;
 use App\Domain\Game\Support\Rules\RuleEngine;
 use App\Domain\User\Models\User;
 
@@ -32,7 +34,7 @@ class AutoPassAction
         $gamePlayer = $game->getGamePlayer($timedOutUser);
         $gamePlayer->increment('consecutive_passes');
 
-        $this->advanceAfterPass($game, $timedOutUser);
+        $this->advanceAfterPass($game, $timedOutUser, $gamePlayer);
 
         $freshGame = $game->fresh(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user']);
 
@@ -60,11 +62,9 @@ class AutoPassAction
         $nextPlayer->notify(new YourTurnNotification($game, $move, $timedOutPlayer, isAutoPass: true));
     }
 
-    private function advanceAfterPass(Game $game, User $timedOutUser): void
+    private function advanceAfterPass(Game $game, User $timedOutUser, GamePlayer $gamePlayer): void
     {
-        $gamePlayer = $game->getGamePlayer($timedOutUser);
-
-        if ($game->isMultiplayer() && $gamePlayer->fresh()->consecutive_passes >= 2) {
+        if ($game->isMultiplayer() && $gamePlayer->consecutive_passes >= 2) {
             app(RemovePlayerAction::class)->execute($game->fresh(), $timedOutUser, 'removed');
 
             return;
@@ -78,7 +78,7 @@ class AutoPassAction
         $ruleEngine = app(RuleEngine::class);
         $endGameRule = $ruleEngine->checkEndGame($game->fresh());
 
-        if ($endGameRule) {
+        if ($endGameRule instanceof EndGameRule) {
             app(EndGameAction::class)->execute($game);
 
             return;
