@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Game;
 
+use App\Support\AppVersion;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreGameRequest extends FormRequest
 {
@@ -23,5 +25,23 @@ class StoreGameRequest extends FormRequest
             'is_public' => ['sometimes', 'boolean'],
             'max_players' => ['sometimes', 'integer', 'between:2,4'],
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator): void {
+            if ((int) $this->input('max_players', 2) <= 2) {
+                return;
+            }
+
+            if (AppVersion::supportsMultiplayer($this)) {
+                return;
+            }
+
+            $validator->errors()->add(
+                'max_players',
+                'Please update the app to create games with more than two players.'
+            );
+        });
     }
 }

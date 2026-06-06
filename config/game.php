@@ -19,4 +19,17 @@ return [
         'default_rating' => 1200,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Minimum app version for 3-4 player games
+    |--------------------------------------------------------------------------
+    |
+    | Clients below this version (or that don't send an X-App-Version header,
+    | i.e. the pre-multiplayer release) cannot create games with more than two
+    | players, and do not see 3-4 player games in the public games list.
+    |
+    */
+
+    'min_multiplayer_app_version' => env('MIN_MULTIPLAYER_APP_VERSION', '1.7.0'),
+
 ];
