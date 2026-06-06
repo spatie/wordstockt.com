@@ -11,6 +11,7 @@ use App\Domain\User\Models\EloHistory;
 use App\Domain\User\Models\User;
 use App\Domain\User\Models\UserStatistics;
 use App\Domain\User\Support\EloCalculator\EloCalculator;
+use App\Domain\User\Support\EloCalculator\MultiplayerEloCalculator;
 use Illuminate\Support\Collection;
 
 class UpdateGameEndStatsAction
@@ -26,10 +27,20 @@ class UpdateGameEndStatsAction
     {
         $gamePlayers = $game->gamePlayers()->with('user')->get();
 
-        if ($gamePlayers->count() !== 2) {
+        if ($gamePlayers->count() === 2) {
+            $this->updateTwoPlayerStats($game, $gamePlayers);
+
             return;
         }
 
+        $this->updateMultiplayerStats($game, $gamePlayers);
+    }
+
+    /**
+     * @param  Collection<int, GamePlayer>  $gamePlayers
+     */
+    private function updateTwoPlayerStats(Game $game, Collection $gamePlayers): void
+    {
         $winner = $game->winner;
 
         $this->updatePlayerStats($gamePlayers, $winner);
@@ -286,5 +297,110 @@ class UpdateGameEndStatsAction
 
         $h2h1->save();
         $h2h2->save();
+    }
+
+    /**
+     * @param  Collection<int, GamePlayer>  $gamePlayers
+     */
+    private function updateMultiplayerStats(Game $game, Collection $gamePlayers): void
+    {
+        $winner = $game->winner;
+
+        foreach ($gamePlayers as $gamePlayer) {
+            $stats = $this->getStats($gamePlayer->user);
+            $this->updateGameScore($stats, $gamePlayer->score);
+            $this->updateWinLossDraw($stats, $gamePlayer->user, $winner);
+            $this->updateWinStreak($stats, $gamePlayer->user, $winner);
+            $stats->save();
+        }
+
+        $this->updateMultiplayerElo($game, $gamePlayers);
+        $this->updateMultiplayerHeadToHead($gamePlayers);
+
+        $this->statsCache = [];
+    }
+
+    /**
+     * @param  Collection<int, GamePlayer>  $gamePlayers
+     */
+    private function updateMultiplayerElo(Game $game, Collection $gamePlayers): void
+    {
+        $calculator = app(MultiplayerEloCalculator::class);
+
+        $ratingsBefore = $gamePlayers->mapWithKeys(
+            fn (GamePlayer $gp): array => [$gp->user_id => $gp->user->elo_rating]
+        );
+
+        foreach ($gamePlayers as $gamePlayer) {
+            $matchups = $gamePlayers
+                ->reject(fn (GamePlayer $other): bool => $other->user_id === $gamePlayer->user_id)
+                ->map(fn (GamePlayer $other): array => [
+                    'elo' => $ratingsBefore[$other->user_id],
+                    'score' => $this->pairwiseScore($gamePlayer, $other),
+                ])
+                ->values()
+                ->all();
+
+            $before = $ratingsBefore[$gamePlayer->user_id];
+            $after = $before + $calculator->netChange($before, $matchups);
+
+            $this->recordEloChange($gamePlayer->user, $game, $before, $after);
+            $gamePlayer->user->update(['elo_rating' => $after]);
+            $this->updateEloExtremes($gamePlayer->user, $after);
+        }
+    }
+
+    private function pairwiseScore(GamePlayer $a, GamePlayer $b): float
+    {
+        if ($a->hasLeft() !== $b->hasLeft()) {
+            return $a->hasLeft() ? 0.0 : 1.0;
+        }
+
+        if ($a->score === $b->score) {
+            return 0.5;
+        }
+
+        return $a->score > $b->score ? 1.0 : 0.0;
+    }
+
+    /**
+     * @param  Collection<int, GamePlayer>  $gamePlayers
+     */
+    private function updateMultiplayerHeadToHead(Collection $gamePlayers): void
+    {
+        $players = $gamePlayers->values();
+
+        for ($i = 0; $i < $players->count(); $i++) {
+            for ($j = $i + 1; $j < $players->count(); $j++) {
+                $this->recordHeadToHeadPair($players[$i], $players[$j]);
+            }
+        }
+    }
+
+    private function recordHeadToHeadPair(GamePlayer $a, GamePlayer $b): void
+    {
+        $h2hA = HeadToHeadStats::firstOrCreate(['user_id' => $a->user_id, 'opponent_id' => $b->user_id]);
+        $h2hB = HeadToHeadStats::firstOrCreate(['user_id' => $b->user_id, 'opponent_id' => $a->user_id]);
+
+        $h2hA->total_score_for += $a->score;
+        $h2hA->total_score_against += $b->score;
+        $h2hB->total_score_for += $b->score;
+        $h2hB->total_score_against += $a->score;
+
+        $score = $this->pairwiseScore($a, $b);
+
+        if ($score === 0.5) {
+            $h2hA->draws++;
+            $h2hB->draws++;
+        } elseif ($score === 1.0) {
+            $h2hA->wins++;
+            $h2hB->losses++;
+        } else {
+            $h2hA->losses++;
+            $h2hB->wins++;
+        }
+
+        $h2hA->save();
+        $h2hB->save();
     }
 }
