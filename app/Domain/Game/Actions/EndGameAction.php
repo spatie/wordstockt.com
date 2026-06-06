@@ -20,11 +20,13 @@ class EndGameAction
 
         $this->applyEndGamePenalties($gamePlayers);
 
+        $gamePlayers = $game->gamePlayers()->with('user')->get();
+
         $winner = $this->determineWinner($gamePlayers);
 
         $game->update([
             'status' => GameStatus::Finished,
-            'winner_id' => $winner->user_id,
+            'winner_id' => $winner?->user_id,
         ]);
 
         $hasGuestPlayer = $gamePlayers->contains(fn ($gp) => $gp->user->isGuest());
@@ -58,9 +60,24 @@ class EndGameAction
         });
     }
 
-    private function determineWinner(Collection $gamePlayers): GamePlayer
+    private function determineWinner(Collection $gamePlayers): ?GamePlayer
     {
-        return $gamePlayers->sortByDesc('score')->first();
+        $contenders = $gamePlayers->reject(fn (GamePlayer $gamePlayer): bool => $gamePlayer->hasLeft());
+
+        if ($contenders->isEmpty()) {
+            $contenders = $gamePlayers;
+        }
+
+        $sorted = $contenders->sortByDesc('score')->values();
+        $top = $sorted->first();
+
+        $tiedForFirst = $sorted->filter(fn (GamePlayer $gamePlayer): bool => $gamePlayer->score === $top->score);
+
+        if ($tiedForFirst->count() > 1) {
+            return null;
+        }
+
+        return $top;
     }
 
     private function updatePlayerStats(Game $game): void

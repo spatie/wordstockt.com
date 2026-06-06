@@ -229,7 +229,7 @@ it('increments games won only for the winner', function (): void {
 |--------------------------------------------------------------------------
 */
 
-it('handles tie by selecting first player with highest score', function (): void {
+it('records a draw when both players tie for the highest score', function (): void {
     $scenario = createEndGameScenario(
         player1Score: 100,
         player2Score: 100,
@@ -239,12 +239,7 @@ it('handles tie by selecting first player with highest score', function (): void
 
     $this->action->execute($scenario->game);
 
-    // Both have empty racks, no penalties, scores stay at 100
-    // Winner should be one of them (implementation uses sortByDesc->first)
-    expect($scenario->game->fresh()->winner_id)->toBeIn([
-        $scenario->player1->id,
-        $scenario->player2->id,
-    ]);
+    expect($scenario->game->fresh()->winner_id)->toBeNull();
 });
 
 it('handles game where both players have empty racks', function (): void {
