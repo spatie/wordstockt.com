@@ -20,6 +20,24 @@ class ResignAction
         $ruleEngine = app(RuleEngine::class);
         $ruleEngine->validateActionOrFail($game, $user, GameAction::Resign);
 
+        if ($game->isMultiplayer()) {
+            $move = Move::create([
+                'game_id' => $game->id,
+                'user_id' => $user->id,
+                'tiles' => null,
+                'words' => null,
+                'score' => 0,
+                'type' => MoveType::Resign,
+            ]);
+
+            app(RemovePlayerAction::class)->execute($game->fresh(), $user, 'resigned');
+
+            $freshGame = $game->fresh(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user', 'players']);
+            broadcast(new MovePlayed($freshGame, $move, $user))->toOthers();
+
+            return $move;
+        }
+
         $move = Move::create([
             'game_id' => $game->id,
             'user_id' => $user->id,
