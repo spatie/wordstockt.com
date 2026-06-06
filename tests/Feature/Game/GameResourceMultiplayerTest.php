@@ -45,6 +45,29 @@ it('exposes every pending invitation in creation order on the game resource', fu
         ->and($array['pending_invitations'][1]['invitee']['username'])->toBe('jessica');
 });
 
+it('keeps the legacy opponent/opponent_score on the list resource for old app clients', function (): void {
+    $me = User::factory()->create();
+    $other = User::factory()->create(['username' => 'rival']);
+    $third = User::factory()->create();
+    $game = Game::factory()->active()->create(['max_players' => 3, 'current_turn_user_id' => $me->id]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $me->id, 'turn_order' => 1, 'score' => 10]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $other->id, 'turn_order' => 2, 'score' => 25]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $third->id, 'turn_order' => 3, 'score' => 5]);
+
+    $request = Request::create('/');
+    $request->setUserResolver(fn () => $me);
+    $array = (new GameListResource($game->fresh(['gamePlayers.user', 'players'])))->toArray($request);
+
+    // Legacy fields the production app's schema still requires.
+    expect($array['opponent'])->not->toBeNull()
+        ->and($array['opponent']['ulid'])->toBe($other->ulid)
+        ->and($array['opponent_score'])->toBe(25)
+        ->and($array['my_score'])->toBe(10)
+        // New multiplayer fields remain too.
+        ->and($array['players'])->toHaveCount(3)
+        ->and($array['max_players'])->toBe(3);
+});
+
 it('returns all players (not a single opponent) on the list resource', function (): void {
     $users = User::factory()->count(3)->create();
     $game = Game::factory()->active()->create(['max_players' => 3, 'current_turn_user_id' => $users[0]->id]);

@@ -13,11 +13,27 @@ class GameListResource extends JsonResource
         $user = $request->user();
         $myGamePlayer = $this->gamePlayers->firstWhere('user_id', $user->id);
 
+        // Backwards compatibility: clients on the pre-multiplayer app version
+        // require `opponent`/`opponent_score`. Keep emitting them (first other
+        // player) alongside the N-player `players` array so old apps keep
+        // parsing the games list.
+        $opponent = $this->players->firstWhere('id', '!=', $user->id);
+        $opponentGamePlayer = $opponent
+            ? $this->gamePlayers->firstWhere('user_id', $opponent->id)
+            : null;
+
         return [
             'ulid' => $this->ulid,
             'language' => $this->language,
             'status' => $this->status->value,
             'max_players' => $this->max_players,
+            'opponent' => $opponent ? [
+                'ulid' => $opponent->ulid,
+                'username' => $opponent->username,
+                'avatar' => $opponent->avatar,
+                'avatar_color' => $opponent->avatar_color,
+            ] : null,
+            'opponent_score' => $opponentGamePlayer?->score ?? 0,
             'players' => $this->gamePlayers
                 ->sortBy('turn_order')
                 ->values()
