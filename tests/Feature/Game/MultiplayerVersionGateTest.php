@@ -1,15 +1,15 @@
 <?php
 
-use App\Domain\Game\Enums\GameStatus;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
 use App\Domain\User\Models\User;
+use Illuminate\Testing\TestResponse;
 
 beforeEach(function (): void {
     config()->set('game.min_multiplayer_app_version', '1.7.0');
 });
 
-function createGameRequest(array $payload, array $headers = []): \Illuminate\Testing\TestResponse
+function createGameRequest(array $payload, array $headers = []): TestResponse
 {
     return test()->actingAs(User::factory()->create(), 'sanctum')
         ->withHeaders($headers)
