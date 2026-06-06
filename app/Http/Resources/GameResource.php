@@ -20,6 +20,7 @@ class GameResource extends JsonResource
             'status' => $this->status->value,
             'board' => $this->board_state,
             'board_template' => $this->board_template ?? app(Board::class)->getBoardTemplate(),
+            'max_players' => $this->max_players,
             'players' => $this->gamePlayers->map(fn ($gp): array => [
                 'ulid' => $gp->user->ulid,
                 'username' => $gp->user->username,
@@ -31,6 +32,9 @@ class GameResource extends JsonResource
                 'has_free_swap' => $gp->has_free_swap,
                 'has_received_blank' => $gp->has_received_blank,
                 'received_empty_rack_bonus' => $gp->received_empty_rack_bonus,
+                'turn_order' => $gp->turn_order,
+                'has_left' => $gp->hasLeft(),
+                'left_reason' => $gp->left_reason,
             ]),
             'my_rack' => $gamePlayer?->rack_tiles ?? [],
             'tiles_remaining' => count($this->tile_bag ?? []),

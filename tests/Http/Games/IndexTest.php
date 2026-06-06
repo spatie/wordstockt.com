@@ -19,7 +19,7 @@ it('returns user games', function (): void {
     $response->assertOk()
         ->assertJsonStructure([
             'data' => [
-                '*' => ['ulid', 'language', 'status', 'opponent', 'my_score', 'is_my_turn'],
+                '*' => ['ulid', 'language', 'status', 'max_players', 'players', 'my_score', 'is_my_turn'],
             ],
         ]);
 
@@ -58,8 +58,12 @@ it('includes opponent information', function (): void {
     $response = $this->actingAs($user, 'sanctum')
         ->getJson('/api/games');
 
-    $response->assertOk()
-        ->assertJsonPath('data.0.opponent.username', 'opponent');
+    $response->assertOk();
+
+    $opponentPlayer = collect($response->json('data.0.players'))->firstWhere('is_me', false);
+
+    expect($opponentPlayer['username'])->toBe('opponent')
+        ->and($opponentPlayer['ulid'])->toBe($opponent->ulid);
 });
 
 it('shows correct is_my_turn flag', function (): void {
