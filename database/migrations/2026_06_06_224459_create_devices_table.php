@@ -11,11 +11,11 @@ return new class() extends Migration
         Schema::create('devices', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('device_id');
-            $table->string('platform')->nullable();
-            $table->string('os_version')->nullable();
-            $table->string('model')->nullable();
-            $table->string('app_version')->nullable();
+            $table->string('device_id', 64);
+            $table->string('platform', 16)->nullable();
+            $table->string('os_version', 32)->nullable();
+            $table->string('model', 128)->nullable();
+            $table->string('app_version', 16)->nullable();
             $table->timestamp('last_seen_at')->nullable();
             $table->timestamps();
 

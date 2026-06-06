@@ -6,6 +6,7 @@ use App\Domain\User\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Testing\TestResponse;
 
+/** @param array<string, string> $headers */
 function authedRequestWithDeviceHeaders(User $user, array $headers): TestResponse
 {
     return test()->actingAs($user, 'sanctum')
@@ -40,6 +41,12 @@ it('does not record a device when no device id header is sent (old app)', functi
     $user = User::factory()->create();
 
     test()->actingAs($user, 'sanctum')->getJson('/api/auth/user')->assertSuccessful();
+
+    expect(Device::query()->count())->toBe(0);
+});
+
+it('does not record a device for an unauthenticated request', function () use ($deviceHeaders): void {
+    test()->withHeaders($deviceHeaders)->getJson('/api/auth/user')->assertUnauthorized();
 
     expect(Device::query()->count())->toBe(0);
 });

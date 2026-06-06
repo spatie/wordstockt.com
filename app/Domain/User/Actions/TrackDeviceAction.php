@@ -4,28 +4,29 @@ namespace App\Domain\User\Actions;
 
 use App\Domain\User\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TrackDeviceAction
 {
     public function execute(Request $request): void
     {
+        $deviceId = $this->boundedHeader($request, 'X-Device-Id', 64);
+
+        if (! $deviceId) {
+            return;
+        }
+
         $user = $request->user();
 
         if (! $user) {
             return;
         }
 
-        $deviceId = $request->header('X-Device-Id');
-
-        if (! $deviceId) {
-            return;
-        }
-
         $attributes = [
-            'platform' => $request->header('X-Platform'),
-            'os_version' => $request->header('X-OS-Version'),
-            'model' => $request->header('X-Device-Model'),
-            'app_version' => $request->header('X-App-Version'),
+            'platform' => $this->boundedHeader($request, 'X-Platform', 16),
+            'os_version' => $this->boundedHeader($request, 'X-OS-Version', 32),
+            'model' => $this->boundedHeader($request, 'X-Device-Model', 128),
+            'app_version' => $this->boundedHeader($request, 'X-App-Version', 16),
         ];
 
         $device = Device::query()->firstOrNew([
@@ -40,6 +41,17 @@ class TrackDeviceAction
         $device->fill($attributes);
         $device->last_seen_at = now();
         $device->save();
+    }
+
+    private function boundedHeader(Request $request, string $name, int $length): ?string
+    {
+        $value = $request->header($name);
+
+        if ($value === null) {
+            return null;
+        }
+
+        return Str::limit($value, $length, '');
     }
 
     /** @param array<string, ?string> $attributes */

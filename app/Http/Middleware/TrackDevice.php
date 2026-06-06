@@ -19,6 +19,6 @@ class TrackDevice
 
     public function terminate(Request $request, Response $response): void
     {
-        $this->trackDevice->execute($request);
+        rescue(fn () => $this->trackDevice->execute($request), report: false);
     }
 }
