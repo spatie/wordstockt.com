@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
         Route::get('{game}', Game\ShowController::class);
         Route::delete('{game}', Game\DestroyController::class);
         Route::post('{game}/join', Game\JoinController::class)->middleware('guest.game-limit');
+        Route::post('{game}/start', Game\StartController::class)->middleware('throttle:game-action');
         Route::post('{game}/invite', Game\InviteController::class)->middleware(['throttle:game-invite', 'guest.block']);
         Route::post('{game}/moves', Game\MoveController::class)->middleware('throttle:game-move');
         Route::post('{game}/validate', Game\ValidateController::class)->middleware('throttle:game-validate');

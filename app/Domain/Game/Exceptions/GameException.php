@@ -112,4 +112,19 @@ class GameException extends Exception
     {
         return new self('You already have 10 pending public games. Please wait for someone to join or delete some games.');
     }
+
+    public static function notEnoughPlayersToStart(): self
+    {
+        return new self('At least two players are needed to start the game.');
+    }
+
+    public static function gameAlreadyStarted(): self
+    {
+        return new self('This game has already started.');
+    }
+
+    public static function onlyCreatorCanStart(): self
+    {
+        return new self('Only the game creator can start the game.', 403);
+    }
 }
