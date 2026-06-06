@@ -27,14 +27,11 @@ class MovePlayed implements ShouldBroadcast
             new PrivateChannel('game.'.$this->game->ulid),
         ];
 
-        // Also notify the opponent via their user channel for list updates
-        $opponent = $this->game->gamePlayers
-            ->first(fn ($gp) => $gp->user_id !== $this->player->id)
-            ?->user;
-
-        if ($opponent) {
-            $channels[] = new PrivateChannel('user.'.$opponent->ulid);
-        }
+        $this->game->gamePlayers
+            ->reject(fn ($gp): bool => $gp->user_id === $this->player->id)
+            ->each(function ($gp) use (&$channels): void {
+                $channels[] = new PrivateChannel('user.'.$gp->user->ulid);
+            });
 
         return $channels;
     }
