@@ -39,7 +39,7 @@ class TurnReminderNotification extends Notification implements ShouldQueue
 
         return ExpoMessage::create()
             ->title($this->getTitle())
-            ->body($this->getBody($status))
+            ->body($this->getBody($notifiable, $status))
             ->data(['game_ulid' => $this->game->ulid])
             ->playSound();
     }
@@ -54,8 +54,14 @@ class TurnReminderNotification extends Notification implements ShouldQueue
         };
     }
 
-    private function getBody(string $status): string
+    private function getBody(User $notifiable, string $status): string
     {
+        $gamePlayer = $this->game->getGamePlayer($notifiable);
+
+        if ($this->game->isMultiplayer() && $gamePlayer && $gamePlayer->consecutive_passes >= 1) {
+            return 'Play now or you will be removed from the game if your turn times out again.';
+        }
+
         $opponentName = $this->opponent->username;
 
         $messages = $this->getStatusMessages($opponentName, $status);
