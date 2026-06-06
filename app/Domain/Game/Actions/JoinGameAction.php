@@ -2,11 +2,9 @@
 
 namespace App\Domain\Game\Actions;
 
-use App\Domain\Game\Enums\GameStatus;
 use App\Domain\Game\Exceptions\GameException;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
-use App\Domain\Game\Notifications\YourTurnNotification;
 use App\Domain\Game\Support\TileBag;
 use App\Domain\User\Models\User;
 use Illuminate\Support\Lottery;
@@ -23,12 +21,14 @@ class JoinGameAction
 
         $tileBag = TileBag::fromArray($game->tile_bag);
 
+        $turnOrder = $game->gamePlayers()->count() + 1;
+
         $gamePlayer = GamePlayer::create([
             'game_id' => $game->id,
             'user_id' => $user->id,
             'rack_tiles' => [],
             'score' => 0,
-            'turn_order' => 2,
+            'turn_order' => $turnOrder,
             'has_received_blank' => false,
         ]);
 
@@ -36,19 +36,13 @@ class JoinGameAction
         $tiles = $this->maybeGiveBlank($tiles, $gamePlayer, $tileBag);
         $gamePlayer->setRackTiles(TileBag::tilesToArray($tiles));
 
-        $firstPlayer = $game->gamePlayers()->get()->random();
-
-        $game->update([
-            'status' => GameStatus::Active,
-            'tile_bag' => $tileBag->toArray(),
-            'current_turn_user_id' => $firstPlayer->user_id,
-            'turn_expires_at' => now()->addHours(Game::turnTimeoutHours()),
-        ]);
+        $game->update(['tile_bag' => $tileBag->toArray()]);
 
         $freshGame = $game->fresh(['players', 'gamePlayers']);
 
-        $firstPlayerUser = User::find($freshGame->current_turn_user_id);
-        $firstPlayerUser->notify(new YourTurnNotification($freshGame));
+        if ($freshGame->gamePlayers()->count() >= $freshGame->max_players) {
+            return app(ActivateGameAction::class)->execute($freshGame);
+        }
 
         return $freshGame;
     }
