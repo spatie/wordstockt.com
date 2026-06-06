@@ -68,6 +68,11 @@ class GameException extends Exception
         return new self('This user already has a pending invitation. Wait for them to respond.');
     }
 
+    public static function noOpenSeats(): self
+    {
+        return new self('There are no open seats left in this game.');
+    }
+
     public static function invitationNotFound(): self
     {
         return new self('Invitation not found.', 404);

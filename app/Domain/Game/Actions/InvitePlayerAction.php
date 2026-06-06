@@ -38,6 +38,14 @@ class InvitePlayerAction
         if ($this->hasPendingInvitation($game, $invitedUser)) {
             throw GameException::invitationAlreadyExists();
         }
+
+        $openSeats = $game->max_players
+            - $game->gamePlayers()->count()
+            - $game->pendingInvitations()->count();
+
+        if ($openSeats <= 0) {
+            throw GameException::noOpenSeats();
+        }
     }
 
     private function hasPendingInvitation(Game $game, User $invitedUser): bool
