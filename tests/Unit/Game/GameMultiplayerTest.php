@@ -33,6 +33,22 @@ it('treats a max_players=4 game with only two players as a two-player game', fun
     expect($game->fresh()->isMultiplayer())->toBeFalse();
 });
 
+it('identifies the creator by turn order so they can still invite after others join', function (): void {
+    $game = Game::factory()->pending()->create(['max_players' => 3]);
+    // Joiner gets the lower users.id, so the unordered players()->first() would wrongly return them.
+    $joiner = User::factory()->create();
+    $creator = User::factory()->create();
+
+    GamePlayer::factory()->for($game)->create(['user_id' => $creator->id, 'turn_order' => 1]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $joiner->id, 'turn_order' => 2]);
+
+    $game = $game->fresh();
+
+    expect($game->isCreator($creator))->toBeTrue()
+        ->and($game->isCreator($joiner))->toBeFalse()
+        ->and($game->canBeInvitedToBy($creator))->toBeTrue();
+});
+
 it('lists other active players excluding self and left players', function (): void {
     $game = Game::factory()->create(['max_players' => 3]);
     $me = User::factory()->create();

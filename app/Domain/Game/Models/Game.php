@@ -195,13 +195,9 @@ class Game extends Model
 
     public function isCreator(User $user): bool
     {
-        $creator = $this->players()->first();
+        $creator = $this->gamePlayers()->orderBy('turn_order')->first();
 
-        if (! $creator) {
-            return false;
-        }
-
-        return $creator->id === $user->id;
+        return $creator?->user_id === $user->id;
     }
 
     public function hasRoomForMorePlayers(): bool
