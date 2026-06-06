@@ -13,6 +13,10 @@ class ConsecutivePassRule extends EndGameRule
 
     public function shouldEndGame(Game $game): bool
     {
+        if ($game->isMultiplayer()) {
+            return false;
+        }
+
         $recentMoves = $game->moves()
             ->latest()
             ->take($this->maxConsecutivePasses)
