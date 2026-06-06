@@ -29,3 +29,5 @@ Thumbs.db
 /.claude/*
 !/.claude/skills
 database.sqlite
+
+.superpowers/
