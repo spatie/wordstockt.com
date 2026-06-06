@@ -4,6 +4,7 @@ namespace App\Domain\Game\Models;
 
 use App\Domain\User\Models\User;
 use Database\Factories\GamePlayerFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,8 @@ class GamePlayer extends Model
             'has_free_swap' => 'boolean',
             'has_received_blank' => 'boolean',
             'received_empty_rack_bonus' => 'boolean',
+            'consecutive_passes' => 'integer',
+            'left_at' => 'datetime',
         ];
     }
 
@@ -44,6 +47,16 @@ class GamePlayer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function hasLeft(): bool
+    {
+        return $this->left_at !== null;
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->whereNull('left_at');
     }
 
     public function addScore(int $points): void
