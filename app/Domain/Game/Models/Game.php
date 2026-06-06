@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property Carbon|null $turn_expires_at
@@ -38,6 +39,7 @@ class Game extends Model
             'board_template' => 'array',
             'tile_bag' => 'array',
             'status' => GameStatus::class,
+            'max_players' => 'integer',
             'consecutive_passes' => 'integer',
             'turn_expires_at' => 'datetime',
             'is_public' => 'boolean',
@@ -100,6 +102,14 @@ class Game extends Model
     public function pendingInvitation(): HasOne
     {
         return $this->hasOne(GameInvitation::class)->where('status', 'pending');
+    }
+
+    /**
+     * @return HasMany<GameInvitation, $this>
+     */
+    public function pendingInvitations(): HasMany
+    {
+        return $this->hasMany(GameInvitation::class)->where('status', 'pending');
     }
 
     public function scopeForPlayer(Builder $query, User $user): Builder
@@ -166,7 +176,7 @@ class Game extends Model
             return false;
         }
 
-        return $this->gamePlayers()->count() < 2;
+        return $this->hasRoomForMorePlayers();
     }
 
     public function isCurrentTurn(User $user): bool
@@ -196,7 +206,7 @@ class Game extends Model
 
     public function hasRoomForMorePlayers(): bool
     {
-        return $this->gamePlayers()->count() < 2;
+        return $this->gamePlayers()->count() < $this->max_players;
     }
 
     public function canBeInvitedToBy(User $user): bool
@@ -237,6 +247,33 @@ class Game extends Model
         }
 
         return $this->players->first(fn (User $player): bool => $player->id !== $user->id);
+    }
+
+    public function isMultiplayer(): bool
+    {
+        return $this->max_players > 2;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function otherActivePlayers(User $user): Collection
+    {
+        return $this->gamePlayers()
+            ->active()
+            ->with('user')
+            ->get()
+            ->reject(fn (GamePlayer $gamePlayer): bool => $gamePlayer->user_id === $user->id)
+            ->map(fn (GamePlayer $gamePlayer): User => $gamePlayer->user)
+            ->values();
+    }
+
+    /**
+     * @return Collection<int, GamePlayer>
+     */
+    public function activeGamePlayers(): Collection
+    {
+        return $this->gamePlayers()->active()->orderBy('turn_order')->get();
     }
 
     public function getPlayerScore(User $user): int
