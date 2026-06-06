@@ -22,7 +22,15 @@ class GamePlayerFactory extends Factory
             'rack_tiles' => [],
             'score' => 0,
             'turn_order' => 1,
+            'consecutive_passes' => 0,
+            'left_at' => null,
+            'left_reason' => null,
         ];
+    }
+
+    public function left(string $reason = 'removed'): static
+    {
+        return $this->state(fn (): array => ['left_at' => now(), 'left_reason' => $reason]);
     }
 
     public function withRack(array $tiles): static

@@ -23,6 +23,7 @@ class GameFactory extends Factory
             'board_state' => (new Board)->createEmptyBoard(),
             'tile_bag' => [],
             'status' => GameStatus::Active,
+            'max_players' => 2,
             'current_turn_user_id' => null,
             'winner_id' => null,
             'consecutive_passes' => 0,
