@@ -56,6 +56,8 @@ class SwapTilesAction
             'consecutive_passes' => 0,
         ]);
 
+        $gamePlayer->update(['consecutive_passes' => 0]);
+
         $turnSwitched = false;
 
         if ($gamePlayer->has_free_swap) {

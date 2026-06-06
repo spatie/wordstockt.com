@@ -58,6 +58,8 @@ class PlayMoveAction
 
         $this->updatePlayerScore($gamePlayer, $score);
 
+        $gamePlayer->update(['consecutive_passes' => 0]);
+
         $move = $this->createMoveRecord($game, $user, $tiles, $words, $score, $scoringResult);
 
         $this->recordWordsPlayed($words, $game->language);
