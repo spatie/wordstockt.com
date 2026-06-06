@@ -97,10 +97,11 @@ No change needed: the standard bag (100 tiles) covers 4 racks of 7 (28) with mar
 - Replace single-opponent display with a compact multi-player summary (names/avatars of the other players; scores shown compactly, e.g. "You 197 · GE 289 · TO 176"). Handle multiple pending invitees ("Waiting for 2 players...").
 
 ### Creation and invitations
-- `CreateGameModal.tsx`: add a player-count selector (2/3/4) and allow selecting/inviting multiple opponents up to the count.
-- `InvitePlayerModal.tsx`: multi-select up to remaining open seats; for the creator, surface the **Start now** action when `pending` and ≥2 joined.
-- `src/api/queries/useGames.ts`: `CreateGameParams` gains `max_players` and `opponent_usernames: string[]` (replacing `opponent_username`).
-- `src/api/queries/useInvitations.ts`: support inviting multiple users (sequential calls are acceptable); add a start-game mutation.
+Invitations stay a **post-creation** step, exactly as today: the create sheet does not pick opponents; the game is created first and players are invited afterward from the pending game.
+- `CreateGameModal.tsx`: the only new control is a player-count selector (2/3/4), plus a one-line note that players are invited after creating. Picking 2 is byte-for-byte today's flow.
+- `InvitePlayerModal.tsx`: the existing modal, generalized — invite players one at a time until the open seats are filled (button flips to "Invited"; disabled when full), show a seat-progress indicator, and for the creator surface the **Start now** action when `pending` and ≥2 joined. No longer capped at a single invite.
+- `src/api/queries/useGames.ts`: `CreateGameParams` gains `max_players`. The existing optional `opponent_username` becomes `opponent_usernames?: string[]`, used only by the programmatic rematch path (not the create sheet).
+- `src/api/queries/useInvitations.ts`: allow inviting multiple users (sequential calls are fine); add a start-game mutation.
 - `src/hooks/useRematch.ts`: rematch recreates a game with the same roster and `max_players`.
 - `src/hooks/useFilteredGames.ts`: rename opponent-centric fields to player-centric; filtering logic (your-turn / their-turn / awaiting) stays the same shape.
 
