@@ -621,7 +621,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$current_turn_user_id\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: app/Http/Resources/GameListResource.php
 
 		-
@@ -643,13 +643,13 @@ parameters:
 			path: app/Http/Resources/GameListResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$pendingInvitation\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$max_players\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/GameListResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$players\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$pendingInvitation\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/GameListResource.php
@@ -681,7 +681,7 @@ parameters:
 		-
 			message: '#^Using nullsafe property access "\?\-\>score" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
-			count: 2
+			count: 1
 			path: app/Http/Resources/GameListResource.php
 
 		-
@@ -722,6 +722,12 @@ parameters:
 
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$latestMove\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameResource\:\:\$max_players\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/GameResource.php
@@ -937,7 +943,19 @@ parameters:
 			path: app/Http/Resources/PendingGameResource.php
 
 		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$gamePlayers\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PendingGameResource.php
+
+		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PendingGameResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PendingGameResource\:\:\$max_players\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/PendingGameResource.php

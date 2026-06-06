@@ -100,6 +100,41 @@ function createGameWithPlayers(
 }
 
 /**
+ * Create a game with N players for testing.
+ *
+ * @param  array<int, User>|null  $players
+ */
+function createGameWithNPlayers(
+    int $count,
+    ?array $players = null,
+    GameStatus $status = GameStatus::Active,
+    ?string $language = 'en',
+): Game {
+    $players ??= User::factory()->count($count)->create()->all();
+
+    $game = Game::factory()->create([
+        'status' => $status,
+        'language' => $language,
+        'max_players' => $count,
+        'current_turn_user_id' => $players[0]->id,
+        'board_state' => createEmptyBoard(),
+        'tile_bag' => createDefaultTileBag(),
+    ]);
+
+    foreach ($players as $i => $player) {
+        GamePlayer::factory()->create([
+            'game_id' => $game->id,
+            'user_id' => $player->id,
+            'turn_order' => $i + 1,
+            'rack_tiles' => createDefaultRack(),
+            'score' => 0,
+        ]);
+    }
+
+    return $game->fresh(['players', 'gamePlayers']);
+}
+
+/**
  * Create a default rack of tiles.
  */
 function createDefaultRack(): array
