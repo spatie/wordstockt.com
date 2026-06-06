@@ -46,6 +46,7 @@ class GameResource extends JsonResource
                 : null,
             'turn_expires_at' => $this->resource->getTurnExpiresAt()?->toISOString(),
             'pending_invitation' => $this->formatPendingInvitation(),
+            'pending_invitations' => $this->formatPendingInvitations(),
             'is_public' => $this->is_public,
             'can_join' => $this->resource->canBeJoinedBy($user),
         ];
@@ -72,6 +73,27 @@ class GameResource extends JsonResource
             return null;
         }
 
+        return $this->formatInvitation($invitation);
+    }
+
+    /**
+     * @return array<int, array{ulid: string, invitee: array{ulid: string, username: string, avatar: ?string, avatar_color: ?string}}>
+     */
+    private function formatPendingInvitations(): array
+    {
+        return $this->resource->pendingInvitations()
+            ->with('invitee')
+            ->orderBy('id')
+            ->get()
+            ->map(fn ($invitation): array => $this->formatInvitation($invitation))
+            ->all();
+    }
+
+    /**
+     * @return array{ulid: string, invitee: array{ulid: string, username: string, avatar: ?string, avatar_color: ?string}}
+     */
+    private function formatInvitation($invitation): array
+    {
         return [
             'ulid' => $invitation->ulid,
             'invitee' => [

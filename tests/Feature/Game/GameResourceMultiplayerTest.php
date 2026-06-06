@@ -2,6 +2,8 @@
 
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
+use App\Domain\User\Enums\InvitationStatus;
+use App\Domain\User\Models\GameInvitation;
 use App\Domain\User\Models\User;
 use App\Http\Resources\GameListResource;
 use App\Http\Resources\GameResource;
@@ -21,6 +23,26 @@ it('exposes max_players and per-player left state on the game resource', functio
     expect($array['max_players'])->toBe(3)
         ->and($array['players'])->toHaveCount(3)
         ->and(collect($array['players'])->firstWhere('ulid', $users[2]->ulid)['has_left'])->toBeTrue();
+});
+
+it('exposes every pending invitation in creation order on the game resource', function (): void {
+    $creator = User::factory()->create();
+    $marvin = User::factory()->create(['username' => 'marvin']);
+    $jessica = User::factory()->create(['username' => 'jessica']);
+
+    $game = Game::factory()->pending()->create(['max_players' => 4]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $creator->id, 'turn_order' => 1]);
+
+    GameInvitation::create(['game_id' => $game->id, 'inviter_id' => $creator->id, 'invitee_id' => $marvin->id, 'status' => InvitationStatus::Pending]);
+    GameInvitation::create(['game_id' => $game->id, 'inviter_id' => $creator->id, 'invitee_id' => $jessica->id, 'status' => InvitationStatus::Pending]);
+
+    $request = Request::create('/');
+    $request->setUserResolver(fn () => $creator);
+    $array = (new GameResource($game->fresh()))->toArray($request);
+
+    expect($array['pending_invitations'])->toHaveCount(2)
+        ->and($array['pending_invitations'][0]['invitee']['username'])->toBe('marvin')
+        ->and($array['pending_invitations'][1]['invitee']['username'])->toBe('jessica');
 });
 
 it('returns all players (not a single opponent) on the list resource', function (): void {
