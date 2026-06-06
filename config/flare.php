@@ -88,6 +88,19 @@ return [
 
     /*
         |--------------------------------------------------------------------------
+        | Log collection
+        |--------------------------------------------------------------------------
+        |
+        | When enabled, Flare collects log statements and sends them to Flare.
+        | This is the master switch for logging; without it the Flare log
+        | channel won't deliver anything.
+        |
+        */
+
+    'log' => true,
+
+    /*
+        |--------------------------------------------------------------------------
         | Report error levels
         |--------------------------------------------------------------------------
         | When reporting errors, you can specify which error levels should be
