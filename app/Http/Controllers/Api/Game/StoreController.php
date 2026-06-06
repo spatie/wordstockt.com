@@ -18,6 +18,7 @@ class StoreController
             $request->validated('board_type', 'standard'),
             $request->validated('board_template'),
             $request->boolean('is_public'),
+            (int) $request->validated('max_players', 2),
         );
 
         return GameResource::make($game)

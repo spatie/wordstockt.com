@@ -24,6 +24,7 @@ class CreateGameAction
         string $boardType = 'standard',
         ?array $customTemplate = null,
         bool $isPublic = false,
+        int $maxPlayers = 2,
     ): Game {
         if ($isPublic) {
             $this->ensureUserCanCreatePublicGame($creator);
@@ -44,6 +45,7 @@ class CreateGameAction
             'status' => GameStatus::Pending,
             'current_turn_user_id' => null,
             'is_public' => $isPublic,
+            'max_players' => $maxPlayers,
         ]);
 
         $this->addPlayer($game, $creator, $tileBag, turnOrder: 1);

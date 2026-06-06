@@ -21,6 +21,7 @@ class StoreGameRequest extends FormRequest
             'board_template.*' => ['array'],
             'board_template.*.*' => ['nullable', 'string', 'in:3W,2W,3L,2L,STAR'],
             'is_public' => ['sometimes', 'boolean'],
+            'max_players' => ['sometimes', 'integer', 'between:2,4'],
         ];
     }
 }
