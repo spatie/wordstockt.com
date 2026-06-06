@@ -29,7 +29,10 @@ class AutoPassAction
 
         $game->increment('consecutive_passes');
 
-        $this->handleEndGameOrSwitchTurn($game);
+        $gamePlayer = $game->getGamePlayer($timedOutUser);
+        $gamePlayer->increment('consecutive_passes');
+
+        $this->advanceAfterPass($game, $timedOutUser);
 
         $freshGame = $game->fresh(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user']);
 
@@ -53,6 +56,19 @@ class AutoPassAction
         if ($game->shouldNotifyPlayer($opponent)) {
             $opponent->notify(new YourTurnNotification($game, $move, $timedOutPlayer, isAutoPass: true));
         }
+    }
+
+    private function advanceAfterPass(Game $game, User $timedOutUser): void
+    {
+        $gamePlayer = $game->getGamePlayer($timedOutUser);
+
+        if ($game->isMultiplayer() && $gamePlayer->fresh()->consecutive_passes >= 2) {
+            app(RemovePlayerAction::class)->execute($game->fresh(), $timedOutUser, 'removed');
+
+            return;
+        }
+
+        $this->handleEndGameOrSwitchTurn($game);
     }
 
     private function handleEndGameOrSwitchTurn(Game $game): void

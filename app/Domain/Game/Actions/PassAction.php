@@ -31,7 +31,10 @@ class PassAction
 
         $game->increment('consecutive_passes');
 
-        $this->handleEndGameOrSwitchTurn($game, $ruleEngine);
+        $gamePlayer = $game->getGamePlayer($user);
+        $gamePlayer->increment('consecutive_passes');
+
+        $this->advanceAfterPass($game, $user, $ruleEngine);
 
         $freshGame = $game->fresh(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user']);
 
@@ -53,6 +56,19 @@ class PassAction
         if ($game->shouldNotifyPlayer($opponent)) {
             $opponent->notify(new YourTurnNotification($game, $move, $currentPlayer));
         }
+    }
+
+    private function advanceAfterPass(Game $game, User $user, RuleEngine $ruleEngine): void
+    {
+        $gamePlayer = $game->getGamePlayer($user);
+
+        if ($game->isMultiplayer() && $gamePlayer->fresh()->consecutive_passes >= 2) {
+            app(RemovePlayerAction::class)->execute($game->fresh(), $user, 'removed');
+
+            return;
+        }
+
+        $this->handleEndGameOrSwitchTurn($game, $ruleEngine);
     }
 
     private function handleEndGameOrSwitchTurn(Game $game, RuleEngine $ruleEngine): void
