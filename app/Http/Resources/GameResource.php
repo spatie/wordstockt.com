@@ -35,6 +35,7 @@ class GameResource extends JsonResource
                 'turn_order' => $gp->turn_order,
                 'has_left' => $gp->hasLeft(),
                 'left_reason' => $gp->left_reason,
+                'consecutive_passes' => $gp->consecutive_passes,
             ]),
             'my_rack' => $gamePlayer?->rack_tiles ?? [],
             'tiles_remaining' => count($this->tile_bag ?? []),
