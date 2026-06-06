@@ -34,5 +34,15 @@ jobs:
                   php artisan key:generate
                   touch database/database.sqlite
 
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+
+            - name: Build assets
+              run: |
+                  npm ci
+                  npm run build
+
             - name: Run tests
               run: ./vendor/bin/pest

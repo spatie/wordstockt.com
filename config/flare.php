@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\Level;
 use Spatie\FlareClient\Sampling\RateSampler;
 use Spatie\LaravelFlare\FlareConfig;
 
@@ -71,6 +72,19 @@ return [
         */
 
     'send_logs_as_events' => true,
+
+    /*
+        |--------------------------------------------------------------------------
+        | Minimal log level
+        |--------------------------------------------------------------------------
+        |
+        | Only log statements at this level or above will be sent to Flare. Set
+        | to `Level::Info` to capture informational messages and everything
+        | more severe.
+        |
+        */
+
+    'minimal_log_level' => Level::Info,
 
     /*
         |--------------------------------------------------------------------------

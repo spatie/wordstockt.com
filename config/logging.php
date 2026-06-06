@@ -65,6 +65,10 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'flare' => [
+            'driver' => 'flare',
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
