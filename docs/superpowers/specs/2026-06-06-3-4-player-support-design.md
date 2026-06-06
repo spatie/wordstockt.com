@@ -97,9 +97,11 @@ No change needed: the standard bag (100 tiles) covers 4 racks of 7 (28) with mar
 - Replace single-opponent display with a compact multi-player summary (names/avatars of the other players; scores shown compactly, e.g. "You 197 · GE 289 · TO 176"). Handle multiple pending invitees ("Waiting for 2 players...").
 
 ### Creation and invitations
-Invitations stay a **post-creation** step, exactly as today: the create sheet does not pick opponents; the game is created first and players are invited afterward from the pending game.
-- `CreateGameModal.tsx`: the only new control is a player-count selector (2/3/4), plus a one-line note that players are invited after creating. Picking 2 is byte-for-byte today's flow.
-- `InvitePlayerModal.tsx`: the existing modal, generalized — invite players one at a time until the open seats are filled (button flips to "Invited"; disabled when full), show a seat-progress indicator, and for the creator surface the **Start now** action when `pending` and ≥2 joined. No longer capped at a single invite.
+Inviting happens **on the game screen after creation**, exactly as today: you create the game, land on the board (shown immediately, even while pending), and invite from the empty seat(s) in the score bar (today's "Invite opponent +"). There is no create-time opponent picker and no separate invite screen flow.
+- `CreateGameModal.tsx`: the only new control is a player-count selector (2/3/4). Picking 2 is byte-for-byte today's flow.
+- **Score bar seat states (pending game)**: each non-self seat renders as one of — **filled** (joined player), **pending** (invited, greyed + "PENDING" tag), or **Invite +** (dashed placeholder that opens the existing player-picker modal to fill that seat). This generalizes today's single "Invite opponent +" to one affordance per open seat. The board renders immediately in pending state for every player count.
+- **Start now**: shown in the score-bar info row for the creator; disabled until ≥2 players have joined, active thereafter. If never tapped, the game auto-starts when the last seat fills.
+- `InvitePlayerModal.tsx`: the existing player-picker, opened from an empty seat; no longer capped at a single invite (can be opened again for each open seat; an already-invited user shows as "Invited").
 - `src/api/queries/useGames.ts`: `CreateGameParams` gains `max_players`. The existing optional `opponent_username` becomes `opponent_usernames?: string[]`, used only by the programmatic rematch path (not the create sheet).
 - `src/api/queries/useInvitations.ts`: allow inviting multiple users (sequential calls are fine); add a start-game mutation.
 - `src/hooks/useRematch.ts`: rematch recreates a game with the same roster and `max_players`.
