@@ -10,7 +10,7 @@ Broadcast::channel('game.{gameUlid}', function ($user, $gameUlid) {
         return false;
     }
 
-    return $game->hasPlayer($user);
+    return $game->canBeWatchedBy($user);
 });
 
 Broadcast::channel('user.{userUlid}', fn ($user, $userUlid): bool => $user->ulid === $userUlid);

@@ -218,6 +218,29 @@ class Game extends Model
         return $this->hasRoomForMorePlayers();
     }
 
+    /**
+     * Whether a user may watch this game (open it and receive its real-time
+     * updates). Backs both the view policy and the private-game broadcast
+     * channel, so the two never diverge: anyone who can open a game also gets
+     * its live updates, including a still-pending invitee.
+     */
+    public function canBeWatchedBy(User $user): bool
+    {
+        if ($this->hasPlayer($user)) {
+            return true;
+        }
+
+        $hasPendingInvitation = $this->pendingInvitations()
+            ->where('invitee_id', $user->id)
+            ->exists();
+
+        if ($hasPendingInvitation) {
+            return true;
+        }
+
+        return $this->isPublicAndPending();
+    }
+
     public function isLastMoveForPlayer(?User $user): bool
     {
         if (! $user) {

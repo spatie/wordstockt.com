@@ -3,7 +3,6 @@
 namespace App\Domain\Game\Policies;
 
 use App\Domain\Game\Models\Game;
-use App\Domain\User\Models\GameInvitation;
 use App\Domain\User\Models\User;
 
 class GamePolicy
@@ -15,24 +14,7 @@ class GamePolicy
             return true;
         }
 
-        if ($game->hasPlayer($user)) {
-            return true;
-        }
-
-        if ($this->hasPendingInvitation($user, $game)) {
-            return true;
-        }
-
-        return $game->isPublicAndPending();
-    }
-
-    private function hasPendingInvitation(User $user, Game $game): bool
-    {
-        return GameInvitation::query()
-            ->where('game_id', $game->id)
-            ->where('invitee_id', $user->id)
-            ->pending()
-            ->exists();
+        return $game->canBeWatchedBy($user);
     }
 
     public function create(User $user): bool
