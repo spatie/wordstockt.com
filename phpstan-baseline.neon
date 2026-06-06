@@ -1,22 +1,112 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to function is_array\(\) with non\-empty\-string\|null will always evaluate to false\.$#'
-			identifier: function.impossibleType
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\RayBundle\\Ray\.$#'
+			identifier: class.notFound
 			count: 1
-			path: app/Domain/Achievement/Achievements/WordMastery/TripleThreatAchievement.php
+			path: app/Console/Commands/RayDemo/MailCommand.php
 
 		-
-			message: "#^Offset 'letter' on \\*NEVER\\* in isset\\(\\) always exists and is not nullable\\.$#"
-			identifier: isset.offset
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\WordPressRay\\Ray\.$#'
+			identifier: class.notFound
 			count: 1
-			path: app/Domain/Achievement/Achievements/WordMastery/TripleThreatAchievement.php
+			path: app/Console/Commands/RayDemo/MailCommand.php
 
 		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\YiiRay\\Ray\.$#'
+			identifier: class.notFound
 			count: 1
-			path: app/Domain/Achievement/Achievements/WordMastery/TripleThreatAchievement.php
+			path: app/Console/Commands/RayDemo/MailCommand.php
+
+		-
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\RayBundle\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\WordPressRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\YiiRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method confetti\(\) on an unknown class Spatie\\RayBundle\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method confetti\(\) on an unknown class Spatie\\WordPressRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method confetti\(\) on an unknown class Spatie\\YiiRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method pause\(\) on an unknown class Spatie\\RayBundle\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method pause\(\) on an unknown class Spatie\\WordPressRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method pause\(\) on an unknown class Spatie\\YiiRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PauseCommand.php
+
+		-
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\RayBundle\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PerformanceCommand.php
+
+		-
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\WordPressRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PerformanceCommand.php
+
+		-
+			message: '#^Call to method clearAll\(\) on an unknown class Spatie\\YiiRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Commands/RayDemo/PerformanceCommand.php
+
+		-
+			message: '#^Call to method measure\(\) on an unknown class Spatie\\RayBundle\\Ray\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Console/Commands/RayDemo/PerformanceCommand.php
+
+		-
+			message: '#^Call to method measure\(\) on an unknown class Spatie\\WordPressRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Console/Commands/RayDemo/PerformanceCommand.php
+
+		-
+			message: '#^Call to method measure\(\) on an unknown class Spatie\\YiiRay\\Ray\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Console/Commands/RayDemo/PerformanceCommand.php
 
 		-
 			message: '#^Parameter \#2 \$inviter of method App\\Domain\\Game\\Actions\\InvitePlayerAction\:\:createInvitation\(\) expects App\\Domain\\User\\Models\\User, \(Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\)\|null given\.$#'
@@ -259,6 +349,18 @@ parameters:
 			path: app/Domain/Game/Support/ValidationService.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Support/Actions/AddWordToDictionaryAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Support/Actions/RejectWordAdditionAction.php
+
+		-
 			message: '#^Instanceof between array and NotificationChannels\\Expo\\ExpoError will always evaluate to false\.$#'
 			identifier: instanceof.alwaysFalse
 			count: 1
@@ -275,6 +377,114 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: app/Domain/User/Models/User.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Games/Tables/GamesTable.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Domain\\Game\\Models\\Game\:\:getPlayerScore\(\) expects App\\Domain\\User\\Models\\User, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Filament/Resources/Games/Tables/GamesTable.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Filament/Resources/Games/Tables/GamesTable.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''finished''\|''pending'' and App\\Domain\\Game\\Enums\\GameStatus\:\:Finished will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 2
+			path: app/Filament/Resources/Games/Tables/GamesTable.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>username" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Games/Tables/GamesTable.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tiles\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Users/Pages/ViewUserGame.php
+
+		-
+			message: '#^Property App\\Filament\\Resources\\Users\\Pages\\ViewUserGame\:\:\$game \(App\\Domain\\Game\\Models\\Game\|null\) does not accept Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Filament/Resources/Users/Pages/ViewUserGame.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>tiles" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Users/Pages/ViewUserGame.php
+
+		-
+			message: '#^Anonymous function never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Domain\\Game\\Models\\Game\:\:getOpponent\(\) expects App\\Domain\\User\\Models\\User, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Domain\\Game\\Models\\Game\:\:getPlayerScore\(\) expects App\\Domain\\User\\Models\\User, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Domain\\Game\\Models\\Game\:\:isCurrentTurn\(\) expects App\\Domain\\User\\Models\\User, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 3
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Domain\\Game\\Models\\Game\:\:isWinner\(\) expects App\\Domain\\User\\Models\\User, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''finished''\|''pending'' and App\\Domain\\Game\\Enums\\GameStatus\:\:Finished will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 2
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>username" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Users/RelationManagers/GamesRelationManager.php
+
+		-
+			message: '#^Call to function abort_unless\(\) with bool and 422 will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Http/Controllers/Api/Dictionary/AddWordController.php
+
+		-
+			message: '#^Call to function abort_unless\(\) with bool and 422 will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Http/Controllers/Api/Dictionary/RejectWordController.php
 
 		-
 			message: '#^Parameter \#1 \$board of method App\\Http\\Controllers\\Api\\Game\\WordInfoController\:\:findWordsAtPosition\(\) expects array, string given\.$#'
@@ -421,6 +631,12 @@ parameters:
 			path: app/Http/Resources/GameListResource.php
 
 		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$is_public\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/GameListResource.php
+
+		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$language\.$#'
 			identifier: property.notFound
 			count: 1
@@ -458,12 +674,6 @@ parameters:
 
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$winner\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/GameListResource.php
-
-		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\GameListResource\:\:\$is_public\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/GameListResource.php
@@ -649,6 +859,54 @@ parameters:
 			path: app/Http/Resources/LeaderboardResource.php
 
 		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$score\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$score_breakdown\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$tiles\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$ulid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MoveHistoryResource\:\:\$words\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MoveHistoryResource.php
+
+		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\MoveResource\:\:\$score\.$#'
 			identifier: property.notFound
 			count: 2
@@ -782,6 +1040,12 @@ parameters:
 
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\UserSearchResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserSearchResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserSearchResource\:\:\$avatar_color\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Resources/UserSearchResource.php
