@@ -12,11 +12,11 @@ class StartGameAction
     public function execute(Game $game, User $actor): Game
     {
         if (! $game->isPending()) {
-            throw GameException::gameAlreadyStarted();
+            throw GameException::gameNotPending();
         }
 
         if (! $game->isCreator($actor)) {
-            throw GameException::onlyCreatorCanStart();
+            throw GameException::notGameCreator();
         }
 
         if ($game->gamePlayers()->count() < 2) {

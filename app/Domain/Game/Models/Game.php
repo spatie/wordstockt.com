@@ -251,7 +251,7 @@ class Game extends Model
 
     public function isMultiplayer(): bool
     {
-        return $this->max_players > 2;
+        return $this->gamePlayers()->count() > 2;
     }
 
     /**

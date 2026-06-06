@@ -387,20 +387,29 @@ class UpdateGameEndStatsAction
         $h2hB->total_score_for += $b->score;
         $h2hB->total_score_against += $a->score;
 
-        $score = $this->pairwiseScore($a, $b);
-
-        if ($score === 0.5) {
-            $h2hA->draws++;
-            $h2hB->draws++;
-        } elseif ($score === 1.0) {
-            $h2hA->wins++;
-            $h2hB->losses++;
-        } else {
-            $h2hA->losses++;
-            $h2hB->wins++;
-        }
+        $this->applyPairwiseResult($h2hA, $h2hB, $this->pairwiseScore($a, $b));
 
         $h2hA->save();
         $h2hB->save();
+    }
+
+    private function applyPairwiseResult(HeadToHeadStats $h2hA, HeadToHeadStats $h2hB, float $score): void
+    {
+        if ($score === 0.5) {
+            $h2hA->draws++;
+            $h2hB->draws++;
+
+            return;
+        }
+
+        if ($score === 1.0) {
+            $h2hA->wins++;
+            $h2hB->losses++;
+
+            return;
+        }
+
+        $h2hA->losses++;
+        $h2hB->wins++;
     }
 }

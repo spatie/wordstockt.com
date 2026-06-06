@@ -122,14 +122,4 @@ class GameException extends Exception
     {
         return new self('At least two players are needed to start the game.');
     }
-
-    public static function gameAlreadyStarted(): self
-    {
-        return new self('This game has already started.');
-    }
-
-    public static function onlyCreatorCanStart(): self
-    {
-        return new self('Only the game creator can start the game.', 403);
-    }
 }

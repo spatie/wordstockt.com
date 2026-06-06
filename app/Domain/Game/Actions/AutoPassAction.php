@@ -51,11 +51,13 @@ class AutoPassAction
             return;
         }
 
-        $opponent = $game->getOpponent($timedOutPlayer);
+        $nextPlayer = $game->currentTurnUser;
 
-        if ($game->shouldNotifyPlayer($opponent)) {
-            $opponent->notify(new YourTurnNotification($game, $move, $timedOutPlayer, isAutoPass: true));
+        if (! $nextPlayer || $nextPlayer->id === $timedOutPlayer->id) {
+            return;
         }
+
+        $nextPlayer->notify(new YourTurnNotification($game, $move, $timedOutPlayer, isAutoPass: true));
     }
 
     private function advanceAfterPass(Game $game, User $timedOutUser): void

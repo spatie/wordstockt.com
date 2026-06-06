@@ -70,7 +70,7 @@ class PlayMoveAction
         $freshGame = $game->fresh(['gamePlayers.user', 'currentTurnUser', 'winner', 'latestMove.user']);
 
         broadcast(new MovePlayed($freshGame, $move, $user))->toOthers();
-        $this->notifyOpponent($freshGame, $move, $user);
+        $this->notifyNextPlayer($freshGame, $move, $user);
 
         if (! $user->isGuest()) {
             app(UpdateMoveStatsAction::class)->execute($user, $move, $freshGame, $scoringResult);
@@ -84,17 +84,19 @@ class PlayMoveAction
         return $move;
     }
 
-    private function notifyOpponent(Game $game, Move $move, User $currentPlayer): void
+    private function notifyNextPlayer(Game $game, Move $move, User $currentPlayer): void
     {
         if ($game->isFinished()) {
             return;
         }
 
-        $opponent = $game->getOpponent($currentPlayer);
+        $nextPlayer = $game->currentTurnUser;
 
-        if ($game->shouldNotifyPlayer($opponent)) {
-            $opponent->notify(new YourTurnNotification($game, $move, $currentPlayer));
+        if (! $nextPlayer || $nextPlayer->id === $currentPlayer->id) {
+            return;
         }
+
+        $nextPlayer->notify(new YourTurnNotification($game, $move, $currentPlayer));
     }
 
     private function validateMoveRules(Game $game, array $tiles, RuleEngine $ruleEngine): void
