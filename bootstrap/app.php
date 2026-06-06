@@ -5,6 +5,7 @@ use App\Domain\Game\Exceptions\InvalidMoveException;
 use App\Domain\User\Exceptions\FriendException;
 use App\Http\Middleware\BlockGuestAccess;
 use App\Http\Middleware\GuestGameLimit;
+use App\Http\Middleware\TrackDevice;
 use App\Providers\RateLimiterServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -43,6 +44,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest.block' => BlockGuestAccess::class,
             'guest.game-limit' => GuestGameLimit::class,
         ]);
+
+        $middleware->api(append: TrackDevice::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         Flare::handles($exceptions);

@@ -122,6 +122,11 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
         return $this->hasMany(PushToken::class);
     }
 
+    public function devices(): HasMany
+    {
+        return $this->hasMany(Device::class);
+    }
+
     public function friends(): HasMany
     {
         return $this->hasMany(Friend::class);

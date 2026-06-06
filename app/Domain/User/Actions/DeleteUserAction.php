@@ -6,6 +6,7 @@ use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Models\HeadToHeadStats;
 use App\Domain\Game\Models\Move;
+use App\Domain\User\Models\Device;
 use App\Domain\User\Models\EloHistory;
 use App\Domain\User\Models\Friend;
 use App\Domain\User\Models\GameInvitation;
@@ -18,6 +19,8 @@ class DeleteUserAction
     public function execute(User $user): void
     {
         PushToken::where('user_id', $user->id)->delete();
+
+        Device::where('user_id', $user->id)->delete();
 
         $user->tokens()->delete();
 
