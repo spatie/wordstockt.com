@@ -201,7 +201,7 @@ class AppCommand extends Command
         info('Archiving...');
 
         $archiveResult = Process::path($appPath)
-            ->timeout(600)
+            ->timeout(1800)
             ->run([
                 'xcodebuild',
                 '-workspace', 'ios/WordStockt.xcworkspace',
@@ -370,7 +370,7 @@ PLIST);
         info('Running Gradle build...');
 
         $result = Process::path($appPath.'/android')
-            ->timeout(600)
+            ->timeout(1800)
             ->run('./gradlew bundleRelease', function (string $type, string $output): void {
                 $this->output->write($output);
             });
