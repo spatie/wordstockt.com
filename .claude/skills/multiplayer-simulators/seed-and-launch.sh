@@ -20,7 +20,15 @@ set -euo pipefail
 
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="${BACKEND_DIR:-$(cd "$SKILL_DIR/../../.." && pwd)}"
-APP_DIR="${APP_DIR:-$BACKEND_DIR/../wordstockt-app}"
+# The app is usually a sibling of the backend, but in a conductor workspace the
+# backend lives under conductor/ while the app stays in the dev checkout.
+if [ -z "${APP_DIR:-}" ]; then
+  if [ -d "$BACKEND_DIR/../wordstockt-app" ]; then
+    APP_DIR="$BACKEND_DIR/../wordstockt-app"
+  else
+    APP_DIR="$HOME/dev/code/wordstockt-app"
+  fi
+fi
 BUNDLE_ID="${BUNDLE_ID:-com.wordstockt.app}"
 COUNT="${COUNT:-3}"
 LANG_CODE="${LANG_CODE:-nl}"
