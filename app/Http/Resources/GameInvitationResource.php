@@ -34,7 +34,7 @@ class GameInvitationResource extends JsonResource
         return [
             'ulid' => $user->ulid,
             'username' => $user->username,
-            'avatar' => $user->avatar,
+            'avatar' => $user->avatarUrl(),
             'avatar_color' => $user->avatar_color,
         ];
     }

@@ -15,7 +15,7 @@ class UserStatsResource extends JsonResource
         return [
             'ulid' => $this->ulid,
             'username' => $this->username,
-            'avatar' => $this->avatar,
+            'avatar' => $this->avatarUrl(),
 
             'eloRating' => $this->elo_rating,
             'gamesPlayed' => $stats->games_played ?? 0,

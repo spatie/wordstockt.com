@@ -27,13 +27,17 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\Expo\ExpoPushToken;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property-read UserStatistics|null $statistics
  */
-class User extends Authenticatable implements FilamentUser, HasName, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasMedia, HasName, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasUlid, Notifiable;
+    use HasApiTokens, HasFactory, HasUlid, InteractsWithMedia, Notifiable;
 
     protected static function newFactory(): UserFactory
     {
@@ -125,6 +129,25 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
     public function devices(): HasMany
     {
         return $this->hasMany(Device::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png']);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('display')
+            ->fit(Fit::Crop, 512, 512)
+            ->nonQueued();
+    }
+
+    public function avatarUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('avatar', 'display') ?: $this->avatar;
     }
 
     public function friends(): HasMany

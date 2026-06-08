@@ -16,7 +16,7 @@ class MoveHistoryResource extends JsonResource
             'user' => [
                 'ulid' => $this->user->ulid,
                 'username' => $this->user->username,
-                'avatar' => $this->user->avatar,
+                'avatar' => $this->user->avatarUrl(),
                 'avatar_color' => $this->user->avatar_color,
             ],
             'words' => $this->words,

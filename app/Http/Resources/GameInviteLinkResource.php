@@ -34,7 +34,7 @@ class GameInviteLinkResource extends JsonResource
         return [
             'ulid' => $this->inviter->ulid,
             'username' => $this->inviter->username,
-            'avatar' => $this->inviter->avatar,
+            'avatar' => $this->inviter->avatarUrl(),
             'avatar_color' => $this->inviter->avatar_color,
         ];
     }

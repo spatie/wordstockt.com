@@ -30,7 +30,7 @@ class GameListResource extends JsonResource
             'opponent' => $opponent ? [
                 'ulid' => $opponent->ulid,
                 'username' => $opponent->username,
-                'avatar' => $opponent->avatar,
+                'avatar' => $opponent->avatarUrl(),
                 'avatar_color' => $opponent->avatar_color,
             ] : null,
             'opponent_score' => $opponentGamePlayer?->score ?? 0,
@@ -40,7 +40,7 @@ class GameListResource extends JsonResource
                 ->map(fn ($gp): array => [
                     'ulid' => $gp->user->ulid,
                     'username' => $gp->user->username,
-                    'avatar' => $gp->user->avatar,
+                    'avatar' => $gp->user->avatarUrl(),
                     'avatar_color' => $gp->user->avatar_color,
                     'score' => $gp->score,
                     'is_current_turn' => $this->current_turn_user_id === $gp->user_id,
@@ -71,7 +71,7 @@ class GameListResource extends JsonResource
             'invitee' => [
                 'ulid' => $invitation->invitee->ulid,
                 'username' => $invitation->invitee->username,
-                'avatar' => $invitation->invitee->avatar,
+                'avatar' => $invitation->invitee->avatarUrl(),
                 'avatar_color' => $invitation->invitee->avatar_color,
             ],
         ];

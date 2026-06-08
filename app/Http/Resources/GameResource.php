@@ -24,7 +24,7 @@ class GameResource extends JsonResource
             'players' => $this->gamePlayers->map(fn ($gp): array => [
                 'ulid' => $gp->user->ulid,
                 'username' => $gp->user->username,
-                'avatar' => $gp->user->avatar,
+                'avatar' => $gp->user->avatarUrl(),
                 'avatar_color' => $gp->user->avatar_color,
                 'score' => $gp->score,
                 'rack_count' => $gp->getRackTileCount(),
@@ -100,7 +100,7 @@ class GameResource extends JsonResource
             'invitee' => [
                 'ulid' => $invitation->invitee->ulid,
                 'username' => $invitation->invitee->username,
-                'avatar' => $invitation->invitee->avatar,
+                'avatar' => $invitation->invitee->avatarUrl(),
                 'avatar_color' => $invitation->invitee->avatar_color,
             ],
         ];

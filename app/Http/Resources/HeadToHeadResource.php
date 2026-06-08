@@ -13,7 +13,7 @@ class HeadToHeadResource extends JsonResource
         return [
             'opponentUlid' => $this->opponent->ulid,
             'opponentUsername' => $this->opponent->username,
-            'opponentAvatar' => $this->opponent->avatar,
+            'opponentAvatar' => $this->opponent->avatarUrl(),
             'opponentAvatarColor' => $this->opponent->avatar_color,
             'wins' => $this->wins,
             'losses' => $this->losses,

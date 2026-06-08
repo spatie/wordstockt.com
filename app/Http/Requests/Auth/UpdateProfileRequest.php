@@ -18,7 +18,6 @@ class UpdateProfileRequest extends FormRequest
         return [
             'username' => ['sometimes', 'string', 'min:3', 'max:20', 'unique:users,username,'.$userId, 'regex:/^[a-zA-Z0-9_]+$/'],
             'email' => ['sometimes', 'email', 'unique:users,email,'.$userId],
-            'avatar' => ['sometimes', 'nullable', 'string', 'max:255'],
             'avatar_color' => ['sometimes', 'nullable', 'string', 'max:7', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ];
     }

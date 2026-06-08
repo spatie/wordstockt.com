@@ -13,7 +13,7 @@ class UserPublicResource extends JsonResource
         return [
             'ulid' => $this->ulid,
             'username' => $this->username,
-            'avatar' => $this->avatar,
+            'avatar' => $this->avatarUrl(),
             'avatarColor' => $this->avatar_color,
             'eloRating' => $this->elo_rating,
             'gamesPlayed' => $this->games_played,

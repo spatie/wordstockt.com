@@ -17,6 +17,7 @@
         "laravel/tinker": "^3.0",
         "spatie/laravel-backup": "^10.0",
         "spatie/laravel-flare": "^3.0",
+        "spatie/laravel-medialibrary": "^11.23",
         "spatie/laravel-ray": "*",
         "spatie/laravel-remote": "^1.4",
         "spatie/laravel-tail": "^4.5",

@@ -28,8 +28,8 @@ it('updates email', function (): void {
         ->assertJsonPath('data.email', 'new@example.com');
 });
 
-it('updates avatar', function (): void {
-    $user = User::factory()->create();
+it('ignores an avatar sent via profile update (managed through the avatar upload endpoint)', function (): void {
+    $user = User::factory()->create(['avatar' => null]);
 
     $response = $this->actingAs($user, 'sanctum')
         ->putJson('/api/auth/user', [
@@ -37,7 +37,9 @@ it('updates avatar', function (): void {
         ]);
 
     $response->assertOk()
-        ->assertJsonPath('data.avatar', 'https://example.com/avatar.png');
+        ->assertJsonPath('data.avatar', null);
+
+    expect($user->fresh()->avatar)->toBeNull();
 });
 
 it('fails when username is taken by another user', function (): void {

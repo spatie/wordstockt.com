@@ -25,6 +25,8 @@ Route::prefix('auth')->group(function (): void {
         Route::get('user', Auth\ShowUserController::class);
         Route::put('user', Auth\UpdateUserController::class);
         Route::delete('user', Auth\DeleteAccountController::class);
+        Route::post('user/avatar', Auth\StoreAvatarController::class)->middleware('throttle:6,1');
+        Route::delete('user/avatar', Auth\DestroyAvatarController::class);
         Route::post('push-token', Auth\PushTokenController::class);
         Route::post('change-password', Auth\ChangePasswordController::class);
         Route::post('resend-verification', Auth\ResendVerificationController::class)->middleware('throttle:6,1');

@@ -16,7 +16,7 @@ class UserResource extends JsonResource
             'ulid' => $this->ulid,
             'username' => $this->username,
             'email' => $this->email,
-            'avatar' => $this->avatar,
+            'avatar' => $this->avatarUrl(),
             'avatarColor' => $this->avatar_color,
             'eloRating' => $this->elo_rating,
             'gamesPlayed' => $this->games_played,

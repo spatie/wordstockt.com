@@ -14,7 +14,7 @@ class FriendResource extends JsonResource
             'ulid' => $this->ulid,
             'friend_ulid' => $this->friend->ulid,
             'username' => $this->friend->username,
-            'avatar' => $this->friend->avatar,
+            'avatar' => $this->friend->avatarUrl(),
             'avatar_color' => $this->friend->avatar_color,
             'elo_rating' => $this->friend->elo_rating,
             'created_at' => $this->created_at,
