@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Support\Actions\GenerateWordRecommendationAction;
 use App\Domain\Support\Agents\WordValidityAgent;
 use App\Domain\Support\Enums\DictionaryLanguage;
 use App\Domain\Support\Enums\WordRecommendation;
@@ -25,6 +26,23 @@ it('sends the mail with the recommendation attached', function (): void {
         expect($mail->recommendation->reasoning)->toBe('Amsterdam is uitsluitend de naam van een stad.');
 
         return $mail->hasTo('freek@spatie.be');
+    });
+});
+
+it('still sends the mail when the hourly recommendation limit is reached', function (): void {
+    Mail::fake();
+    WordValidityAgent::fake();
+
+    foreach (range(1, 20) as $ignored) {
+        app(GenerateWordRecommendationAction::class)->execute('OPGEBRUIKT', DictionaryLanguage::Dutch);
+    }
+
+    SendWordRequestedMailJob::dispatchSync('AMSTERDAM', DictionaryLanguage::Dutch, User::factory()->create());
+
+    Mail::assertSent(WordRequestedMail::class, function (WordRequestedMail $mail): bool {
+        expect($mail->recommendation)->toBeNull();
+
+        return $mail->word === 'AMSTERDAM';
     });
 });
 

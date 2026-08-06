@@ -61,7 +61,7 @@ longer waits on OpenAI.
 | `App\Domain\Support\Enums\WordRecommendation` | The three possible verdicts, plus their label, colour and icon | – |
 | `App\Domain\Support\Data\WordRecommendationData` | Readonly value object carrying verdict, confidence and reasoning | the enum |
 | `App\Domain\Support\Agents\WordValidityAgent` | Instructions, model configuration and output schema | `laravel/ai`, `DictionaryLanguage` |
-| `App\Domain\Support\Actions\GenerateWordRecommendationAction` | Builds the user message, grounds it with known Wiktionary senses, calls the agent, maps the response to the DTO | the agent, `Dictionary` |
+| `App\Domain\Support\Actions\GenerateWordRecommendationAction` | Enforces the hourly limit, builds the user message, grounds it with known Wiktionary senses, calls the agent, maps the response to the DTO | the agent, `Dictionary` |
 | `App\Jobs\SendWordRequestedMailJob` | Orchestrates generate-then-send, and degrades to send-without on repeated failure | the action, `WordRequestedMail` |
 | `resources/views/emails/partials/word-recommendation.blade.php` | Renders the block, formatting from the enum only | the enum |
 
@@ -239,10 +239,49 @@ byte-for-byte what it is today.
 A `/dev/mail/word-requested` route is added alongside the existing mail
 previews so the block can be inspected in a browser.
 
+## Rate limiting
+
+At most 20 recommendations are generated per hour, application-wide. The limit
+is registered as `ai-word-recommendation` in `RateLimiterServiceProvider`,
+alongside the eleven HTTP throttles the application already defines, so every
+limit in the app is stated in one file.
+
+That provider is the only place the number appears. Because
+`RateLimiter::for()` hands its callback a `Request`, and our caller is a queued
+job with no request, the callback takes no argument and the action resolves the
+`Limit` object with `RateLimiter::limiter('ai-word-recommendation')()`, then
+drives `tooManyAttempts()` and `hit()` from its `key`, `maxAttempts` and
+`decaySeconds`.
+
+The limit is global rather than per user, because its job is to bound what we
+spend at OpenAI, and a per-user limit cannot do that.
+
+`GenerateWordRecommendationAction` claims a slot before it prompts the agent.
+When no slot is free it logs a warning and returns `null` without calling
+OpenAI, so a rate-limited request costs nothing and takes no time. The job
+treats that `null` exactly like a failed generation: the email goes out with no
+recommendation block. It does not throw, so a rate-limited request is not
+retried.
+
+Two consequences worth stating plainly:
+
+- Slots are claimed per *attempt*, not per word. Because the job retries three
+  times, one word request during an OpenAI outage burns three slots. That is
+  deliberate: an attempt that times out after the model has run still costs
+  money, so attempts are the honest unit to count.
+- One user requesting 20 words in an hour exhausts the budget for everybody
+  until the window rolls over. Everyone still gets their email, just without a
+  recommendation. If that turns out to matter, the fix is a per-user limit
+  layered underneath the global one, not a larger global limit.
+
+The window is a fixed hour starting at the first hit, which is how
+`RateLimiter` behaves; it is not a rolling window.
+
 ## Error handling
 
 `GenerateWordRecommendationAction` lets exceptions propagate: a missing API key,
-a timeout, a rate limit or a schema violation all throw.
+a timeout, a provider-side rate limit or a schema violation all throw. Our own
+hourly limit is the exception, and returns `null` instead.
 
 `SendWordRequestedMailJob` sets `$tries = 3`, `$backoff = [10, 30]` and
 `$timeout = 120` (above the agent's own 60 second timeout, so the queue worker

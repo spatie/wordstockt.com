@@ -67,6 +67,42 @@ it('names the reference works of the language it is asked about', function (): v
         ->not->toContain('Groene Boekje');
 });
 
+it('generates at most twenty recommendations per hour', function (): void {
+    WordValidityAgent::fake();
+
+    foreach (range(1, 20) as $ignored) {
+        expect(generateRecommendationFor('WENEN'))->not->toBeNull();
+    }
+
+    expect(generateRecommendationFor('WENEN'))->toBeNull();
+});
+
+it('does not prompt the agent at all once the hourly limit is reached', function (): void {
+    WordValidityAgent::fake();
+
+    foreach (range(1, 20) as $ignored) {
+        generateRecommendationFor('WENEN');
+    }
+
+    WordValidityAgent::fake()->preventStrayPrompts();
+
+    expect(generateRecommendationFor('BLAFFEN'))->toBeNull();
+});
+
+it('generates recommendations again once the hour has passed', function (): void {
+    WordValidityAgent::fake();
+
+    foreach (range(1, 20) as $ignored) {
+        generateRecommendationFor('WENEN');
+    }
+
+    expect(generateRecommendationFor('WENEN'))->toBeNull();
+
+    $this->travel(61)->minutes();
+
+    expect(generateRecommendationFor('WENEN'))->not->toBeNull();
+});
+
 function generateRecommendationFor(string $word, DictionaryLanguage $language = DictionaryLanguage::Dutch)
 {
     return app(GenerateWordRecommendationAction::class)->execute($word, $language);

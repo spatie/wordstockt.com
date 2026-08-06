@@ -38,5 +38,10 @@ class RateLimiterServiceProvider extends ServiceProvider
 
         // Global API fallback (by user or IP for unauthenticated)
         RateLimiter::for('api', fn ($request) => Limit::perMinute(120)->by($request->user()?->id ?: $request->ip()));
+
+        // AI spend. Deliberately not keyed by user: this caps what the whole
+        // application may spend at OpenAI in an hour. Consumed from a queued
+        // job, so its callback takes no request.
+        RateLimiter::for('ai-word-recommendation', fn () => Limit::perHour(20)->by('ai-word-recommendation'));
     }
 }
