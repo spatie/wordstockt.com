@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Domain\Support\Data\WordRecommendationData;
 use App\Domain\User\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -17,6 +18,7 @@ class WordRequestedMail extends Mailable
         public string $word,
         public string $language,
         public User $requester,
+        public ?WordRecommendationData $recommendation = null,
     ) {}
 
     public function envelope(): Envelope

@@ -1,13 +1,14 @@
 <?php
 
+use App\Domain\Support\Enums\DictionaryLanguage;
 use App\Domain\Support\Models\Dictionary;
 use App\Domain\User\Models\User;
-use App\Mail\WordRequestedMail;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendWordRequestedMailJob;
+use Illuminate\Support\Facades\Queue;
 use Laravel\Sanctum\Sanctum;
 
 it('can request a word addition', function (): void {
-    Mail::fake();
+    Queue::fake();
 
     $user = User::factory()->create();
     Sanctum::actingAs($user);
@@ -19,16 +20,15 @@ it('can request a word addition', function (): void {
 
     $response->assertNoContent();
 
-    Mail::assertSent(WordRequestedMail::class, function (WordRequestedMail $mail) use ($user) {
-        return $mail->hasTo('freek@spatie.be')
-            && $mail->word === 'NIEUWWOORD'
-            && $mail->language === 'nl'
-            && $mail->requester->is($user);
+    Queue::assertPushed(SendWordRequestedMailJob::class, function (SendWordRequestedMailJob $job) use ($user) {
+        return $job->word === 'NIEUWWOORD'
+            && $job->language === DictionaryLanguage::Dutch
+            && $job->requester->is($user);
     });
 });
 
 it('does not send email if word already exists', function (): void {
-    Mail::fake();
+    Queue::fake();
 
     Dictionary::create(['language' => 'nl', 'word' => 'BESTAAND', 'is_valid' => true]);
 
@@ -41,7 +41,7 @@ it('does not send email if word already exists', function (): void {
 
     $response->assertNoContent();
 
-    Mail::assertNotSent(WordRequestedMail::class);
+    Queue::assertNotPushed(SendWordRequestedMailJob::class);
 });
 
 it('requires authentication', function (): void {

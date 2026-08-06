@@ -9,6 +9,7 @@
         "php": "^8.4",
         "filament/filament": "^4.5",
         "laravel-notification-channels/expo": "^2.1",
+        "laravel/ai": "^0.10.2",
         "laravel/boost": "^2.0",
         "laravel/framework": "^13.0",
         "laravel/horizon": "^5.42",
@@ -32,8 +33,9 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^4.0",
-        "pestphp/pest-plugin-laravel": "^4.0",
+        "pestphp/pest": "^5.0",
+        "pestphp/pest-plugin-evals": "^5.0",
+        "pestphp/pest-plugin-laravel": "^5.0",
         "rector/rector": "^2.3",
         "spatie/laravel-horizon-watcher": "^1.1"
     },
@@ -90,7 +92,7 @@
             "php-http/discovery": true
         },
         "platform": {
-            "php": "8.4"
+            "php": "8.4.1"
         }
     },
     "minimum-stability": "stable",
