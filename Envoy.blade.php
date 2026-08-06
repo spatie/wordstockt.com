@@ -50,6 +50,7 @@ git pull origin {{ $branch }}
 [ -d {{ $persistentDir }}/storage ] || mkdir {{ $persistentDir }}/storage;
 
 [ -d {{ $persistentDir }}/storage/app ] || mkdir {{ $persistentDir }}/storage/app;
+[ -d {{ $persistentDir }}/storage/app/public ] || mkdir {{ $persistentDir }}/storage/app/public;
 [ -d {{ $persistentDir }}/storage/framework ] || mkdir {{ $persistentDir }}/storage/framework;
 [ -d {{ $persistentDir }}/storage/logs ] || mkdir {{ $persistentDir }}/storage/logs;
 
@@ -111,6 +112,9 @@ ln -nfs {{ $baseDir }}/persistent/storage storage;
 {{ logMessage("✨  Optimizing installation…") }}
 cd {{ $newReleaseDir }};
 php artisan clear-compiled;
+# Recreate the public/storage symlink: each release is a fresh checkout, so the
+# link must be made every deploy or uploaded media (avatars) would 404.
+php artisan storage:link;
 @endtask
 
 @task('backupDatabase', ['on' => 'remote'])

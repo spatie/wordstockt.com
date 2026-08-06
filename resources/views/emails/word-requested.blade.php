@@ -16,5 +16,7 @@ Add Word
 <x-mail::button :url="URL::signedRoute('dictionary.reject-word', ['word' => $word, 'language' => $language])" color="error">
 Reject Word
 </x-mail::button>
-
+@if ($recommendation)
+@include('emails.partials.word-recommendation')
+@endif
 </x-mail::message>
