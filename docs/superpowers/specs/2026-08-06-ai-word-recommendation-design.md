@@ -60,7 +60,7 @@ longer waits on OpenAI.
 |---|---|---|
 | `App\Domain\Support\Enums\WordRecommendation` | The three possible verdicts, plus their label, colour and icon | – |
 | `App\Domain\Support\Data\WordRecommendationData` | Readonly value object carrying verdict, confidence and reasoning | the enum |
-| `App\Ai\Agents\WordValidityAgent` | Instructions, model configuration and output schema | `laravel/ai`, `DictionaryLanguage` |
+| `App\Domain\Support\Agents\WordValidityAgent` | Instructions, model configuration and output schema | `laravel/ai`, `DictionaryLanguage` |
 | `App\Domain\Support\Actions\GenerateWordRecommendationAction` | Builds the user message, grounds it with known Wiktionary senses, calls the agent, maps the response to the DTO | the agent, `Dictionary` |
 | `App\Jobs\SendWordRequestedMailJob` | Orchestrates generate-then-send, and degrades to send-without on repeated failure | the action, `WordRequestedMail` |
 | `resources/views/emails/partials/word-recommendation.blade.php` | Renders the block, formatting from the enum only | the enum |
@@ -75,11 +75,15 @@ model output for anything other than the reasoning text.
 
 ```php
 #[Provider(Lab::OpenAI)]
-#[Temperature(0.2)]
-#[Timeout(30)]
+#[Strict]
+#[Timeout(60)]
 ```
 
-Low temperature because we want the same word to get the same verdict.
+No `#[Temperature]`. The default OpenAI text model in `laravel/ai` is `gpt-5.4`, a
+reasoning model, and the gateway passes `temperature` straight through to the
+Responses API, which rejects it for that model family. `#[Strict]` turns on
+OpenAI's strict structured-output mode so the schema is enforced by the provider
+rather than hoped for.
 
 ### Instructions
 
@@ -240,7 +244,9 @@ previews so the block can be inspected in a browser.
 `GenerateWordRecommendationAction` lets exceptions propagate: a missing API key,
 a timeout, a rate limit or a schema violation all throw.
 
-`SendWordRequestedMailJob` sets `$tries = 3`. If all three attempts fail,
+`SendWordRequestedMailJob` sets `$tries = 3`, `$backoff = [10, 30]` and
+`$timeout = 120` (above the agent's own 60 second timeout, so the queue worker
+never kills the job mid-call). If all three attempts fail,
 `failed()` sends `WordRequestedMail` with `$recommendation = null`. The email
 always arrives; only the recommendation is best-effort.
 
@@ -261,6 +267,10 @@ harmless, and not worth a separate code path.
 ### Pest 5 upgrade
 
 - `pestphp/pest` `^4.0` → `^5.0`
+- `config.platform.php` `8.4` → `8.4.1`, since Pest 5 pulls in
+  `symfony/process ^8.1` which requires PHP 8.4.1
+- `laravel/framework` updated to 13.24, since `laravel/ai` 0.10 needs
+  `illuminate/json-schema ^13.15`
 - `pestphp/pest-plugin-laravel` `^4.0` → `^5.0`
 - add `pestphp/pest-plugin-evals` as a dev dependency
 
@@ -295,6 +305,10 @@ All use `WordValidityAgent::fake()`, so no network access and no API key.
 
 `tests/Evals/WordValidityAgentEval.php`, run with `./vendor/bin/pest --evals`
 and skipped on a normal run so CI stays free and offline.
+
+Because Pest discovers tests by filename suffix, `phpunit.xml` gains a
+`<directory suffix="Eval.php">tests/Evals</directory>` entry alongside the
+existing `tests` directory.
 
 Five smoke cases:
 

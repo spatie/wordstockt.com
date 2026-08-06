@@ -2,10 +2,10 @@
 
 namespace App\Domain\Support\Actions;
 
+use App\Domain\Support\Enums\DictionaryLanguage;
 use App\Domain\Support\Models\Dictionary;
 use App\Domain\User\Models\User;
-use App\Mail\WordRequestedMail;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendWordRequestedMailJob;
 
 class RequestWordAdditionAction
 {
@@ -29,6 +29,6 @@ class RequestWordAdditionAction
             ->whereNull('requested_by_user_id')
             ->update(['requested_by_user_id' => $requester->id]);
 
-        Mail::to('freek@spatie.be')->send(new WordRequestedMail($word, $language, $requester));
+        SendWordRequestedMailJob::dispatch($word, DictionaryLanguage::from($language), $requester);
     }
 }
