@@ -52,6 +52,8 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
         Route::post('{game}/resign', Game\ResignController::class)->middleware('throttle:game-action');
         Route::get('{game}/word-info', Game\WordInfoController::class);
         Route::get('{game}/moves', Game\MoveHistoryController::class);
+        Route::put('{game}/moves/{move:ulid}/reaction', [Game\MoveReactionController::class, 'update'])->middleware('throttle:game-action');
+        Route::delete('{game}/moves/{move:ulid}/reaction', [Game\MoveReactionController::class, 'destroy'])->middleware('throttle:game-action');
     });
 
     Route::prefix('users')->group(function (): void {

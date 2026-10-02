@@ -12,7 +12,7 @@ class MoveHistoryController
     public function __invoke(ShowRequest $request, Game $game): AnonymousResourceCollection
     {
         $moves = $game->moves()
-            ->with('user')
+            ->with(['user', 'reactions.user'])
             ->latest()
             ->get();
 
