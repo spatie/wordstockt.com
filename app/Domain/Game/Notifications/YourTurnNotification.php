@@ -27,7 +27,7 @@ class YourTurnNotification extends Notification implements ShouldQueue
         public readonly ?User $madeBy = null,
         public readonly bool $isAutoPass = false,
     ) {
-        $this->onQueue('notifications');
+        $this->onQueue(config('queue.notifications_queue'));
     }
 
     public function via(object $notifiable): array

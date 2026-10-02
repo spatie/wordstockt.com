@@ -18,7 +18,7 @@ class ResetPasswordMail extends Mailable implements ShouldQueue
         public readonly string $token,
         public readonly User $user,
     ) {
-        $this->onQueue('notifications');
+        $this->onQueue(config('queue.notifications_queue'));
     }
 
     public function envelope(): Envelope

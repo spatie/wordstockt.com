@@ -23,7 +23,7 @@ class GameInvitationNotification extends Notification implements ShouldQueue
         public readonly Game $game,
         public readonly User $inviter,
     ) {
-        $this->onQueue('notifications');
+        $this->onQueue(config('queue.notifications_queue'));
     }
 
     public function via(object $notifiable): array

@@ -24,7 +24,7 @@ class TurnReminderNotification extends Notification implements ShouldQueue
         public readonly int $hoursRemaining,
         public readonly User $opponent,
     ) {
-        $this->onQueue('notifications');
+        $this->onQueue(config('queue.notifications_queue'));
     }
 
     public function via(object $notifiable): array

@@ -24,7 +24,7 @@ class GameFinishedNotification extends Notification implements ShouldQueue
         public readonly bool $wasResign = false,
         public readonly ?User $resignedPlayer = null,
     ) {
-        $this->onQueue('notifications');
+        $this->onQueue(config('queue.notifications_queue'));
     }
 
     public function via(object $notifiable): array

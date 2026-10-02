@@ -16,7 +16,7 @@ class VerifyEmailNotification extends Notification implements ShouldQueue
     public function __construct(
         public readonly User $user,
     ) {
-        $this->onQueue('notifications');
+        $this->onQueue(config('queue.notifications_queue'));
     }
 
     public function via(object $notifiable): array

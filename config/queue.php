@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Notifications Queue
+    |--------------------------------------------------------------------------
+    |
+    | Push notifications and mails are dispatched to this queue. Horizon runs
+    | a dedicated supervisor for it. On Laravel Cloud's Starter plan only one
+    | managed queue is available, so this can point to that queue instead.
+    |
+    */
+
+    'notifications_queue' => env('NOTIFICATIONS_QUEUE', 'notifications'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Queue Connections
     |--------------------------------------------------------------------------
     |
