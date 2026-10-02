@@ -106,6 +106,10 @@ This guides you through:
 - **Build + submit** - Build and upload to TestFlight
 - **Push JS update** - Instant OTA update to installed apps
 
+## Deployment
+
+The site runs on [Laravel Cloud](https://cloud.laravel.com) and deploys automatically when pushing to `main`.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
