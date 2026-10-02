@@ -28,7 +28,7 @@ DEVICES="<udid1> <udid2> <udid3>" .claude/skills/multiplayer-simulators/seed-and
 
 Credentials it creates: `userN@spatie.be` / `userN` (password = username). First device = user1, etc.
 
-Prereqs: Valet serving the local backend (`valet link && valet secure wordstockt.com`), no `.env.local` in the app (forces local API), and ideally Reverb + a queue worker running for live updates (`php artisan reverb:start --host=127.0.0.1` and `php artisan queue:work`).
+Prereqs: Valet serving the local backend (`valet link && valet secure wordstockt.com`), no `.env.local` in the app (forces local API), and ideally a queue worker running (`php artisan queue:work`).
 
 ## The two non-obvious tricks
 
@@ -50,4 +50,4 @@ Prereqs: Valet serving the local backend (`valet link && valet secure wordstockt
 
 ## Teardown
 
-Stop Metro/Reverb/queue, `valet unsecure wordstockt.com && valet unlink wordstockt.com`, restore `wordstockt-app/.env.local`.
+Stop Metro/queue, `valet unsecure wordstockt.com && valet unlink wordstockt.com`, restore `wordstockt-app/.env.local`.

@@ -12,7 +12,6 @@ A multiplayer word game (Wordfeud clone) built with Laravel backend and React Na
 ### Backend
 - PHP 8.2+ / Laravel 12
 - Laravel Sanctum (API token auth)
-- Laravel Reverb (WebSockets)
 - SQLite (development)
 
 ### Mobile App
@@ -25,7 +24,6 @@ A multiplayer word game (Wordfeud clone) built with Laravel backend and React Na
 
 ```bash
 # Backend (API at https://wordstockt.com via Valet)
-php artisan reverb:start   # WebSocket server
 
 # Test users (seeded via UserSeeder)
 freek@spatie.be / password
@@ -72,8 +70,7 @@ Since Playwright shares browser sessions across tabs, test two-player scenarios 
 
 ```bash
 # 1. Start required services
-php artisan reverb:start          # WebSocket server (port 8080)
-php artisan queue:work --daemon   # Queue worker (required for broadcast events!)
+php artisan queue:work --daemon   # Queue worker
 
 # 2. Create API tokens for test users
 php artisan tinker --execute="
@@ -284,7 +281,6 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/horizon (HORIZON) - v5
 - laravel/mcp (MCP) - v0
 - laravel/prompts (PROMPTS) - v0
-- laravel/reverb (REVERB) - v1
 - laravel/sanctum (SANCTUM) - v4
 - livewire/livewire (LIVEWIRE) - v3
 - larastan/larastan (LARASTAN) - v3

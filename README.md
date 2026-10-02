@@ -32,7 +32,6 @@ Read about [how this was built in ~10 days](https://freek.dev/2983-i-built-a-nat
 
 - PHP 8.4 / Laravel 12
 - Laravel Sanctum for API authentication
-- Laravel Reverb for real-time WebSocket communication
 - Laravel Horizon for queue management
 - Filament for admin panel
 - SQLite (development) / MySQL (production)
@@ -42,7 +41,6 @@ Read about [how this was built in ~10 days](https://freek.dev/2983-i-built-a-nat
 
 - PHP 8.4+
 - Composer
-- Node.js (for Reverb)
 
 ## Installation
 
@@ -65,9 +63,6 @@ php artisan migrate --seed
 ## Development
 
 ```bash
-# Start the WebSocket server
-php artisan reverb:start
-
 # Start Horizon (queue manager)
 php artisan horizon:watch
 ```
