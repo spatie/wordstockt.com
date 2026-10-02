@@ -46,12 +46,18 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->api(append: TrackDevice::class);
+
+        $middleware->redirectGuestsTo(null);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         Flare::handles($exceptions);
 
-        $exceptions->render(function (ThrottleRequestsException $exception, Request $request) {
-            if (! $request->expectsJson()) {
+        $shouldRenderJson = fn (Request $request): bool => $request->is('api/*') || $request->expectsJson();
+
+        $exceptions->shouldRenderJsonWhen($shouldRenderJson);
+
+        $exceptions->render(function (ThrottleRequestsException $exception, Request $request) use ($shouldRenderJson) {
+            if (! $shouldRenderJson($request)) {
                 return null;
             }
 
@@ -60,16 +66,16 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 429)->withHeaders($exception->getHeaders());
         });
 
-        $exceptions->render(function (FriendException|GameException|InvalidMoveException $exception, Request $request) {
-            if (! $request->expectsJson()) {
+        $exceptions->render(function (FriendException|GameException|InvalidMoveException $exception, Request $request) use ($shouldRenderJson) {
+            if (! $shouldRenderJson($request)) {
                 return null;
             }
 
             return response()->json(['message' => $exception->getMessage()], $exception->statusCode);
         });
 
-        $exceptions->render(function (HttpException $exception, Request $request) {
-            if (! $request->expectsJson()) {
+        $exceptions->render(function (HttpException $exception, Request $request) use ($shouldRenderJson) {
+            if (! $shouldRenderJson($request)) {
                 return null;
             }
 
