@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Domain\Game\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @mixin Game */
 class GameListResource extends JsonResource
 {
     #[\Override]
@@ -33,7 +35,7 @@ class GameListResource extends JsonResource
                 'avatar' => $opponent->avatarUrl(),
                 'avatar_color' => $opponent->avatar_color,
             ] : null,
-            'opponent_score' => $opponentGamePlayer?->score ?? 0,
+            'opponent_score' => $opponentGamePlayer->score ?? 0,
             'players' => $this->gamePlayers
                 ->sortBy('turn_order')
                 ->values()
@@ -47,7 +49,7 @@ class GameListResource extends JsonResource
                     'is_me' => $gp->user_id === $user->id,
                     'has_left' => $gp->hasLeft(),
                 ]),
-            'my_score' => $myGamePlayer?->score ?? 0,
+            'my_score' => $myGamePlayer->score ?? 0,
             'is_my_turn' => $this->current_turn_user_id === $user->id,
             'winner_ulid' => $this->winner?->ulid,
             'updated_at' => $this->updated_at,

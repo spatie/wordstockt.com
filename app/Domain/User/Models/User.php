@@ -141,8 +141,8 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasName, M
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('display')
-            ->fit(Fit::Crop, 512, 512)
-            ->nonQueued();
+            ->nonQueued()
+            ->fit(Fit::Crop, 512, 512);
     }
 
     public function avatarUrl(): ?string

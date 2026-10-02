@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Domain\Game\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @mixin Game */
 class PendingGameResource extends JsonResource
 {
     #[\Override]

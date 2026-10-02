@@ -58,6 +58,9 @@ class Game extends Model
             ->where('created_at', '<=', now()->subWeek());
     }
 
+    /**
+     * @return BelongsToMany<User, $this>
+     */
     public function players(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'game_players')
@@ -73,6 +76,9 @@ class Game extends Model
         return $this->hasMany(GamePlayer::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function currentTurnUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'current_turn_user_id');
@@ -99,6 +105,9 @@ class Game extends Model
         return $this->hasOne(Move::class)->latestOfMany();
     }
 
+    /**
+     * @return HasOne<GameInvitation, $this>
+     */
     public function pendingInvitation(): HasOne
     {
         return $this->hasOne(GameInvitation::class)->where('status', 'pending');
