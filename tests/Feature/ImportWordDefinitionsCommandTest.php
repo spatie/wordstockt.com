@@ -1,20 +1,25 @@
 <?php
 
 use App\Domain\Support\Models\Dictionary;
-use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Storage;
 
 beforeEach(function (): void {
     Dictionary::query()->delete();
 });
 
-afterEach(function (): void {
-    // Clean up any test files
-    $basePath = Storage::disk('local')->path('definitions');
-    if (is_dir($basePath)) {
-        array_map('unlink', glob("{$basePath}/*"));
-    }
-});
+function writeDefinitionsFixture(string $contents, bool $compressed = false): string
+{
+    $path = tempnam(sys_get_temp_dir(), 'definitions');
+
+    unlink($path);
+
+    $path .= $compressed ? '.jsonl.gz' : '.jsonl';
+
+    file_put_contents($path, $compressed ? gzencode($contents) : $contents);
+
+    test()->beforeApplicationDestroyed(fn () => @unlink($path));
+
+    return $path;
+}
 
 it('fails for unsupported language', function (): void {
     $this->artisan('dictionary:import-definitions fr')
@@ -29,22 +34,15 @@ it('fails for invalid language code', function (): void {
 });
 
 it('shows correct message for Dutch import', function (): void {
-    Process::fake([
-        '*' => Process::result(exitCode: 1),
-    ]);
-
-    $this->artisan('dictionary:import-definitions nl')
+    $this->artisan('dictionary:import-definitions', ['language' => 'nl', '--source' => '/non/existing/definitions.jsonl'])
         ->expectsOutputToContain('Starting Dutch definitions import')
         ->expectsOutputToContain('Downloading Dutch Wiktionary data')
+        ->expectsOutputToContain('Failed to download.')
         ->assertFailed();
 });
 
 it('shows correct message for English import', function (): void {
-    Process::fake([
-        '*' => Process::result(exitCode: 1),
-    ]);
-
-    $this->artisan('dictionary:import-definitions en')
+    $this->artisan('dictionary:import-definitions', ['language' => 'en', '--source' => '/non/existing/definitions.jsonl'])
         ->expectsOutputToContain('Starting English definitions import')
         ->expectsOutputToContain('Downloading English Wiktionary data')
         ->assertFailed();
@@ -69,17 +67,9 @@ it('imports definitions from jsonl file for English', function (): void {
         'etymology_text' => 'From Middle English hous',
     ]);
 
-    Storage::disk('local')->makeDirectory('definitions');
-    $storagePath = Storage::disk('local')->path('definitions/en-wiktionary.jsonl');
+    $source = writeDefinitionsFixture($jsonlContent);
 
-    Process::fake([
-        'curl*' => Process::result(output: '', exitCode: 0),
-    ]);
-
-    // Create the file that curl would download
-    file_put_contents($storagePath, $jsonlContent);
-
-    $this->artisan('dictionary:import-definitions en')
+    $this->artisan('dictionary:import-definitions', ['language' => 'en', '--source' => $source])
         ->assertSuccessful();
 
     $dictionary = Dictionary::where('word', 'HOUSE')->first();
@@ -110,21 +100,9 @@ it('imports definitions from jsonl file for Dutch', function (): void {
         'etymology_texts' => ['Van Middelnederlands huus'],
     ]);
 
-    Storage::disk('local')->makeDirectory('definitions');
-    $jsonlPath = Storage::disk('local')->path('definitions/nl-wiktionary.jsonl');
-    $gzPath = Storage::disk('local')->path('definitions/nl-wiktionary.jsonl.gz');
+    $source = writeDefinitionsFixture($jsonlContent, compressed: true);
 
-    Process::fake([
-        'curl*' => Process::result(output: '', exitCode: 0),
-        'gunzip*' => Process::result(output: '', exitCode: 0),
-    ]);
-
-    // Create the .gz file that curl would download
-    file_put_contents($gzPath, 'fake-gz-content');
-    // Create the .jsonl file that gunzip would create
-    file_put_contents($jsonlPath, $jsonlContent);
-
-    $this->artisan('dictionary:import-definitions nl')
+    $this->artisan('dictionary:import-definitions', ['language' => 'nl', '--source' => $source])
         ->assertSuccessful();
 
     $dictionary = Dictionary::where('word', 'HUIS')->first();
@@ -146,16 +124,9 @@ it('skips words not in dictionary', function (): void {
         ],
     ]);
 
-    Storage::disk('local')->makeDirectory('definitions');
-    $storagePath = Storage::disk('local')->path('definitions/en-wiktionary.jsonl');
+    $source = writeDefinitionsFixture($jsonlContent);
 
-    Process::fake([
-        'curl*' => Process::result(output: '', exitCode: 0),
-    ]);
-
-    file_put_contents($storagePath, $jsonlContent);
-
-    $this->artisan('dictionary:import-definitions en')
+    $this->artisan('dictionary:import-definitions', ['language' => 'en', '--source' => $source])
         ->expectsOutputToContain('Updated 0 dictionary entries')
         ->assertSuccessful();
 });
@@ -178,16 +149,9 @@ it('skips entries from wrong language', function (): void {
         ],
     ]);
 
-    Storage::disk('local')->makeDirectory('definitions');
-    $storagePath = Storage::disk('local')->path('definitions/en-wiktionary.jsonl');
+    $source = writeDefinitionsFixture($jsonlContent);
 
-    Process::fake([
-        'curl*' => Process::result(output: '', exitCode: 0),
-    ]);
-
-    file_put_contents($storagePath, $jsonlContent);
-
-    $this->artisan('dictionary:import-definitions en')
+    $this->artisan('dictionary:import-definitions', ['language' => 'en', '--source' => $source])
         ->expectsOutputToContain('Updated 0 dictionary entries')
         ->assertSuccessful();
 
@@ -218,16 +182,9 @@ it('extracts examples from senses', function (): void {
         ],
     ]);
 
-    Storage::disk('local')->makeDirectory('definitions');
-    $storagePath = Storage::disk('local')->path('definitions/en-wiktionary.jsonl');
+    $source = writeDefinitionsFixture($jsonlContent);
 
-    Process::fake([
-        'curl*' => Process::result(output: '', exitCode: 0),
-    ]);
-
-    file_put_contents($storagePath, $jsonlContent);
-
-    $this->artisan('dictionary:import-definitions en')
+    $this->artisan('dictionary:import-definitions', ['language' => 'en', '--source' => $source])
         ->assertSuccessful();
 
     $definition = Dictionary::where('word', 'RUN')->first()->getDefinitionData();
@@ -259,16 +216,9 @@ it('extracts proverbs', function (): void {
         ],
     ]);
 
-    Storage::disk('local')->makeDirectory('definitions');
-    $storagePath = Storage::disk('local')->path('definitions/en-wiktionary.jsonl');
+    $source = writeDefinitionsFixture($jsonlContent);
 
-    Process::fake([
-        'curl*' => Process::result(output: '', exitCode: 0),
-    ]);
-
-    file_put_contents($storagePath, $jsonlContent);
-
-    $this->artisan('dictionary:import-definitions en')
+    $this->artisan('dictionary:import-definitions', ['language' => 'en', '--source' => $source])
         ->assertSuccessful();
 
     $definition = Dictionary::where('word', 'BIRD')->first()->getDefinitionData();

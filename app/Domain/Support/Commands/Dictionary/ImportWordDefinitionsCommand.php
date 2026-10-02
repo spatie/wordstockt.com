@@ -6,19 +6,16 @@ use App\Domain\Support\Data\WordDefinitionData;
 use App\Domain\Support\Enums\DictionaryLanguage;
 use App\Domain\Support\Models\Dictionary;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 use SplFileObject;
 
 class ImportWordDefinitionsCommand extends Command
 {
-    protected $signature = 'dictionary:import-definitions {language : The language to import (nl or en)}';
+    protected $signature = 'dictionary:import-definitions
+                            {language : The language to import (nl or en)}
+                            {--source= : Path or URL of a Wiktionary JSONL dump (.gz is supported), defaults to kaikki.org}';
 
     protected $description = 'Download and import word definitions from Wiktionary';
-
-    private string $downloadPath;
-
-    private string $jsonlPath;
 
     private DictionaryLanguage $language;
 
@@ -38,76 +35,44 @@ class ImportWordDefinitionsCommand extends Command
 
         $this->info("Starting {$this->language->label()} definitions import...");
 
-        $this->setupPaths();
+        $this->info("Downloading {$this->language->label()} Wiktionary data...");
 
-        if (! $this->downloadFile()) {
+        $file = $this->openDefinitions();
+
+        if (! $file) {
+            $this->error('Failed to download.');
+
             return self::FAILURE;
         }
 
-        if ($this->language->isCompressed() && ! $this->extractFile()) {
-            return self::FAILURE;
-        }
-
-        $this->info('Downloaded definitions file.');
-
-        $updated = $this->parseAndImport();
-
-        $this->cleanup();
+        $updated = $this->parseAndImport($file);
 
         $this->info("Done! Updated {$updated} dictionary entries.");
 
         return self::SUCCESS;
     }
 
-    private function setupPaths(): void
+    /**
+     * The dump is streamed instead of written to disk first, because the
+     * extracted files are several gigabytes and Laravel Cloud's ephemeral
+     * filesystem counts against the instance's memory.
+     */
+    private function openDefinitions(): ?SplFileObject
     {
-        Storage::disk('local')->makeDirectory('definitions');
+        $source = $this->option('source') ?? $this->language->definitionsUrl();
 
-        $basePath = Storage::disk('local')->path('definitions');
-        $this->jsonlPath = "{$basePath}/{$this->language->value}-wiktionary.jsonl";
-        $this->downloadPath = $this->language->isCompressed()
-            ? "{$this->jsonlPath}.gz"
-            : $this->jsonlPath;
-    }
-
-    private function downloadFile(): bool
-    {
-        $url = $this->language->definitionsUrl();
-        $timeout = $this->language->downloadTimeout();
-
-        $this->info("Downloading {$this->language->label()} Wiktionary data...");
-
-        $result = Process::timeout($timeout)->run("curl -sL -o {$this->downloadPath} {$url}");
-
-        if (! $result->successful()) {
-            $this->error('Failed to download.');
-
-            return false;
+        if (str_ends_with($source, '.gz')) {
+            $source = "compress.zlib://{$source}";
         }
 
-        if (! file_exists($this->downloadPath)) {
-            $this->error('Failed to download.');
-
-            return false;
+        try {
+            return new SplFileObject($source, 'r');
+        } catch (RuntimeException) {
+            return null;
         }
-
-        return true;
     }
 
-    private function extractFile(): bool
-    {
-        Process::run("gunzip -f {$this->downloadPath}");
-
-        if (! file_exists($this->jsonlPath)) {
-            $this->error('Failed to extract.');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private function parseAndImport(): int
+    private function parseAndImport(SplFileObject $file): int
     {
         $this->info('Loading dictionary words...');
 
@@ -117,8 +82,6 @@ class ImportWordDefinitionsCommand extends Command
             ->all();
 
         $this->info('Found '.count($dictionaryWords).' words in dictionary.');
-
-        $file = new SplFileObject($this->jsonlPath, 'r');
 
         $this->info('Parsing definitions file...');
 
@@ -299,16 +262,5 @@ class ImportWordDefinitionsCommand extends Command
         }
 
         return $entry[$field] ?? null;
-    }
-
-    private function cleanup(): void
-    {
-        if (file_exists($this->jsonlPath)) {
-            unlink($this->jsonlPath);
-        }
-
-        if (file_exists($this->downloadPath) && $this->downloadPath !== $this->jsonlPath) {
-            unlink($this->downloadPath);
-        }
     }
 }
