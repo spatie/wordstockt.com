@@ -24,6 +24,10 @@ class MoveHistoryResource extends JsonResource
             'score_breakdown' => $this->score_breakdown,
             'tiles_count' => $this->tiles ? count($this->tiles) : 0,
             'tiles' => $this->tiles,
+            'reactions' => $this->resource->reactions->map(fn ($reaction): array => [
+                'user_ulid' => $reaction->user->ulid,
+                'reaction' => $reaction->reaction,
+            ]),
             'created_at' => $this->created_at->toISOString(),
         ];
     }
