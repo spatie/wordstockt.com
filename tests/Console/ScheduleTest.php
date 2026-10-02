@@ -33,13 +33,13 @@ it('runs the turn tasks every five minutes outside Laravel Cloud', function (): 
         ->and($commands['games:send-turn-reminders'])->toBe('*/5 * * * *');
 });
 
-it('runs the turn tasks every fifteen minutes on Laravel Cloud', function (): void {
+it('runs the turn tasks hourly on Laravel Cloud', function (): void {
     bootOnLaravelCloud();
 
     $commands = scheduledCommands();
 
-    expect($commands['games:auto-pass-expired-turns'])->toBe('*/15 * * * *')
-        ->and($commands['games:send-turn-reminders'])->toBe('*/15 * * * *');
+    expect($commands['games:auto-pass-expired-turns'])->toBe('0 * * * *')
+        ->and($commands['games:send-turn-reminders'])->toBe('0 * * * *');
 });
 
 it('only schedules the Dutch definitions import on Laravel Cloud', function (): void {
