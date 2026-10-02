@@ -1,7 +1,9 @@
 <?php
 
+use App\Domain\Game\Enums\GameStatus;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
+use App\Domain\Game\Models\Move;
 use App\Domain\User\Models\User;
 
 it('deletes guest users inactive for more than 60 days with no games', function (): void {
@@ -160,4 +162,76 @@ it('only deletes guests that meet all criteria', function (): void {
         ->and(User::find($recentGuest->id))->not->toBeNull()
         ->and(User::find($guestWithActiveGame->id))->not->toBeNull()
         ->and(User::find($regularUser->id))->not->toBeNull();
+});
+
+it('does not delete inactive guest who played moves in a game with another player', function (): void {
+    $guest = User::factory()->guest()->create([
+        'updated_at' => now()->subDays(61),
+    ]);
+    $opponent = User::factory()->create();
+
+    $game = createGameWithPlayers(player1: $guest, player2: $opponent, status: GameStatus::Finished);
+    $guestMove = Move::factory()->create(['game_id' => $game->id, 'user_id' => $guest->id]);
+    $opponentMove = Move::factory()->create(['game_id' => $game->id, 'user_id' => $opponent->id]);
+
+    $this->artisan('users:cleanup-inactive-guests')
+        ->expectsOutputToContain('Deleted 0 inactive guest accounts')
+        ->assertSuccessful();
+
+    expect(User::find($guest->id))->not->toBeNull()
+        ->and(Move::find($guestMove->id))->not->toBeNull()
+        ->and(Move::find($opponentMove->id))->not->toBeNull()
+        ->and($game->gamePlayers()->count())->toBe(2);
+});
+
+it('does not delete inactive guest who played a finished game against another player without moving', function (): void {
+    $guest = User::factory()->guest()->create([
+        'updated_at' => now()->subDays(61),
+    ]);
+
+    $game = createGameWithPlayers(player1: $guest, status: GameStatus::Finished);
+
+    $this->artisan('users:cleanup-inactive-guests')
+        ->expectsOutputToContain('Deleted 0 inactive guest accounts')
+        ->assertSuccessful();
+
+    expect(User::find($guest->id))->not->toBeNull()
+        ->and($game->gamePlayers()->count())->toBe(2);
+});
+
+it('deletes inactive guest together with finished games nobody else is part of', function (): void {
+    $guest = User::factory()->guest()->create([
+        'updated_at' => now()->subDays(61),
+    ]);
+
+    $game = Game::factory()->finished()->create();
+    GamePlayer::factory()->create(['game_id' => $game->id, 'user_id' => $guest->id]);
+    $move = Move::factory()->create(['game_id' => $game->id, 'user_id' => $guest->id]);
+
+    $this->artisan('users:cleanup-inactive-guests')
+        ->expectsOutputToContain('Deleted 1 inactive guest accounts')
+        ->assertSuccessful();
+
+    expect(User::find($guest->id))->toBeNull()
+        ->and(Game::find($game->id))->toBeNull()
+        ->and(Move::find($move->id))->toBeNull();
+});
+
+it('keeps deleting other inactive guests when one of them has to be kept', function (): void {
+    $guestWithSharedGame = User::factory()->guest()->create([
+        'updated_at' => now()->subDays(61),
+    ]);
+    $game = createGameWithPlayers(player1: $guestWithSharedGame, status: GameStatus::Finished);
+    Move::factory()->create(['game_id' => $game->id, 'user_id' => $guestWithSharedGame->id]);
+
+    $guestWithoutGames = User::factory()->guest()->create([
+        'updated_at' => now()->subDays(61),
+    ]);
+
+    $this->artisan('users:cleanup-inactive-guests')
+        ->expectsOutputToContain('Deleted 1 inactive guest accounts')
+        ->assertSuccessful();
+
+    expect(User::find($guestWithSharedGame->id))->not->toBeNull()
+        ->and(User::find($guestWithoutGames->id))->toBeNull();
 });
