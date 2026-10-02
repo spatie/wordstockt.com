@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Schedule;
 
 /*
  * On Laravel Cloud the app and database scale to zero after five minutes without
- * traffic. Running the turn tasks every fifteen minutes lets them sleep in between.
+ * traffic. Running the turn tasks hourly lets them sleep in between.
  * Turns last 72 hours and reminders use one hour windows, so this is precise enough.
  */
-$turnTasksCron = laravel_cloud() ? '*/15 * * * *' : '*/5 * * * *';
+$turnTasksCron = laravel_cloud() ? '0 * * * *' : '*/5 * * * *';
 
 Schedule::command(AutoPassExpiredTurnsCommand::class)->runInBackground()->cron($turnTasksCron);
 Schedule::command(SendTurnReminderNotificationsCommand::class)->runInBackground()->cron($turnTasksCron);
