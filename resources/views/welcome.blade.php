@@ -43,7 +43,7 @@
                     {{-- iPad mockup (landscape, behind) --}}
                     <x-tablet-mockup class="hidden lg:block">
                         <img
-                            src="/screenshots/ipad-appstore/02-game-board-landscape.png"
+                            src="/screenshots/ipad-appstore/02-game-board-landscape.webp"
                             alt="WordStockt on iPad"
                             class="w-full"
                         >
@@ -52,10 +52,10 @@
                     {{-- Phone mockup (in front, bottom left, overlapping iPad) --}}
                     <div class="phone-mockup w-40 sm:w-44 lg:w-56 phone-overlap">
                         <div class="phone-screen screenshot-carousel" id="phone-carousel">
-                            <img src="/screenshots/ios-appstore/01-game-board.png" alt="WordStockt game board" class="w-full active">
-                            <img src="/screenshots/ios-appstore/02-games-list.png" alt="WordStockt games list" class="w-full">
-                            <img src="/screenshots/ios-appstore/04-leaderboard.png" alt="WordStockt leaderboard" class="w-full">
-                            <img src="/screenshots/ios-appstore/03-profile.png" alt="WordStockt profile" class="w-full">
+                            <img src="/screenshots/ios-appstore/01-game-board.webp" alt="WordStockt game board" class="w-full active">
+                            <img src="/screenshots/ios-appstore/02-games-list.webp" alt="WordStockt games list" class="w-full">
+                            <img src="/screenshots/ios-appstore/04-leaderboard.webp" alt="WordStockt leaderboard" class="w-full">
+                            <img src="/screenshots/ios-appstore/03-profile.webp" alt="WordStockt profile" class="w-full">
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="order-1 lg:order-2 flex justify-center">
                     <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/06-friends.png" alt="Friends list" class="w-full" loading="lazy">
+                        <img src="/screenshots/ios-appstore/06-friends.webp" alt="Friends list" class="w-full" loading="lazy">
                     </x-phone-mockup>
                 </div>
             </div>
@@ -107,7 +107,7 @@
             <div class="grid lg:grid-cols-2 gap-12 items-center mb-24 scroll-animate">
                 <div class="flex justify-center">
                     <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/03-profile.png" alt="Profile stats" class="w-full" loading="lazy">
+                        <img src="/screenshots/ios-appstore/03-profile.webp" alt="Profile stats" class="w-full" loading="lazy">
                     </x-phone-mockup>
                 </div>
                 <div>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="order-1 lg:order-2 flex justify-center">
                     <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/04-leaderboard.png" alt="Leaderboard" class="w-full" loading="lazy">
+                        <img src="/screenshots/ios-appstore/04-leaderboard.webp" alt="Leaderboard" class="w-full" loading="lazy">
                     </x-phone-mockup>
                 </div>
             </div>
@@ -147,7 +147,7 @@
             <div class="grid lg:grid-cols-2 gap-12 items-center mb-24 scroll-animate">
                 <div class="flex justify-center">
                     <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/05-achievements.png" alt="Achievements" class="w-full" loading="lazy">
+                        <img src="/screenshots/ios-appstore/05-achievements.webp" alt="Achievements" class="w-full" loading="lazy">
                     </x-phone-mockup>
                 </div>
                 <div>
