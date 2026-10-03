@@ -13,7 +13,6 @@
         "laravel/ai": "^0.10.2",
         "laravel/boost": "^2.0",
         "laravel/framework": "^13.0",
-        "laravel/horizon": "^5.42",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -37,8 +36,7 @@
         "pestphp/pest": "^5.0",
         "pestphp/pest-plugin-evals": "^5.0",
         "pestphp/pest-plugin-laravel": "^5.0",
-        "rector/rector": "^2.3",
-        "spatie/laravel-horizon-watcher": "^1.1"
+        "rector/rector": "^2.3"
     },
     "autoload": {
         "psr-4": {

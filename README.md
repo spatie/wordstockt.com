@@ -32,7 +32,7 @@ Read about [how this was built in ~10 days](https://freek.dev/2983-i-built-a-nat
 
 - PHP 8.4 / Laravel 12
 - Laravel Sanctum for API authentication
-- Laravel Horizon for queue management
+- Laravel Cloud managed queues
 - Filament for admin panel
 - SQLite (development) / MySQL (production)
 - Pest for testing
@@ -63,8 +63,8 @@ php artisan migrate --seed
 ## Development
 
 ```bash
-# Start Horizon (queue manager)
-php artisan horizon:watch
+# Run the queue worker
+php artisan queue:listen --queue=notifications,default
 ```
 
 Test users are available after seeding:
