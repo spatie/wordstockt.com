@@ -23,6 +23,12 @@ class AppCommand extends Command
 
     protected string $appPath = '../wordstockt-app';
 
+    /*
+     * React Native's native build breaks on newer JDKs (Android Studio now
+     * bundles JDK 25), so builds use the Homebrew JDK 17.
+     */
+    protected string $javaHome = '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home';
+
     public function handle(): int
     {
         $action = select(
@@ -358,6 +364,12 @@ PLIST);
         $clean = $this->selectBuildType();
         $appPath = $this->getAppPath();
 
+        if (! is_dir($this->javaHome)) {
+            error("JDK 17 not found at {$this->javaHome}. Install it with `brew install openjdk@17`.");
+
+            return self::FAILURE;
+        }
+
         $this->incrementBuildNumber('android');
         $this->enableNewArchForAndroid();
 
@@ -370,6 +382,10 @@ PLIST);
         info('Running Gradle build...');
 
         $result = Process::path($appPath.'/android')
+            ->env([
+                'JAVA_HOME' => $this->javaHome,
+                'ANDROID_HOME' => $this->androidSdkPath(),
+            ])
             ->timeout(1800)
             ->run('./gradlew bundleRelease', function (string $type, string $output): void {
                 $this->output->write($output);
@@ -455,11 +471,15 @@ PLIST);
             $content
         );
 
-        if (! str_contains($content, 'org.gradle.java.home')) {
-            $content .= "\norg.gradle.java.home=/Applications/Android Studio.app/Contents/jbr/Contents/Home\n";
-        }
+        $content = preg_replace('/\n?org\.gradle\.java\.home=.*\n?/', "\n", $content);
+        $content = rtrim($content)."\norg.gradle.java.home={$this->javaHome}\n";
 
         file_put_contents($gradleProps, $content);
+    }
+
+    protected function androidSdkPath(): string
+    {
+        return getenv('ANDROID_HOME') ?: "{$_SERVER['HOME']}/Library/Android/sdk";
     }
 
     protected function configureAndroidSigning(string $appPath): void
