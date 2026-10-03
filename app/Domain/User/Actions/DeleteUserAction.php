@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Actions;
 
+use App\Domain\Game\Enums\GameStatus;
 use App\Domain\Game\Models\Game;
 use App\Domain\Game\Models\GamePlayer;
 use App\Domain\Game\Models\HeadToHeadStats;
@@ -13,6 +14,7 @@ use App\Domain\User\Models\GameInvitation;
 use App\Domain\User\Models\PushToken;
 use App\Domain\User\Models\User;
 use App\Domain\User\Models\UserStatistics;
+use Illuminate\Database\Eloquent\Builder;
 
 class DeleteUserAction
 {
@@ -44,8 +46,19 @@ class DeleteUserAction
 
         Game::where('winner_id', $user->id)->update(['winner_id' => null]);
 
+        $this->deleteUnjoinedPendingGames($user);
+
         GamePlayer::where('user_id', $user->id)->delete();
 
         $user->delete();
+    }
+
+    protected function deleteUnjoinedPendingGames(User $user): void
+    {
+        $user->games()
+            ->where('status', GameStatus::Pending)
+            ->whereDoesntHave('gamePlayers', fn (Builder $query) => $query->where('user_id', '!=', $user->id))
+            ->get()
+            ->each(fn (Game $game) => $game->delete());
     }
 }

@@ -17,6 +17,7 @@ class PublicGamesController
         $games = Game::query()
             ->where('status', GameStatus::Pending)
             ->where('is_public', true)
+            ->whereHas('players')
             ->whereDoesntHave('players', fn ($query) => $query->where('users.id', $user->id))
             // Hide 3-4 player games from clients that can't render them.
             ->when(

@@ -381,3 +381,18 @@ it('does not count private pending games toward limit', function (): void {
 
     $response->assertStatus(201);
 });
+
+it('excludes games without any players from public list', function (): void {
+    $viewer = User::factory()->create();
+
+    Game::factory()->create([
+        'status' => GameStatus::Pending,
+        'is_public' => true,
+        'tile_bag' => createDefaultTileBag(),
+    ]);
+
+    $this->actingAs($viewer, 'sanctum')
+        ->getJson('/api/games/public')
+        ->assertOk()
+        ->assertJsonCount(0, 'data');
+});
