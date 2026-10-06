@@ -30,6 +30,21 @@ it('returns public pending games', function (): void {
         ->assertJsonPath('data.0.ulid', $game->ulid);
 });
 
+it('shows the creator by turn order when a joiner has a lower user ID', function (): void {
+    $joiner = User::factory()->create(['username' => 'Joiner']);
+    $creator = User::factory()->create(['username' => 'Creator']);
+    $viewer = User::factory()->create();
+    $game = Game::factory()->pending()->create(['is_public' => true, 'max_players' => 3]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $creator->id, 'turn_order' => 1]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $joiner->id, 'turn_order' => 2]);
+
+    $this->actingAs($viewer, 'sanctum')
+        ->withHeader('X-App-Version', '999.0.0')
+        ->getJson('/api/games/public')
+        ->assertOk()
+        ->assertJsonPath('data.0.creator', 'Creator');
+});
+
 it('excludes private games from public list', function (): void {
     $creator = User::factory()->create();
     $viewer = User::factory()->create();

@@ -631,12 +631,6 @@ parameters:
 			path: app/Http/Resources/PublicGameResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$players\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/PublicGameResource.php
-
-		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\PublicGameResource\:\:\$ulid\.$#'
 			identifier: property.notFound
 			count: 1

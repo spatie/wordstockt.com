@@ -15,13 +15,13 @@ class IndexController
 
         $activeGames = Game::forPlayer($user)
             ->whereIn('status', [GameStatus::Pending, GameStatus::Active])
-            ->with(['players', 'gamePlayers.user', 'latestMove', 'pendingInvitation.invitee', 'winner'])
+            ->with(['players', 'gamePlayers.user', 'latestMove.user', 'pendingInvitation.invitee', 'winner'])
             ->orderByDesc('updated_at')
             ->get();
 
         $finishedGames = Game::forPlayer($user)
             ->where('status', GameStatus::Finished)
-            ->with(['players', 'gamePlayers.user', 'latestMove', 'pendingInvitation.invitee', 'winner'])
+            ->with(['players', 'gamePlayers.user', 'latestMove.user', 'pendingInvitation.invitee', 'winner'])
             ->orderByDesc('updated_at')
             ->limit(100)
             ->get();

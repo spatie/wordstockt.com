@@ -24,6 +24,41 @@ it('returns game state for player', function (): void {
         ]);
 });
 
+it('only lets the creator invite from a pending public game', function (): void {
+    $creator = User::factory()->create();
+    $joiner = User::factory()->create();
+    $game = Game::factory()->pending()->create([
+        'is_public' => true,
+        'max_players' => 3,
+    ]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $creator->id, 'turn_order' => 1]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $joiner->id, 'turn_order' => 2]);
+
+    $this->actingAs($joiner, 'sanctum')
+        ->getJson("/api/games/{$game->ulid}")
+        ->assertOk()
+        ->assertJsonPath('data.creator_ulid', $creator->ulid)
+        ->assertJsonPath('data.can_invite', false);
+
+    $this->actingAs($creator, 'sanctum')
+        ->getJson("/api/games/{$game->ulid}")
+        ->assertOk()
+        ->assertJsonPath('data.creator_ulid', $creator->ulid)
+        ->assertJsonPath('data.can_invite', true);
+
+    GameInvitation::create([
+        'game_id' => $game->id,
+        'inviter_id' => $creator->id,
+        'invitee_id' => User::factory()->create()->id,
+        'status' => InvitationStatus::Pending,
+    ]);
+
+    $this->actingAs($creator, 'sanctum')
+        ->getJson("/api/games/{$game->ulid}")
+        ->assertOk()
+        ->assertJsonPath('data.can_invite', false);
+});
+
 it('returns rack for current player', function (): void {
     $user = User::factory()->create();
     $game = createGameWithPlayers(player1: $user);

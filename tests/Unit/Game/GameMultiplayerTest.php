@@ -49,6 +49,21 @@ it('identifies the creator by turn order so they can still invite after others j
         ->and($game->canBeInvitedToBy($creator))->toBeTrue();
 });
 
+it('does not promote a joiner to creator after the creator leaves', function (): void {
+    $game = Game::factory()->pending()->create(['max_players' => 3]);
+    $creator = User::factory()->create();
+    $joiner = User::factory()->create();
+    GamePlayer::factory()->for($game)->create(['user_id' => $creator->id, 'turn_order' => 1]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $joiner->id, 'turn_order' => 2]);
+
+    $game->gamePlayers()->where('user_id', $creator->id)->delete();
+    $game = $game->fresh();
+
+    expect($game->creatorUlid())->toBeNull()
+        ->and($game->isCreator($joiner))->toBeFalse()
+        ->and($game->canBeInvitedToBy($joiner))->toBeFalse();
+});
+
 it('lists other active players excluding self and left players', function (): void {
     $game = Game::factory()->create(['max_players' => 3]);
     $me = User::factory()->create();

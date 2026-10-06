@@ -39,6 +39,7 @@ class Move extends Model
         return $this->belongsTo(Game::class);
     }
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -67,5 +68,20 @@ class Move extends Model
     public function isResign(): bool
     {
         return $this->type === MoveType::Resign;
+    }
+
+    public function mainWord(): ?string
+    {
+        $words = $this->words ?? [];
+
+        if ($words === []) {
+            return null;
+        }
+
+        if (is_array($words[0])) {
+            return collect($words)->sortByDesc('score')->first()['word'] ?? null;
+        }
+
+        return collect($words)->sortByDesc(fn (string $word): int => strlen($word))->first();
     }
 }

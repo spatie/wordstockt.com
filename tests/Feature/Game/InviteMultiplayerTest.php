@@ -20,6 +20,18 @@ it('allows inviting multiple players up to the open seats', function (): void {
     expect($game->fresh()->pendingInvitations()->count())->toBe(2);
 });
 
+it('records the actual creator as inviter after another player joins', function (): void {
+    $joiner = User::factory()->create();
+    $creator = User::factory()->create();
+    $game = Game::factory()->pending()->create(['max_players' => 3]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $creator->id, 'turn_order' => 1]);
+    GamePlayer::factory()->for($game)->create(['user_id' => $joiner->id, 'turn_order' => 2]);
+
+    $invitation = app(InvitePlayerAction::class)->execute($game->fresh(), User::factory()->create());
+
+    expect($invitation->inviter_id)->toBe($creator->id);
+});
+
 it('refuses to invite beyond the open seats', function (): void {
     $creator = User::factory()->create();
     $game = Game::factory()->pending()->create(['max_players' => 2]);

@@ -14,7 +14,11 @@ class InvitePlayerAction
 {
     public function execute(Game $game, User $invitedUser): GameInvitation
     {
-        $inviter = $game->players()->first();
+        $inviter = $game->creatorUser();
+
+        if (! $inviter) {
+            throw GameException::notGameCreator();
+        }
 
         $this->validateInvitation($game, $inviter, $invitedUser);
 
