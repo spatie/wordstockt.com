@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Domain\Game\Models\Game;
+use App\Domain\Game\Models\Move;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +30,7 @@ class GameListResource extends JsonResource
             'language' => $this->language,
             'status' => $this->status->value,
             'max_players' => $this->max_players,
+            'creator_ulid' => $this->resource->creatorUlid(),
             'opponent' => $opponent ? [
                 'ulid' => $opponent->ulid,
                 'username' => $opponent->username,
@@ -53,10 +55,28 @@ class GameListResource extends JsonResource
             'is_my_turn' => $this->current_turn_user_id === $user->id,
             'winner_ulid' => $this->winner?->ulid,
             'updated_at' => $this->updated_at,
-            'last_move_description' => $this->resource->getLastMoveDescription($user, $this->resource->getOpponent($user)),
+            'last_move_description' => $this->resource->getLastMoveDescription($user),
+            'last_move' => $this->formatLastMove(),
             'turn_expires_at' => $this->resource->getTurnExpiresAt()?->toISOString(),
             'pending_invitation' => $this->formatPendingInvitation(),
             'is_public' => $this->is_public,
+        ];
+    }
+
+    /** @return array{user_ulid: ?string, type: string, word: ?string, score: int}|null */
+    private function formatLastMove(): ?array
+    {
+        $move = $this->latestMove;
+
+        if (! $move instanceof Move) {
+            return null;
+        }
+
+        return [
+            'user_ulid' => $move->user?->ulid,
+            'type' => $move->type->value,
+            'word' => $move->mainWord(),
+            'score' => $move->score,
         ];
     }
 

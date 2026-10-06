@@ -14,7 +14,7 @@ class PublicGameResource extends JsonResource
             'ulid' => $this->ulid,
             'language' => $this->language,
             'board_template' => $this->board_template,
-            'creator' => $this->players->first()?->username,
+            'creator' => $this->resource->creatorUser()?->username,
             'created_at' => $this->created_at,
         ];
     }

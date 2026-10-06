@@ -15,7 +15,7 @@ class PendingController
 
         $games = Game::where('status', GameStatus::Pending)
             ->whereDoesntHave('players', fn ($query) => $query->where('users.id', $user->id))
-            ->with(['players'])
+            ->with(['gamePlayers.user'])
             ->orderByDesc('created_at')
             ->limit(20)
             ->get();

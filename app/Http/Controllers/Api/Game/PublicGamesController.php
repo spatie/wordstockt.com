@@ -23,7 +23,7 @@ class PublicGamesController
                 ! AppVersion::supportsMultiplayer($request),
                 fn ($query) => $query->where('max_players', '<=', 2)
             )
-            ->with(['players', 'gamePlayers'])
+            ->with(['gamePlayers.user'])
             ->orderByDesc('created_at')
             ->limit(100)
             ->get();

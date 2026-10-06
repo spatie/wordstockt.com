@@ -13,10 +13,8 @@ class JoinGameAction
 {
     public function execute(Game $game, User $user): Game
     {
-        /** @var User|null $creator */
-        $creator = $game->players()->first();
-        if ($creator?->id === $user->id) {
-            throw GameException::cannotPlayAgainstSelf();
+        if ($game->hasPlayer($user)) {
+            throw GameException::alreadyJoined();
         }
 
         $tileBag = TileBag::fromArray($game->tile_bag);

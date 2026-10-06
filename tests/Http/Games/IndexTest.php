@@ -116,7 +116,10 @@ it('shows word play from opponent with highest-scoring word', function (): void 
         ->getJson('/api/games');
 
     $response->assertOk()
-        ->assertJsonPath('data.0.last_move_description', "Sarah played 'MAJESTY' for 19 points");
+        ->assertJsonPath('data.0.last_move_description', "Sarah played 'MAJESTY' for 19 points")
+        ->assertJsonPath('data.0.last_move.user_ulid', $opponent->ulid)
+        ->assertJsonPath('data.0.last_move.word', 'majesty')
+        ->assertJsonPath('data.0.last_move.score', 19);
 });
 
 it('shows word play from user as "You"', function (): void {
@@ -159,6 +162,30 @@ it('shows pass move from opponent', function (): void {
 
     $response->assertOk()
         ->assertJsonPath('data.0.last_move_description', 'John passed');
+});
+
+it('names the opponent who passed in a multiplayer game', function (): void {
+    $user = User::factory()->create();
+    $firstOpponent = User::factory()->create(['username' => 'John']);
+    $lastMover = User::factory()->create(['username' => 'Sarah']);
+    $game = createGameWithNPlayers(3, [$user, $firstOpponent, $lastMover]);
+
+    Move::create([
+        'game_id' => $game->id,
+        'user_id' => $lastMover->id,
+        'type' => MoveType::Pass,
+        'tiles' => [],
+        'words' => [],
+        'score' => 0,
+    ]);
+
+    $this->actingAs($user, 'sanctum')
+        ->getJson('/api/games')
+        ->assertOk()
+        ->assertJsonPath('data.0.last_move_description', 'Sarah passed')
+        ->assertJsonPath('data.0.last_move.user_ulid', $lastMover->ulid)
+        ->assertJsonPath('data.0.last_move.type', 'pass')
+        ->assertJsonPath('data.0.creator_ulid', $user->ulid);
 });
 
 it('shows pass move from user as "You"', function (): void {

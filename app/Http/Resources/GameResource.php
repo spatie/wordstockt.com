@@ -21,6 +21,8 @@ class GameResource extends JsonResource
             'board' => $this->board_state,
             'board_template' => $this->board_template ?? app(Board::class)->getBoardTemplate(),
             'max_players' => $this->max_players,
+            'creator_ulid' => $this->resource->creatorUlid(),
+            'can_invite' => $this->resource->canInviteAnotherPlayer($user),
             'players' => $this->gamePlayers->map(fn ($gp): array => [
                 'ulid' => $gp->user->ulid,
                 'username' => $gp->user->username,

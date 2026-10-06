@@ -204,9 +204,19 @@ class Game extends Model
 
     public function isCreator(User $user): bool
     {
-        $creator = $this->gamePlayers()->orderBy('turn_order')->first();
+        $creator = $this->gamePlayers()->where('turn_order', 1)->first();
 
         return $creator?->user_id === $user->id;
+    }
+
+    public function creatorUlid(): ?string
+    {
+        return $this->creatorUser()?->ulid;
+    }
+
+    public function creatorUser(): ?User
+    {
+        return $this->gamePlayers->firstWhere('turn_order', 1)?->user;
     }
 
     public function hasRoomForMorePlayers(): bool
@@ -225,6 +235,15 @@ class Game extends Model
         }
 
         return $this->hasRoomForMorePlayers();
+    }
+
+    public function canInviteAnotherPlayer(User $user): bool
+    {
+        if (! $this->canBeInvitedToBy($user)) {
+            return false;
+        }
+
+        return $this->gamePlayers()->count() + $this->pendingInvitations()->count() < $this->max_players;
     }
 
     /**
@@ -313,7 +332,7 @@ class Game extends Model
         return $this->gamePlayers->first(fn ($gp): bool => $gp->user_id === $user->id)?->score ?? 0;
     }
 
-    public function getLastMoveDescription(User $forUser, ?User $opponent): string
+    public function getLastMoveDescription(User $forUser): string
     {
         $move = $this->latestMove;
 
@@ -321,7 +340,7 @@ class Game extends Model
             return 'Game Started!';
         }
 
-        $actor = $move->user_id === $forUser->id ? 'You' : ($opponent?->username ?? 'Opponent');
+        $actor = $move->user_id === $forUser->id ? 'You' : ($move->user?->username ?? 'Opponent');
 
         return match ($move->type) {
             MoveType::Play => $this->formatPlayDescription($move, $actor),
@@ -333,19 +352,10 @@ class Game extends Model
 
     private function formatPlayDescription(Move $move, string $actor): string
     {
-        $words = $move->words ?? [];
+        $word = $move->mainWord();
 
-        if (empty($words)) {
+        if (! $word) {
             return "{$actor} played for {$move->score} points";
-        }
-
-        $firstWord = $words[0];
-
-        // Handle both formats: strings ['hello'] or objects [['word' => 'hello', 'score' => 8]]
-        if (is_array($firstWord)) {
-            $word = collect($words)->sortByDesc('score')->first()['word'] ?? '';
-        } else {
-            $word = collect($words)->sortByDesc(fn ($w): int => strlen((string) $w))->first();
         }
 
         return "{$actor} played '".strtoupper((string) $word)."' for {$move->score} points";
