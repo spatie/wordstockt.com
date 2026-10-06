@@ -223,12 +223,6 @@ parameters:
 			path: app/Filament/Resources/Users/Pages/ViewUserGame.php
 
 		-
-			message: '#^Property App\\Filament\\Resources\\Users\\Pages\\ViewUserGame\:\:\$game \(App\\Domain\\Game\\Models\\Game\|null\) does not accept Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: app/Filament/Resources/Users/Pages/ViewUserGame.php
-
-		-
 			message: '#^Using nullsafe property access "\?\-\>tiles" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1

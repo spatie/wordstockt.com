@@ -84,6 +84,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasName, M
         return $this->username;
     }
 
+    /** @return BelongsToMany<Game, $this> */
     public function games(): BelongsToMany
     {
         return $this->belongsToMany(Game::class, 'game_players')

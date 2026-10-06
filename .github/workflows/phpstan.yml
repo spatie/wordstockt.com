@@ -4,6 +4,8 @@ on:
     push:
         paths:
             - '**.php'
+            - 'composer.json'
+            - 'composer.lock'
             - 'phpstan.neon'
             - 'phpstan-baseline.neon'
             - '.github/workflows/phpstan.yml'
