@@ -6,6 +6,9 @@
 @foreach (preg_split('/\R\s*\R/', trim($recommendation->reasoning)) as $paragraph)
 <p style="margin: 0 0 {{ $loop->last ? '0' : '12px' }}; color: #1A1A1A; font-size: 14px; line-height: 1.5;">{!! nl2br(e($paragraph)) !!}</p>
 @endforeach
+@if ($recommendation->woordenlijstEvidence)
+<p style="margin: 12px 0 0; color: #1A1A1A; font-size: 13px; line-height: 1.5;"><a href="https://woordenlijst.org/zoeken/?q={{ rawurlencode(mb_strtolower($word)) }}">Woordenlijst.org</a>: {{ Str::limit($recommendation->woordenlijstEvidence, 300) }}</p>
+@endif
 </td>
 </tr>
 </table>
