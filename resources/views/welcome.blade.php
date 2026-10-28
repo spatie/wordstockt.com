@@ -3,7 +3,7 @@
 @section('content')
     {{-- Hero Section --}}
     <section class="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative">
-        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 items-center relative z-10">
             {{-- Left: Content --}}
             <div class="text-center lg:text-left order-2 lg:order-1">
                 {{-- Logo --}}
@@ -34,29 +34,29 @@
                 </div>
             </div>
 
-            {{-- Right: Device showcase with iPad and iPhone --}}
-            <div class="order-1 lg:order-2 flex justify-center lg:justify-end animate-slide-up delay-200" style="opacity: 0;">
-                <div class="relative inline-block lg:mr-[-160px] lg:mt-[-40px]">
-                    {{-- Glow effect --}}
-                    <div class="device-glow"></div>
-
-                    {{-- iPad mockup (landscape, behind) --}}
-                    <x-tablet-mockup class="hidden lg:block">
-                        <img
-                            src="/screenshots/ipad-appstore/02-game-board-landscape.webp"
-                            alt="WordStockt on iPad"
-                            class="w-full"
-                        >
-                    </x-tablet-mockup>
-
-                    {{-- Phone mockup (in front, bottom left, overlapping iPad) --}}
-                    <div class="phone-mockup w-40 sm:w-44 lg:w-56 phone-overlap">
-                        <div class="phone-screen screenshot-carousel" id="phone-carousel">
-                            <img src="/screenshots/ios-appstore/01-game-board.webp" alt="WordStockt game board" class="w-full active">
-                            <img src="/screenshots/ios-appstore/02-games-list.webp" alt="WordStockt games list" class="w-full">
-                            <img src="/screenshots/ios-appstore/04-leaderboard.webp" alt="WordStockt leaderboard" class="w-full">
-                            <img src="/screenshots/ios-appstore/03-profile.webp" alt="WordStockt profile" class="w-full">
-                        </div>
+            {{-- Right: Layered portrait device showcase. --}}
+            <div class="order-1 lg:order-2 flex justify-center">
+                <div class="device-showcase">
+                    <img
+                        src="/screenshots/website/ipad-game.webp"
+                        alt="WordStockt on iPad"
+                        width="920"
+                        height="1200"
+                        class="showcase-ipad"
+                        fetchpriority="high"
+                    >
+                    <img
+                        src="/screenshots/website/duo-game.webp"
+                        alt="WordStockt on iPhone Duo in portrait"
+                        width="861"
+                        height="1200"
+                        class="showcase-duo"
+                    >
+                    <div class="showcase-iphone screenshot-carousel" id="phone-carousel">
+                        <img src="/screenshots/website/iphone-game.webp" alt="WordStockt game board on iPhone" width="540" height="1104" class="active">
+                        <img src="/screenshots/website/iphone-games.webp" alt="WordStockt games list on iPhone" width="540" height="1104">
+                        <img src="/screenshots/website/iphone-leaderboard.webp" alt="WordStockt leaderboard on iPhone" width="540" height="1104">
+                        <img src="/screenshots/website/iphone-profile.webp" alt="WordStockt profile on iPhone" width="540" height="1104">
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
             </div>
 
             {{-- Featured feature 1: Play with Friends --}}
-            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24 scroll-animate">
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
                 <div class="order-2 lg:order-1">
                     <x-feature-title text="Play with Friends" />
                     <p class="text-lg mb-6" style="color: var(--color-text-secondary);">
@@ -97,18 +97,14 @@
                     </ul>
                 </div>
                 <div class="order-1 lg:order-2 flex justify-center">
-                    <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/06-friends.webp" alt="Friends list" class="w-full" loading="lazy">
-                    </x-phone-mockup>
+                    <img src="/screenshots/website/iphone-friends.webp" alt="Friends list" width="540" height="1104" class="w-48 sm:w-56 h-auto" loading="lazy">
                 </div>
             </div>
 
             {{-- Featured feature 2: Your Personal Stats --}}
-            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24 scroll-animate">
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
                 <div class="flex justify-center">
-                    <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/03-profile.webp" alt="Profile stats" class="w-full" loading="lazy">
-                    </x-phone-mockup>
+                    <img src="/screenshots/website/iphone-profile.webp" alt="Profile stats" width="540" height="1104" class="w-48 sm:w-56 h-auto" loading="lazy">
                 </div>
                 <div>
                     <x-feature-title text="Your Personal Stats" />
@@ -124,7 +120,7 @@
             </div>
 
             {{-- Featured feature 3: Compete on the Leaderboard --}}
-            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24 scroll-animate">
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
                 <div class="order-2 lg:order-1">
                     <x-feature-title text="Compete on the Leaderboard" />
                     <p class="text-lg mb-6" style="color: var(--color-text-secondary);">
@@ -137,18 +133,14 @@
                     </ul>
                 </div>
                 <div class="order-1 lg:order-2 flex justify-center">
-                    <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/04-leaderboard.webp" alt="Leaderboard" class="w-full" loading="lazy">
-                    </x-phone-mockup>
+                    <img src="/screenshots/website/iphone-leaderboard.webp" alt="Leaderboard" width="540" height="1104" class="w-48 sm:w-56 h-auto" loading="lazy">
                 </div>
             </div>
 
             {{-- Featured feature 4: Unlock Achievements --}}
-            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24 scroll-animate">
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-24">
                 <div class="flex justify-center">
-                    <x-phone-mockup>
-                        <img src="/screenshots/ios-appstore/05-achievements.webp" alt="Achievements" class="w-full" loading="lazy">
-                    </x-phone-mockup>
+                    <img src="/screenshots/website/iphone-achievements.webp" alt="Achievements" width="540" height="1104" class="w-48 sm:w-56 h-auto" loading="lazy">
                 </div>
                 <div>
                     <x-feature-title text="Unlock Achievements" />
@@ -313,6 +305,9 @@
                     <a href="/privacy" class="hover:underline transition-colors" style="color: var(--color-text-secondary);">Privacy</a>
                 </div>
             </div>
+            <p class="mt-8 text-center text-xs" style="color: var(--color-text-secondary);">
+                Apple, iPhone, iPad, and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc.
+            </p>
         </div>
     </footer>
 @endsection
