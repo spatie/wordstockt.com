@@ -1,9 +1,7 @@
-<x-filament-panels::page>
-    @php
-        use App\Domain\Game\Enums\GameStatus;
-        use App\Domain\Game\Enums\MoveType;
-    @endphp
+@use(App\Domain\Game\Enums\GameStatus)
+@use(App\Domain\Game\Enums\MoveType)
 
+<x-filament-panels::page>
     <div class="space-y-6">
         {{-- Game Header --}}
         <div class="bg-white rounded-lg shadow p-6">

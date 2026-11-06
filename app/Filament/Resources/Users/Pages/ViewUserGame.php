@@ -17,12 +17,12 @@ class ViewUserGame extends Page
 
     public ?Game $game = null;
 
-    public function mount(string $record, string $game): void
+    public function mount(User $record, Game $game): void
     {
-        $this->record = User::findOrFail($record);
-        $this->game = $this->record->games()
+        $this->record = $record;
+        $this->game = $record->games()
             ->with(['players', 'gamePlayers.user', 'moves.user', 'currentTurnUser', 'winner', 'latestMove'])
-            ->findOrFail($game);
+            ->findOrFail($game->getKey());
     }
 
     public function getTitle(): string
