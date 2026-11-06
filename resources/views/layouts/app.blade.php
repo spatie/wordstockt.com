@@ -42,16 +42,27 @@
     <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    {{-- Play the hero intro once per session, decided before first paint. --}}
+    <script>
+        try {
+            if (sessionStorage.getItem('intro-seen')) {
+                document.documentElement.classList.add('skip-intro');
+            } else {
+                sessionStorage.setItem('intro-seen', '1');
+            }
+        } catch (e) {}
+    </script>
 
     @vite(['resources/css/app.css', 'resources/css/landing.css'])
 </head>
 <body class="min-h-screen" style="background-color: var(--color-background); color: var(--color-text-primary);">
-    {{-- Global animated background --}}
-    <div class="global-gradient"></div>
-    <div class="global-orb global-orb-1"></div>
-    <div class="global-orb global-orb-2"></div>
-    <div class="global-orb global-orb-3"></div>
+    {{-- Global background --}}
+    <div class="global-gradient" aria-hidden="true"></div>
+    <div class="global-orb global-orb-1" aria-hidden="true"></div>
+    <div class="global-orb global-orb-2" aria-hidden="true"></div>
+    <div class="global-orb global-orb-3" aria-hidden="true"></div>
 
     @yield('content')
 

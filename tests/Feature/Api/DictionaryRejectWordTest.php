@@ -121,7 +121,7 @@ it('shows the rejected confirmation page', function (): void {
     $response = $this->get($url);
 
     $response->assertOk();
-    $response->assertSee('Word Rejected');
+    $response->assertSee('Word rejected');
     $response->assertSee('ONBEKEND');
 });
 

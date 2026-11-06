@@ -55,7 +55,7 @@ class GamesRelationManager extends RelationManager
                         $userScore = $record->getPlayerScore($user);
                         $opponentScore = $opponent ? $record->getPlayerScore($opponent) : 0;
 
-                        return "{$userScore} - {$opponentScore}";
+                        return "{$userScore} – {$opponentScore}";
                     }),
 
                 TextColumn::make('turn')
@@ -94,7 +94,7 @@ class GamesRelationManager extends RelationManager
                     ->visible(fn (?Game $record) => $record && $record->status === GameStatus::Finished && $record->winner !== null),
 
                 TextColumn::make('updated_at')
-                    ->label('Last Move')
+                    ->label('Last move')
                     ->dateTime()
                     ->sortable(),
             ])

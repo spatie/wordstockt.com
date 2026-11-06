@@ -1,10 +1,9 @@
 @props([
     'title',
     'description',
-    'delay' => null,
 ])
 
-<div {{ $attributes->merge(['class' => 'text-center p-8 rounded-2xl scroll-animate rule-card' . ($delay ? " scroll-animate-delay-{$delay}" : '')]) }}>
+<div {{ $attributes->merge(['class' => 'text-center p-8 rounded-2xl rule-card']) }}>
     <div class="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center rule-icon">
         {{ $icon }}
     </div>

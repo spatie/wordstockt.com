@@ -2,59 +2,12 @@
  * WordStockt Landing Page Scripts
  *
  * Features:
- * - Scroll-triggered animations using IntersectionObserver
- * - Parallax background effects
  * - Scroll-based color transitions for background orbs
- * - Screenshot carousel
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    initScrollAnimations();
-    initParallaxEffect();
     initScrollColorTransitions();
-    initScreenshotCarousel();
 });
-
-/**
- * Initialize scroll-triggered animations
- * Elements with .scroll-animate class fade in when they enter the viewport
- */
-function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
-}
-
-/**
- * Initialize parallax effect for background elements
- * Elements with .parallax-bg move at different speeds on scroll
- */
-function initParallaxEffect() {
-    let ticking = false;
-
-    document.addEventListener('scroll', function() {
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                const scrolled = window.pageYOffset;
-                document.querySelectorAll('.parallax-bg').forEach(el => {
-                    const speed = el.dataset.speed || 0.5;
-                    el.style.transform = `translateY(${scrolled * speed}px)`;
-                });
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-}
 
 /**
  * Initialize scroll-based color transitions
@@ -80,7 +33,7 @@ function initScrollColorTransitions() {
 
     function updateBackgroundColors() {
         const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollProgress = Math.min(window.scrollY / scrollHeight, 1);
+        const scrollProgress = scrollHeight > 0 ? Math.min(window.scrollY / scrollHeight, 1) : 0;
 
         // Determine which color segment we're in
         const segments = colorStops.length - 1;
@@ -123,24 +76,4 @@ function initScrollColorTransitions() {
 
     // Initial call
     updateBackgroundColors();
-}
-
-/**
- * Initialize screenshot carousel in the hero section
- * Cycles through phone screenshots every 4 seconds
- */
-function initScreenshotCarousel() {
-    const carousel = document.getElementById('phone-carousel');
-    if (!carousel) return;
-
-    const images = carousel.querySelectorAll('img');
-    if (images.length === 0) return;
-
-    let currentIndex = 0;
-
-    setInterval(() => {
-        images[currentIndex].classList.remove('active');
-        currentIndex = (currentIndex + 1) % images.length;
-        images[currentIndex].classList.add('active');
-    }, 4000);
 }

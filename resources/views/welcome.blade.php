@@ -12,23 +12,23 @@
                 </div>
 
                 {{-- Tagline --}}
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 animate-slide-up delay-100" style="opacity: 0;">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 animate-slide-up delay-100">
                     Challenge friends to a<br>
                     <span class="gradient-text">battle of words</span>
                 </h1>
 
-                <p class="text-lg sm:text-xl mb-8 max-w-lg mx-auto lg:mx-0 animate-slide-up delay-200" style="color: var(--color-text-secondary); opacity: 0;">
+                <p class="text-lg sm:text-xl mb-8 max-w-lg mx-auto lg:mx-0 animate-slide-up delay-200" style="color: var(--color-text-secondary);">
                     The classic word game you love, now on your phone and tablet. Play with friends anytime, anywhere. Available in Dutch and English.
                 </p>
 
                 {{-- Badges --}}
-                <div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-6 animate-slide-up delay-300" style="opacity: 0;">
+                <div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-6 animate-slide-up delay-300">
                     <x-free-badge text="100% Free" />
                     <x-free-badge text="No Ads" />
                 </div>
 
                 {{-- Download buttons --}}
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-slide-up delay-400" style="opacity: 0;">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-slide-up delay-400">
                     <x-app-store-button store="ios" />
                     <x-app-store-button store="android" />
                 </div>
@@ -52,18 +52,13 @@
                         height="1200"
                         class="showcase-duo"
                     >
-                    <div class="showcase-iphone screenshot-carousel" id="phone-carousel">
-                        <img src="/screenshots/website/iphone-game.webp" alt="WordStockt game board on iPhone" width="540" height="1104" class="active">
-                        <img src="/screenshots/website/iphone-games.webp" alt="WordStockt games list on iPhone" width="540" height="1104">
-                        <img src="/screenshots/website/iphone-leaderboard.webp" alt="WordStockt leaderboard on iPhone" width="540" height="1104">
-                        <img src="/screenshots/website/iphone-profile.webp" alt="WordStockt profile on iPhone" width="540" height="1104">
-                    </div>
+                    <img src="/screenshots/website/iphone-game.webp" alt="WordStockt game board on iPhone" width="540" height="1104" class="showcase-iphone">
                 </div>
             </div>
         </div>
 
         {{-- Scroll indicator --}}
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden sm:block">
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:block" aria-hidden="true">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-text-secondary);">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
@@ -74,7 +69,7 @@
     <section class="py-28 px-4 relative">
         <div class="max-w-6xl mx-auto">
             {{-- Section header --}}
-            <div class="text-center mb-20 scroll-animate">
+            <div class="text-center mb-20">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
                     Everything you love about word games
                 </h2>
@@ -157,7 +152,7 @@
 
             {{-- Remaining features grid --}}
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <x-feature-card title="Instant Updates" description="See moves the moment they're played. No refreshing needed." delay="1">
+                <x-feature-card title="Instant Updates" description="See moves the moment they're played. No refreshing needed.">
                     <x-slot:icon>
                         <svg class="w-6 h-6" style="color: var(--color-text-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -165,7 +160,7 @@
                     </x-slot:icon>
                 </x-feature-card>
 
-                <x-feature-card title="Dutch & English" description="Play in your preferred language with complete dictionaries." delay="2">
+                <x-feature-card title="Dutch & English" description="Play in your preferred language with complete dictionaries.">
                     <x-slot:icon>
                         <svg class="w-6 h-6" style="color: var(--color-text-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
@@ -173,7 +168,7 @@
                     </x-slot:icon>
                 </x-feature-card>
 
-                <x-feature-card title="Classic Rules" description="Double/triple word scores, 7-tile bonuses, and more." delay="3">
+                <x-feature-card title="Classic Rules" description="Double/triple word scores, 7-tile bonuses, and more.">
                     <x-slot:icon>
                         <svg class="w-6 h-6" style="color: var(--color-text-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
@@ -181,7 +176,7 @@
                     </x-slot:icon>
                 </x-feature-card>
 
-                <x-feature-card title="No Ads" description="Play without interruptions. No banners, no video ads." delay="4">
+                <x-feature-card title="No Ads" description="Play without interruptions. No banners, no video ads.">
                     <x-slot:icon>
                         <svg class="w-6 h-6" style="color: var(--color-text-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
@@ -196,7 +191,7 @@
     <section class="py-28 px-4 relative">
         <div class="max-w-4xl mx-auto">
             {{-- Section header --}}
-            <div class="text-center mb-16 scroll-animate">
+            <div class="text-center mb-16">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style="background: rgba(74, 144, 217, 0.1); border: 1px solid rgba(74, 144, 217, 0.2);">
                     <svg class="w-4 h-4" style="color: var(--color-primary);" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -213,7 +208,7 @@
 
             {{-- Rules grid --}}
             <div class="grid sm:grid-cols-3 gap-6">
-                <x-rule-card title="One free swap" description="Every player gets one tile swap per game without losing their turn. Bad luck? Trade it away." delay="1">
+                <x-rule-card title="One free swap" description="Every player gets one tile swap per game without losing their turn. Bad luck? Trade it away.">
                     <x-slot:icon>
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
@@ -221,7 +216,7 @@
                     </x-slot:icon>
                 </x-rule-card>
 
-                <x-rule-card title="Guaranteed blank tile" description="Both players are guaranteed to receive at least one blank tile during the game. No more unfair advantages." delay="2">
+                <x-rule-card title="Guaranteed blank tile" description="Both players are guaranteed to receive at least one blank tile during the game. No more unfair advantages.">
                     <x-slot:icon>
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -229,7 +224,7 @@
                     </x-slot:icon>
                 </x-rule-card>
 
-                <x-rule-card title="Long word bonus" description="Play longer words, earn extra points. Rewards vocabulary and strategy over lucky tile draws." delay="3">
+                <x-rule-card title="Long word bonus" description="Play longer words, earn extra points. Rewards vocabulary and strategy over lucky tile draws.">
                     <x-slot:icon>
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
@@ -242,11 +237,11 @@
 
     {{-- Final CTA Section --}}
     <section class="py-28 px-4 relative overflow-hidden">
-        <div class="max-w-3xl mx-auto text-center relative z-10 scroll-animate">
-            {{-- Animated tiles spelling "PLAY" --}}
-            <div class="flex justify-center gap-2 mb-8">
-                @foreach(['P', 'L', 'A', 'Y'] as $index => $letter)
-                    <div class="tile w-14 h-14 sm:w-16 sm:h-16 rounded-lg flex flex-col items-center justify-center font-bold shadow-lg animate-tile-bounce" style="background-color: var(--color-tile); color: var(--color-tile-text); animation-delay: {{ $index * 0.15 }}s;">
+        <div class="max-w-3xl mx-auto text-center relative z-10">
+            {{-- Tiles spelling "PLAY" --}}
+            <div class="flex justify-center gap-2 mb-8" role="img" aria-label="PLAY">
+                @foreach(['P', 'L', 'A', 'Y'] as $letter)
+                    <div class="tile w-14 h-14 sm:w-16 sm:h-16 rounded-lg flex flex-col items-center justify-center font-bold shadow-lg select-none" style="background-color: var(--color-tile); color: var(--color-tile-text);">
                         <span class="text-2xl sm:text-3xl">{{ $letter }}</span>
                     </div>
                 @endforeach
@@ -275,15 +270,15 @@
                 <x-logo size="small" />
                 <p class="text-sm flex items-center gap-1.5" style="color: var(--color-text-secondary);">
                     Made by
-                    <a href="https://spatie.be" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity inline-flex">
+                    <a href="https://spatie.be" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity inline-flex py-2">
                         <x-spatie-logo />
                     </a>
                     in Antwerp, Belgium
                 </p>
                 <div class="flex items-center gap-4 text-sm" style="color: var(--color-text-secondary);">
-                    <a href="/support" class="hover:underline transition-colors" style="color: var(--color-text-secondary);">Support</a>
-                    <span style="opacity: 0.5;">|</span>
-                    <a href="/privacy" class="hover:underline transition-colors" style="color: var(--color-text-secondary);">Privacy</a>
+                    <a href="/support" class="inline-block py-2 hover:underline" style="color: var(--color-text-secondary);">Support</a>
+                    <span aria-hidden="true" style="opacity: 0.5;">|</span>
+                    <a href="/privacy" class="inline-block py-2 hover:underline" style="color: var(--color-text-secondary);">Privacy</a>
                 </div>
             </div>
 
@@ -294,15 +289,15 @@
                 </div>
                 <p class="text-sm flex items-center justify-center gap-1.5" style="color: var(--color-text-secondary);">
                     Made by
-                    <a href="https://spatie.be" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity inline-flex">
+                    <a href="https://spatie.be" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity inline-flex py-2">
                         <x-spatie-logo />
                     </a>
                     in Antwerp, Belgium
                 </p>
                 <div class="flex items-center justify-end gap-4 text-sm" style="color: var(--color-text-secondary);">
-                    <a href="/support" class="hover:underline transition-colors" style="color: var(--color-text-secondary);">Support</a>
-                    <span style="opacity: 0.5;">|</span>
-                    <a href="/privacy" class="hover:underline transition-colors" style="color: var(--color-text-secondary);">Privacy</a>
+                    <a href="/support" class="inline-block py-2 hover:underline" style="color: var(--color-text-secondary);">Support</a>
+                    <span aria-hidden="true" style="opacity: 0.5;">|</span>
+                    <a href="/privacy" class="inline-block py-2 hover:underline" style="color: var(--color-text-secondary);">Privacy</a>
                 </div>
             </div>
             <p class="mt-8 text-center text-xs" style="color: var(--color-text-secondary);">

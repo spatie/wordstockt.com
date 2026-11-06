@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="min-h-screen py-12 px-4">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-2xl mx-auto">
             {{-- Header --}}
             <div style="margin-bottom: 3rem;">
                 <a href="/" class="inline-flex items-center gap-2 text-sm hover:underline" style="color: var(--color-text-secondary); margin-bottom: 1.5rem; display: inline-flex;">
@@ -13,21 +13,21 @@
                     </svg>
                     Back to home
                 </a>
-                <h1 class="text-3xl sm:text-4xl font-bold" style="margin-bottom: 1rem;">Privacy Policy</h1>
+                <h1 class="text-3xl sm:text-4xl font-bold" style="margin-bottom: 1rem;">Privacy policy</h1>
                 <p style="color: var(--color-text-secondary);">Last updated: {{ date('F j, Y') }}</p>
             </div>
 
             {{-- Content --}}
             <div style="color: var(--color-text-secondary); line-height: 1.75;">
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Introduction</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Introduction</h2>
                     <p>
                         WordStockt ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application and website.
                     </p>
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Information We Collect</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Information we collect</h2>
                     <p style="margin-bottom: 1.5rem;">We collect information that you provide directly to us:</p>
                     <ul style="list-style-type: disc; padding-left: 1.5rem;">
                         <li style="margin-bottom: 1rem;"><strong style="color: var(--color-text-primary);">Account Information:</strong> When you create an account, we collect your email address, username, and password.</li>
@@ -37,7 +37,7 @@
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">How We Use Your Information</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">How we use your information</h2>
                     <p style="margin-bottom: 1.5rem;">We use the information we collect to:</p>
                     <ul style="list-style-type: disc; padding-left: 1.5rem;">
                         <li style="margin-bottom: 0.5rem;">Provide, maintain, and improve our services</li>
@@ -50,7 +50,7 @@
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Leaderboards & Public Scores</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Leaderboards &amp; public scores</h2>
                     <p style="margin-bottom: 1.5rem;">
                         By creating an account and playing games on WordStockt, you consent to the following information being displayed publicly on our global leaderboards:
                     </p>
@@ -65,7 +65,7 @@
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Information Sharing</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Information sharing</h2>
                     <p style="margin-bottom: 1.5rem;">We do not sell your personal information. We may share your information in the following circumstances:</p>
                     <ul style="list-style-type: disc; padding-left: 1.5rem;">
                         <li style="margin-bottom: 1rem;"><strong style="color: var(--color-text-primary);">With Other Players:</strong> Your username and game statistics are visible to players you compete with.</li>
@@ -75,21 +75,21 @@
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Data Security</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Data security</h2>
                     <p>
                         We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.
                     </p>
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Data Retention</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Data retention</h2>
                     <p>
                         We retain your information for as long as your account is active or as needed to provide you services. You can request deletion of your account and associated data at any time by contacting us.
                     </p>
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Your Rights</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Your rights</h2>
                     <p style="margin-bottom: 1.5rem;">You have certain rights regarding your personal information:</p>
                     <ul style="list-style-type: disc; padding-left: 1.5rem;">
                         <li style="margin-bottom: 0.5rem;">Access your personal data</li>
@@ -101,14 +101,14 @@
                 </section>
 
                 <section style="margin-bottom: 3rem;">
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Changes to This Policy</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Changes to this policy</h2>
                     <p>
                         We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold" style="color: var(--color-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Contact Us</h2>
+                    <h2 class="text-xl font-semibold" style="color: var(--color-text-primary); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">Contact us</h2>
                     <p>
                         If you have any questions about this Privacy Policy, please contact us at
                         <a href="mailto:{{ config('app.support_email') }}" class="hover:underline" style="color: var(--color-primary);">{{ config('app.support_email') }}</a>.

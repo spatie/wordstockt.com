@@ -26,12 +26,15 @@ class UsersTable
                     ->sortable(),
                 TextColumn::make('elo_rating')
                     ->numeric()
+                    ->alignEnd()
                     ->sortable(),
                 TextColumn::make('games_played')
                     ->numeric()
+                    ->alignEnd()
                     ->sortable(),
                 TextColumn::make('games_won')
                     ->numeric()
+                    ->alignEnd()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

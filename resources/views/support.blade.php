@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="min-h-screen py-12 px-4">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-2xl mx-auto">
             {{-- Header --}}
             <div style="margin-bottom: 3rem;">
                 <a href="/" class="inline-flex items-center gap-2 text-sm hover:underline" style="color: var(--color-text-secondary); margin-bottom: 1.5rem; display: inline-flex;">

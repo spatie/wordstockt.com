@@ -53,7 +53,7 @@ class GamesTable
                         $score1 = $record->getPlayerScore($player1);
                         $score2 = $record->getPlayerScore($player2);
 
-                        return "{$score1} - {$score2}";
+                        return "{$score1} – {$score2}";
                     }),
 
                 TextColumn::make('current_turn')
@@ -77,7 +77,7 @@ class GamesTable
                     ->formatStateUsing(fn (string $state): string => strtoupper($state)),
 
                 TextColumn::make('updated_at')
-                    ->label('Last Move')
+                    ->label('Last move')
                     ->dateTime()
                     ->sortable(),
             ])

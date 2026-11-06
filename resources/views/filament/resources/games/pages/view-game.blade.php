@@ -64,7 +64,7 @@
                                 Player 1
                             </div>
                         @endif
-                        <div style="color: #FFFFFF; font-size: 20px; font-weight: 700; margin-top: 2px;">
+                        <div style="color: #FFFFFF; font-size: 20px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums;">
                             {{ $player1GamePlayer?->score ?? 0 }}
                         </div>
                         @if($player1GamePlayer?->has_free_swap)
@@ -110,10 +110,10 @@
                         <div style="color: white; font-size: 9px; opacity: 0.8; margin-top: -2px;">tiles</div>
                     </div>
                     @if($record->latestMove)
-                        <div style="color: #8B9DC3; font-size: 11px; font-style: italic; margin-top: 6px; white-space: nowrap;">
+                        <div style="color: #8B9DC3; font-size: 11px; margin-top: 6px; white-space: nowrap;">
                             {{ $record->latestMove->user->username }} played
                             @if($record->latestMove->words)
-                                '{{ strtoupper(is_array($record->latestMove->words[0]) ? $record->latestMove->words[0]['word'] : $record->latestMove->words[0]) }}'
+                                ‘{{ strtoupper(is_array($record->latestMove->words[0]) ? $record->latestMove->words[0]['word'] : $record->latestMove->words[0]) }}’
                             @endif
                             for {{ $record->latestMove->score }} pts
                         </div>
@@ -137,7 +137,7 @@
                                 Player 2
                             </div>
                         @endif
-                        <div style="color: #FFFFFF; font-size: 20px; font-weight: 700; margin-top: 2px;">
+                        <div style="color: #FFFFFF; font-size: 20px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums;">
                             {{ $player2GamePlayer?->score ?? 0 }}
                         </div>
                         @if($player2GamePlayer?->has_free_swap)
@@ -237,7 +237,7 @@
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 8px;">
                                     @if($move->type === App\Domain\Game\Enums\MoveType::Play)
-                                        <span style="color: #27AE60; font-size: 18px; font-weight: 700;">
+                                        <span style="color: #27AE60; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums;">
                                             +{{ $move->score }} pts
                                         </span>
                                     @endif
@@ -259,9 +259,9 @@
                                         <span style="color: #8B9DC3; font-size: 13px;">Played tiles</span>
                                     @endif
                                 @elseif($move->type === App\Domain\Game\Enums\MoveType::Pass)
-                                    <span style="color: #8B9DC3; font-size: 13px; font-style: italic;">Passed turn</span>
+                                    <span style="color: #8B9DC3; font-size: 13px;">Passed turn</span>
                                 @elseif($move->type === App\Domain\Game\Enums\MoveType::Swap)
-                                    <span style="color: #8B9DC3; font-size: 13px; font-style: italic;">Swapped {{ count($move->tiles ?? []) }} tiles</span>
+                                    <span style="color: #8B9DC3; font-size: 13px;">Swapped {{ count($move->tiles ?? []) }} tiles</span>
                                 @elseif($move->type === App\Domain\Game\Enums\MoveType::Resign)
                                     <span style="color: #E74C3C; font-size: 13px; font-weight: 600;">Resigned from game</span>
                                 @endif

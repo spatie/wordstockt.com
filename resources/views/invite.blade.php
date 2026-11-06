@@ -12,7 +12,7 @@
             </div>
 
             <h1 class="text-3xl font-bold mb-4" style="color: var(--color-text-primary);">
-                Game Invitation
+                Game invitation
             </h1>
 
             <p class="text-lg mb-8" style="color: var(--color-text-secondary);">
@@ -20,22 +20,20 @@
             </p>
 
             <div class="space-y-6">
-                <a href="{{ $appStoreUrl }}"
-                   class="inline-block px-8 py-4 rounded-xl font-semibold text-lg transition-transform hover:scale-105"
-                   style="background-color: var(--color-primary); color: var(--color-text-primary);">
-                    Open in App
+                <a href="{{ $appStoreUrl }}" class="inline-block px-8 py-4 rounded-xl font-semibold text-lg btn-primary">
+                    Open in app
                 </a>
 
                 <div>
                     <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
-                        Don't have the app yet?
+                        Don’t have the app yet?
                     </p>
 
                     <div class="flex gap-4 justify-center">
-                        <a href="{{ $iosUrl }}" class="text-sm underline" style="color: var(--color-primary);">
+                        <a href="{{ $iosUrl }}" class="inline-block py-2 text-sm underline" style="color: var(--color-primary);">
                             Download for iOS
                         </a>
-                        <a href="{{ $androidUrl }}" class="text-sm underline" style="color: var(--color-primary);">
+                        <a href="{{ $androidUrl }}" class="inline-block py-2 text-sm underline" style="color: var(--color-primary);">
                             Download for Android
                         </a>
                     </div>
