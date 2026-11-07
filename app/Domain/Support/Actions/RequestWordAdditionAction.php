@@ -13,13 +13,14 @@ class RequestWordAdditionAction
     {
         $word = mb_strtoupper(trim($word));
 
-        $alreadyExists = Dictionary::query()
-            ->where('language', $language)
-            ->where('word', $word)
-            ->where('is_valid', true)
-            ->exists();
+        $dictionary = Dictionary::query()->firstOrCreate([
+            'language' => $language,
+            'word' => $word,
+        ], [
+            'is_valid' => false,
+        ]);
 
-        if ($alreadyExists) {
+        if ($dictionary->is_valid) {
             return;
         }
 
